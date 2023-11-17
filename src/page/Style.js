@@ -1,36 +1,13 @@
 import { StyleSheet } from "react-native";
+
 export const styles = StyleSheet.create({
     smallCardScroll: {
             paddingHorizontal: 5,
             paddingVertical: 10
     },
-    view71FlexBox: {
-            alignItems: "center",
-            overflow: "hidden"
-    },
-    aiClr: {
-            color: "#000",
-            textAlign: "center"
-    },
     icon26: {
             width: 26,
             height: 26
-    },
-    view3Position: {
-            left: 0,
-            top: 0,
-            position: "absolute"
-    },
-    textTypo4: {
-            fontSize: 18,
-            textAlign: "center",
-            color: "#000",
-            fontFamily: "ABeeZee-Regular"
-    },
-    viewLayout: {
-            height: 27,
-            overflow: "hidden",
-            flex: 1
     },
     smallCardContent: {
             marginTop: 4,
@@ -49,10 +26,6 @@ export const styles = StyleSheet.create({
             alignItems: "center",
             overflow: "hidden"
     },
-    textTypo2: {
-            fontSize: 10,
-            fontFamily: "ABeeZee-Regular"
-    },
     cardTitle: {
             flex: 1,
             color: "#000",
@@ -61,13 +34,9 @@ export const styles = StyleSheet.create({
             alignItems: "center",
             overflow: "hidden"
     },
-    pressableLayout: {
-    },
-    textFlexBox: {
-            textAlign: "left",
-            color: "#000"
-    },
-    textTypo: {
+    centerText11: {
+            color: "#fff",
+            textAlign: "center",
             fontSize: 11,
             fontFamily: "ABeeZee-Regular"
     },
@@ -128,27 +97,13 @@ export const styles = StyleSheet.create({
             fontSize: 14,
             color: "#000"
     },
-    locationDropdown: {
-            width: 16,
-            height: 16,
-            marginLeft: 3
-    },
-    locationbutton: {
+    locationButton: {
             flexDirection: "row",
             alignItems: "center"
     },
     rowView: {
             flexDirection: "row",
             alignItems: "center"
-    },
-    blank1: {
-            height: 26,
-            overflow: "hidden",
-            flex: 1
-    },
-    icon14: {
-            width: 26,
-            height: 26
     },
     activAlramIcon: {
             top: 1,
@@ -191,29 +146,15 @@ export const styles = StyleSheet.create({
     marginLeft3: {
             marginLeft: 3
     },
-    view1: {
-            marginLeft: 3
-    },
     clickText13: {
             fontSize: 13,
             color: "#22a2f2",
             textAlign: "center",
             fontFamily: "ABeeZee-Regular"
     },
-    icon15: {
+    icon11: {
             width: 11,
             height: 11
-    },
-    pressable: {
-            justifyContent: "center",
-            marginLeft: 3,
-            flexDirection: "row",
-            alignItems: "center"
-    },
-    view: {
-            paddingVertical: 0,
-            justifyContent: "center",
-            alignSelf: "stretch"
     },
     tempViewToImage: {
             borderRadius: 11,
@@ -221,43 +162,11 @@ export const styles = StyleSheet.create({
             height: 96,
             alignSelf: "stretch"
     },
-    text65: {
-            display: "flex",
-            fontSize: 9,
-            justifyContent: "center",
-            textAlign: "center",
-            color: "#000",
-            fontFamily: "ABeeZee-Regular",
-            alignItems: "center",
-            alignSelf: "stretch"
-    },
-    view6: {
-            width: 32,
-            height: 17
-    },
-    view7: {
-            overflow: "hidden",
-            alignSelf: "stretch",
-            flex: 1
-    },
-    text66: {
-            textAlign: "center",
-            color: "#000"
-    },
-    text67: {
-            width: 154
-    },
     smallCard: {
             marginLeft: 10,
             height: 150,
             width: 170,
             alignItems: "center"
-    },
-    view3: {
-            paddingVertical: 10,
-            left: 0,
-            top: 0,
-            position: "absolute"
     },
     mainSectionList: {
             height: 170,
@@ -282,11 +191,6 @@ export const styles = StyleSheet.create({
             alignSelf: "stretch",
             backgroundColor: "#fff"
     },
-    view38: {
-            paddingHorizontal: 4,
-            height: 17,
-            paddingVertical: 0
-    },
     icon17: {
             width: 17,
             height: 17
@@ -294,57 +198,6 @@ export const styles = StyleSheet.create({
     icon16: {
             width: 16,
             height: 16
-    },
-    view37: {
-            height: 17,
-            justifyContent: "center",
-            overflow: "hidden"
-    },
-    text85: {
-            flex: 1
-    },
-    text86: {
-            fontSize: 10,
-            fontFamily: "ABeeZee-Regular"
-    },
-    view71: {
-            justifyContent: "center",
-            flexDirection: "row",
-            alignItems: "center"
-    },
-    text109: {
-            textAlign: "left",
-            color: "#000",
-            overflow: "hidden"
-    },
-    child: {
-            marginLeft: 10,
-            overflow: "hidden",
-            alignSelf: "stretch",
-            flex: 1
-    },
-    text110: {
-            marginLeft: 10
-    },
-    view75: {
-            marginTop: 5
-    },
-    view73: {
-            padding: 5,
-            width: "100%",
-            alignItems: "center",
-            overflow: "hidden"
-    },
-    mainsection: {
-            paddingTop: 3,
-            paddingBottom: 15,
-            width: "100%",
-            backgroundColor: "#f2f2f2",
-            left: 0,
-            top: 0,
-            position: "absolute",
-            alignItems: "center",
-            overflow: "hidden"
     },
     mainBody: {
             backgroundColor: "#f2f2f2",
@@ -357,17 +210,8 @@ export const styles = StyleSheet.create({
             width: 30,
             height: 30
     },
-    text121: {
-            color: "#fff",
-            marginTop: 3,
-            textAlign: "center"
-    },
-    pressable6: {
-            opacity: 0.7,
-            height: 45,
-            width: 45,
-            alignItems: "center",
-            overflow: "hidden"
+    margintop3: {
+            marginTop: 3
     },
     opacity70: {
             opacity: 0.7
@@ -385,11 +229,11 @@ export const styles = StyleSheet.create({
     mainBackground: {
             flex: 1
     },
-    icon23: {
+    icon50: {
             width: 50,
             height: 50
     },
-    writebutton: {
+    writeButton: {
             right: 15,
             bottom: 90,
             position: "absolute"
