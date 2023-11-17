@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
             flexDirection: "row",
             alignItems: "center"
     },
-    activAlramIcon: {
+    activeAlramIcon: {
             top: 1,
             left: 21,
             width: 6,
@@ -237,6 +237,11 @@ export const styles = StyleSheet.create({
             right: 15,
             bottom: 90,
             position: "absolute"
+    },
+    backgroundWhite: {
+            backgroundColor: "#fff",
+            borderWidth: 0,
+            borderRadius: 25
     },
     mainScreen: {
             flex: 1,
