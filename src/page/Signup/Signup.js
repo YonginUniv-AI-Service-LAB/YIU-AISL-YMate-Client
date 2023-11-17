@@ -139,6 +139,16 @@ const Signup = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.header}>
+        {/* 상단 바 내용 */}
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
+      <Image
+        source={require('./../../assets/images/뒤로가기.png')} // 이미지 경로를 실제 이미지 경로로 변경
+        style={styles.backButtonImage}
+      />
+      </TouchableOpacity>
+        <Text style={styles.headerText}>회원가입</Text>
+      </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>학번</Text>
@@ -256,6 +266,15 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     marginBottom: 10,
   },
+  goBackButton: {
+    position: 'absolute',
+    left: 10,
+    top: 15, // 원하는 위치에 조절
+  },
+  backButtonImage: {
+    width: 28,
+    height: 28,
+  },
   footer: {
     width: '95%',
     alignItems: 'center', // 버튼을 가로로 중앙에 정렬// 버튼을 화면 하단으로 밀어내기 위한 여백 추가
@@ -355,7 +374,7 @@ const styles = StyleSheet.create({
   },
   signupCheck: {
     width:screenWidth,
-    marginTop:200,
+    marginTop:185,
     height:15,
     marginBottom:10,
   }

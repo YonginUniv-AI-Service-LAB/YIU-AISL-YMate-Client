@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   image: {
-    marginTop: 50,
+    marginTop: 100,
     width: '90%',
     height: 110,
   },
