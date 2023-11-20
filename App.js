@@ -10,6 +10,7 @@ import Login from './src/page/Login/Login';
 import Signup from './src/page/Signup/Signup';
 import Delivery from './src/page/Delivery/Delivery';
 import Taxi from './src/page/Taxi/Taxi';
+import Password from './src/page/Password/Password';
 
 const Stack = createStackNavigator()
 enableScreens()
@@ -20,6 +21,7 @@ const App = () => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Password" component={Password} />
         <Stack.Screen name="Main" component={Main} />
         <Stack.Screen name="Delivery" component={Delivery} />
         <Stack.Screen name="Taxi" component={Taxi} />

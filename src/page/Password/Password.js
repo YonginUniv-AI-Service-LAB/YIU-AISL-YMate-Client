@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TouchableHighlight, TouchableWithoutFeedback, Linking} from 'react-native';
+
 import { Dimensions } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-const Signup = ({ navigation }) => {
-  const [isModalVisible, setModalVisible] = useState(false);
+const Password = ({ navigation }) => {
+    const [isModalVisible, setModalVisible] = useState(false);
 
   const [studentId, setStudentId] = useState('');
   const [studentIdCheckError, setStudentIdCheckError] = useState('');
@@ -14,9 +15,6 @@ const Signup = ({ navigation }) => {
   const [emailCheckNumber, setemailCheckNumber] = useState('');
   const [emailCheckError, setEmailCheckError] = useState(''); 
   const [isEmailNumberValid,setIsEmailNumberValid] = useState(false);
-  const [nickname, setnickname] = useState('');
-  const [nickNameCheckError,setNickNameCheckError] = useState('');
-  const [isNickNameValid,setIsNickNameValid] = useState(false);
   const [pwd, setpwd] = useState('');
   const [passwordError,setPasswordError] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -56,15 +54,6 @@ const Signup = ({ navigation }) => {
     }
     
   }
-  const handleNickNameCheck = () => {
-    if (nickname.length < 2) {
-      setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
-      setIsNickNameValid(false);
-    } else {
-      setNickNameCheckError('');
-      setIsNickNameValid(true);
-    }
-  }
 
   const handlePasswordChange = (text) => {
     const passwordPattern = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-z\d!@#$%^&*()_+]{8,}$/;
@@ -98,9 +87,6 @@ const Signup = ({ navigation }) => {
       else if(!isEmailNumberValid){
         setSignupCheckError('올바른 인증번호를 입력해주세요.');
       }
-      else if(!isNickNameValid){
-        setSignupCheckError('올바른 닉네임을 입력해주세요.');
-      }
       else if(passwordError){
         setSignupCheckError('올바른 비밀번호를 입력해주세요.');
       }
@@ -117,9 +103,7 @@ const Signup = ({ navigation }) => {
         //   // 백엔드 API에 POST 요청 보내기
         //   const response = await axios.post('YOUR_BACKEND_API_ENDPOINT', {
         //     studentId,
-        //     emailCheckNumber,
-        //     nickName,
-        //     password,
+        //     pwd,
         //   });
     
         //   // 서버에서의 응답 처리
@@ -151,7 +135,7 @@ const Signup = ({ navigation }) => {
         style={styles.backButtonImage}
       />
       </TouchableOpacity>
-        <Text style={styles.headerText}>회원가입</Text>
+        <Text style={styles.headerText}>비밀번호 찾기</Text>
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputRow}>
@@ -199,25 +183,6 @@ const Signup = ({ navigation }) => {
       ) : null}
       </View>
         <View style={styles.inputRow}>
-          <Text style={styles.smalltitle}>닉네임</Text>
-          <TextInput
-            style={[styles.input, styles.rounded]}
-            value={nickname}
-            onChangeText={(text) => {
-              setnickname(text);
-              setIsNickNameValid(false);
-            }}
-          />
-        <TouchableOpacity style={styles.checkContainer} onPress={handleNickNameCheck}>
-        <Text style={styles.checkBox}>중복 확인</Text>
-        </TouchableOpacity>
-        </View>
-        <View style={styles.emptySpace}>
-        {nickNameCheckError ? (
-        <Text style={styles.errorText}>{nickNameCheckError}</Text>
-      ) : null}
-      </View>
-        <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>비밀번호</Text>
           <TextInput
             style={[styles.input, styles.rounded]}
@@ -252,7 +217,7 @@ const Signup = ({ navigation }) => {
       ) : null}
     </View>
       <TouchableOpacity style={styles.footer} onPress={handleSignup}>
-        <Text style={styles.buttonText}>회원가입</Text>
+        <Text style={styles.buttonText}>재설정</Text>
       </TouchableOpacity>
       <Modal
   animationType="slide"
@@ -273,9 +238,9 @@ const Signup = ({ navigation }) => {
         <Text style={styles.modalTitle}>이메일 인증 가이드</Text>
       </View>
       <View style={styles.modalBody}>
-      <Text style={[styles.modalText, styles.impactText]}>
-  학교 이메일이 처음이라면
-</Text>
+        <Text style={[styles.modalText,styles.impactText]}>
+          학교 이메일이 처음이라면
+        </Text>
         <Text style={styles.modalText}>
           입학과 동시에 이메일이 자동 생성되므로 아래의 페이지에서 비밀번호를 수정하고 사용하면 됩니다.
         </Text>
@@ -286,9 +251,9 @@ const Signup = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.modalBody}>
-      <Text style={[styles.modalText, styles.impactText]}>
-  학교 이메일을 어디서 확인할 수 있나요?
-</Text>
+        <Text style={[styles.modalText,styles.impactText]}>
+          학교 이메일을 어디서 확인할 수 있나요?
+        </Text>
         <Text style={styles.modalText}>
           학교 이메일로 Microsoft에서 로그인하면 Microsoft Outlook에서 이메일 확인이 가능합니다.
         </Text>
@@ -430,7 +395,7 @@ const styles = StyleSheet.create({
   },
   signupCheck: {
     width:screenWidth,
-    marginTop:155,
+    marginTop:230,
     height:15,
     marginBottom:10,
   },
@@ -494,4 +459,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Signup;
+export default Password;

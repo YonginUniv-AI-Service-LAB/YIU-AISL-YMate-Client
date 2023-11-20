@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, } from 'react-native';
 import Signup from '../Signup/Signup';
 import Main from '../Main/Main';
+import Password from '../Password/Password';
 
 const Login = ({ navigation }) => {
     const [studentId, setStudentId] = useState('');
@@ -44,7 +45,7 @@ const Login = ({ navigation }) => {
   };
 
   const handleForgotPassword = () => {
-    
+    navigation.navigate('Password');
   };
 
   const handleSignup = () => {
@@ -80,9 +81,9 @@ const Login = ({ navigation }) => {
           <Text style={styles.forgotPassword}>비밀번호 찾기</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.buttonContainer}>
-        <Button title="로그인" onPress={handleLogin} />
-      </View>
+      <TouchableOpacity onPress={handleLogin} style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>로그인</Text>
+        </TouchableOpacity>
       <TouchableOpacity onPress={handleSignup} style={styles.signupLink}>
           <Text style={styles.signupText}>아직 회원이 아니신가요? <Text style={styles.blueText}>회원가입</Text></Text>
         </TouchableOpacity>
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     
   },
+  
   title: {
     marginBottom: 30,
     fontSize: 30,
@@ -126,7 +128,14 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '50%',
-    borderRadius: 10,
+    alignItems: 'center', // 버튼을 가로로 중앙에 정렬// 버튼을 화면 하단으로 밀어내기 위한 여백 추가
+    backgroundColor: '#22a2f2', // 배경색 추가
+    paddingVertical: 10, // 상하 여백 추가
+    borderRadius: 10,  
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
   },
   rounded: {
     borderRadius: 10,
@@ -150,7 +159,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   blueText: {
-    color: 'blue',
+    color: '#22A2F2',
   },
 
 });
