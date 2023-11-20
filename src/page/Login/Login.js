@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Signup from '../Signup/Signup';
 import Main from '../Main/Main';
+import Password from '../Password/Password';
 
 const Login = ({ navigation }) => {
     const [studentId, setStudentId] = useState('');
@@ -44,7 +45,7 @@ const Login = ({ navigation }) => {
   };
 
   const handleForgotPassword = () => {
-    
+    navigation.navigate('Password');
   };
 
   const handleSignup = () => {
