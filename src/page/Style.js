@@ -5,6 +5,10 @@ export const styles = StyleSheet.create({
             paddingHorizontal: 5,
             paddingVertical: 10
     },
+    bigCardScroll: {
+        paddingHorizontal: 10,
+        paddingBottom: 20
+    },
     icon26: {
             width: 26,
             height: 26
@@ -15,6 +19,24 @@ export const styles = StyleSheet.create({
             alignItems: "center",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignSelf: "stretch"
+    },
+    bigTaxiCardNumber: {
+        alignSelf:"stretch", 
+        textAlignVertical:"bottom"
+    },
+    flexView: {
+        flex:1,
+        alignSelf: "stretch"
+    },
+    bigCardContent: {
+            marginVertical: 4,
+            paddingHorizontal: 5,
+            paddingBottom: 5,
+            alignItems: "center",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            flex: 1,
             alignSelf: "stretch"
     },
     locationTag: {
@@ -159,6 +181,7 @@ export const styles = StyleSheet.create({
     tempViewToImage: {
             borderRadius: 11,
             backgroundColor: "#F9E583",
+            width: 170,
             height: 96,
             alignSelf: "stretch"
     },
@@ -166,6 +189,13 @@ export const styles = StyleSheet.create({
             marginLeft: 10,
             height: 150,
             width: 170,
+            alignItems: "center"
+    },
+    bigCard: {
+            marginTop: 10,
+            flexDirection: "row",
+            height: 96,
+            alignSelf: "stretch",
             alignItems: "center"
     },
     mainSectionList: {
@@ -185,11 +215,12 @@ export const styles = StyleSheet.create({
     },
     mainSection: {
             marginTop: 7,
-            paddingVertical: 10,
+            paddingTop: 10,
             justifyContent: "center",
             overflow: "hidden",
             alignSelf: "stretch",
-            backgroundColor: "#fff"
+            backgroundColor: "#fff",
+            flex: 1
     },
     icon17: {
             width: 17,

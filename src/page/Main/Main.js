@@ -5,7 +5,7 @@ import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 
 
-const Main = () => {
+const Main = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
 
 	const DeliveryData = [
@@ -117,7 +117,7 @@ const Main = () => {
 		}
 	]
 
-	const DeliveryItem = ({title, dId}) => (
+	const SmallDeliveryCard = ({title, dId}) => (
 		<Pressable style={styles.smallCard} onPress={()=>Alert.alert(`${dId}`)}>
 				{/* change view to image */}
 				<View style={styles.tempViewToImage} />
@@ -133,7 +133,7 @@ const Main = () => {
 		</Pressable>
 	)
 
-	const TaxiItem = ({title, tId}) => ( 
+	const SmallTaxiCard = ({title, tId}) => ( 
 		<Pressable style={styles.smallCard} onPress={()=>Alert.alert(`${tId}`)}>
 			{/* change view to image */}
 			<View style={styles.tempViewToImage} />
@@ -187,7 +187,7 @@ const Main = () => {
 										<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/restaurant.png")}/>
 										<Text style={[styles.centerText18, styles.marginLeft3]}>같이 배달</Text>
 									</View>
-									<Pressable style={styles.rowView} onPress={()=>Alert.alert("배달더보기")}>
+									<Pressable style={styles.rowView} onPress={()=>navigation.navigate('Delivery')}>
 										<Text style={styles.clickText13}>더보기</Text>
 										<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
 									</Pressable>
@@ -198,7 +198,7 @@ const Main = () => {
 										horizontal
 										showsHorizontalScrollIndicator={false}
 										data={DeliveryData}
-										renderItem={({item}) => <DeliveryItem title={item.title} dId={item.dId}/>}
+										renderItem={({item}) => <SmallDeliveryCard title={item.title} dId={item.dId}/>}
 										keyExtractor={item => item.dId}
 									/>
 								</View>
@@ -209,7 +209,7 @@ const Main = () => {
 										<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/taxi.png")}/>
 										<Text style={[styles.centerText18, styles.marginLeft3]}>같이 택시</Text>
 									</View>
-									<Pressable style={styles.rowView} onPress={()=>Alert.alert("택시더보기")}>
+									<Pressable style={styles.rowView} onPress={()=>navigation.navigate('Taxi')}>
 										<Text style={styles.clickText13}>더보기</Text>
 										<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
 									</Pressable>
@@ -220,7 +220,7 @@ const Main = () => {
 										horizontal
 										showsHorizontalScrollIndicator={false}
 										data={TaxiData}
-										renderItem={({item}) => <TaxiItem title={item.title} tId={item.tId}/>}
+										renderItem={({item}) => <SmallTaxiCard title={item.title} tId={item.tId}/>}
 										keyExtractor={item => item.tId}
 									/>
 								</View>
@@ -240,15 +240,15 @@ const Main = () => {
 						</ScrollView>
 					</View>
 					<View style={styles.navigationBar}>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>Alert.alert("배달버튼")}>
+						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('Delivery')}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/restaurant_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>배달</Text>
 						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>Alert.alert("택시버튼")}>
+						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('Taxi')}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/taxi_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>택시</Text>
 						</Pressable>
-						<Pressable style={styles.navigationButton} onPress={()=>Alert.alert("홈버튼")}>
+						<Pressable style={[styles.navigationButton]} onPress={()=>Alert.alert("홈버튼")}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/home_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>홈</Text>
 						</Pressable>
