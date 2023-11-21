@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TouchableHighlight, TouchableWithoutFeedback, Linking} from 'react-native';
 import { Dimensions } from 'react-native';
+import axios from 'axios';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -25,22 +26,44 @@ const Signup = ({ navigation }) => {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [signupCheckError, setSignupCheckError] = useState('');
 
-  const handleStudentId = () => {
+  const handleStudentId = async () => {
     const studentIdPattern = /^\d{9}$/;
-      if (!studentIdPattern.test(studentId)) {
-        setStudentIdCheckError('유효한 학번을 입력해주세요.');
+  
+    if (!studentIdPattern.test(studentId)) {
+      setStudentIdCheckError('유효한 학번을 입력해주세요.');
+      setIsEmailVerified(false);
+      setIsStudentIdValid(false);
+      setEmailCheckError('');
+    } else {
+      try {
+        // 학번을 백엔드로 전송
+        const response = await axios.post('YOUR_BACKEND_API_ENDPOINT/email', {
+          studentId,
+        });
+  
+        if (response.data.success) {
+          // 성공적으로 이메일을 보낸 경우, 이메일 인증이 필요하다는 메시지를 표시할 수 있습니다.
+          setIsEmailVerified(true);
+          setIsStudentIdValid(true);
+          setStudentIdCheckError('');
+        } else {
+          // 백엔드에서 실패한 경우, 에러 메시지 표시 또는 적절한 조치 수행
+          setStudentIdCheckError(response.data.message || '이메일 전송에 실패했습니다.');
+          setIsEmailVerified(false);
+          setIsStudentIdValid(false);
+          setEmailCheckError('');
+        }
+      } catch (error) {
+        console.error('이메일 전송 실패:', error);
+        setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
         setIsEmailVerified(false);
         setIsStudentIdValid(false);
         setEmailCheckError('');
-      } else {
-        setIsStudentIdValid(true);
-        setIsEmailVerified(true);
-        setStudentIdCheckError('');
       }
-    
-  }
+    }
+  };
 
-  const handleEmailCheck = () => {
+  const handleEmailCheck = async () => {
     if(isEmailVerified){
       if(emailCheckNumber != 666){
         setEmailCheckError('인증번호가 일치하지 않습니다.');
@@ -91,7 +114,7 @@ const Signup = ({ navigation }) => {
     setPasswordConfirmation(text);
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
       if(!isStudentIdValid){
         setSignupCheckError('올바른 학번을 입력해주세요.');
       }
