@@ -55,7 +55,7 @@ const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
-        source = {require('../../assets/images/activAlram.png')}
+        source = {require('../../assets/images/dot_red.png')}
         style={styles.image}
       />
       <Text style={styles.title}>YMATE</Text>

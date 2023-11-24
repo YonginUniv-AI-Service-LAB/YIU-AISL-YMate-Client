@@ -170,7 +170,7 @@ const Signup = ({ navigation }) => {
         {/* 상단 바 내용 */}
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
       <Image
-        source={require('./../../assets/images/뒤로가기.png')} // 이미지 경로를 실제 이미지 경로로 변경
+        source={require('./../../assets/images/left.png')} // 이미지 경로를 실제 이미지 경로로 변경
         style={styles.backButtonImage}
       />
       </TouchableOpacity>
