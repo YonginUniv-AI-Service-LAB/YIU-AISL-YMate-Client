@@ -203,6 +203,9 @@ export const styles = StyleSheet.create({
             height: 170,
             alignSelf: "stretch"
     },
+    notificationSectionList: {
+        height: '100%',
+    },
     mainSectionTitle: {
             paddingHorizontal: 15,
             paddingBottom: 6,
@@ -281,66 +284,15 @@ export const styles = StyleSheet.create({
     mainScreen: {
             flex: 1,
     },
-    loginBody: {
-        backgroundColor: "#f2f2f2",
-        width: "100%",
-        alignSelf: "stretch",
-        flexDirection: "column",
-        flex: 1
-    },
-    loginTitle: {
-        fontSize: 30,
-        width: 115,
-        display: "flex",
-        color: Color.colorBlack,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    loginImage: {
-        width: '90%',
-        height: 100,
-    },
-    loginTitleBar: {
-        flex:1,
-        alignItems: "center",
-    },
-    inputBar: {
-        marginTop: 4,
-        paddingHorizontal: 5,
-        alignItems: "center",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignSelf: "stretch"
-    },
-    inputRow: {
-        flexDirection: 'row',
+    headerTitle: {
+        height: 40, // 상단 바의 높이 조절
+        justifyContent: 'center', // 가운데 정렬
         alignItems: 'center',
-        justifyContent: 'space-between',
-        height:40,
+        borderBottomColor: 'black',
+        backgroundColor: 'white',
     },
-    inputText:{
-        fontSize: 15,
-         width: 60,
-        color: Color.colorBlack,
+    headerText: {
+        color: 'black', // 텍스트 색상 설정
+        fontSize: 20,
     },
-    input: {
-        width: 190,
-        borderWidth: 1,
-        borderColor: Color.colorGray,
-        borderStyle: "solid",
-        borderRadius: Border.br_7xs,
-        justifyContent: "center",
-        height: 33,
-        alignItems: "center",
-    },
-    buttonBar:{
-
-    },
-    text3: {
-        textAlign:"right",
-        fontSize: 13,
-        color: "#e14a4a",
-        textDecoration: "underline",
-   },
-
 })

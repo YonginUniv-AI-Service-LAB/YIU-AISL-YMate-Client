@@ -75,11 +75,9 @@ const Login = ({ navigation }) => {
           <Text style={styles.forgotPassword}>비밀번호 찾기</Text>
         </Pressable>
       </View>
-      <View style={styles.buttonContainer}>
-        <Pressable onPress={handleLogin}>
-        <Text style={styles.buttonText}>로그인</Text>
-        </Pressable>
-      </View>
+      <Pressable style = {styles.buttonContainer} onPress={handleLogin}>
+          <Text style={styles.buttonText}>로그인</Text>
+      </Pressable>
       <View style={styles.signupLink}>
       <Text style={[styles.signupText]}>
               아직 회원이 아니신가요?
