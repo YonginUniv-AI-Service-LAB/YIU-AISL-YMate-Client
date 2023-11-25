@@ -115,8 +115,8 @@ const Notification = ({navigation}) => {
                             style={[styles.icon26]} resizeMode="cover"
                         />
                     </Pressable>
-                        <Text style={[styles.headerText]}>공지 사항</Text>
-                        
+                    <Text style={[styles.headerText]}>공지 사항</Text>
+                    <View style={styles.icon26}></View>
                     </View>
 					<View style={styles.mainBody}>
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
@@ -140,7 +140,7 @@ const Notification = ({navigation}) => {
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/home_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>홈</Text>
 						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>Alert.alert("내가쓴글버튼")}>
+						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('MyPost')}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/list_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>내가 쓴 글</Text>
 						</Pressable>

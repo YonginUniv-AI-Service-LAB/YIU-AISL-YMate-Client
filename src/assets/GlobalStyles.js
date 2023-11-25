@@ -18,7 +18,7 @@ export const FontFamily = {
     colorWhitesmoke: "#f2f2f2",
     colorGray_100: "rgba(0, 0, 0, 0.1)",
     colorGray_200: "rgba(0, 0, 0, 0.3)",
-    colorBlack: "#000",
+    colorBlack: '#000',
     colorLightgreen: "#86e08f",
     colorRosybrown: "#cc9797",
   };

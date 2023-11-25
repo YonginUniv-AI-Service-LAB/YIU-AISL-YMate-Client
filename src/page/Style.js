@@ -293,9 +293,31 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     headerText: {
-        flex:0.9,
+        flex:1,
         textAlign: 'center',
         color: 'black',
         fontSize: 20,
+    },
+    myPostContainer:{
+        backgroundColor:'white',
+        borderTopWidth:0.5,
+
+    },
+    myPostCard:{
+        flexDirection: "row",
+        height: 96,
+        alignSelf: "stretch",
+        alignItems: "center"
+    },
+    timeText: {
+        fontSize: FontSize.size_2xs,
+        color: Color.colorBlack,
+    },
+    spacebetween:{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        borderTopColor:'black',
+        paddingHorizontal: 10,
     },
 })
