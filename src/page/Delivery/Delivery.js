@@ -143,7 +143,7 @@ const Delivery = ({navigation}) => {
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/home_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>홈</Text>
 						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>Alert.alert("내가쓴글버튼")}>
+						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('MyPost')}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/list_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>내가 쓴 글</Text>
 						</Pressable>

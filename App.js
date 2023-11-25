@@ -12,6 +12,7 @@ import Delivery from './src/page/Delivery/Delivery';
 import Taxi from './src/page/Taxi/Taxi';
 import Password from './src/page/Password/Password';
 import Notification from './src/page/Notification/Notification';
+import MyPost from './src/page/MyPost/MyPost';
 
 const Stack = createStackNavigator()
 enableScreens()
@@ -27,6 +28,7 @@ const App = () => {
         <Stack.Screen name="Delivery" component={Delivery} />
         <Stack.Screen name="Taxi" component={Taxi} />
         <Stack.Screen name="Notification" component={Notification} />
+        <Stack.Screen name="MyPost" component={MyPost} />
       </Stack.Navigator>
     </NavigationContainer>
   );
