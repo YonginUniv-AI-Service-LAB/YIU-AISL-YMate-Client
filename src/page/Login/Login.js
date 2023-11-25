@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity,Pressable } from 'react-native';
 import Signup from '../Signup/Signup';
 import Main from '../Main/Main';
+import Password from '../Password/Password';
 
 const Login = ({ navigation }) => {
     const [studentId, setStudentId] = useState('');
@@ -43,13 +44,7 @@ const Login = ({ navigation }) => {
     // }
   };
 
-  const handleForgotPassword = () => {
-    
-  };
 
-  const handleSignup = () => {
-    navigation.navigate('Signup');
-  };
 
   return (
     <View style={styles.container}>
@@ -76,16 +71,23 @@ const Login = ({ navigation }) => {
             secureTextEntry={true}
           />
         </View>
-        <TouchableOpacity onPress={handleForgotPassword}>
+        <Pressable onPress={() => {navigation.navigate(Password)}}>
           <Text style={styles.forgotPassword}>비밀번호 찾기</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="로그인" onPress={handleLogin} />
+        <Pressable onPress={handleLogin}>
+        <Text style={styles.buttonText}>로그인</Text>
+        </Pressable>
       </View>
-      <TouchableOpacity onPress={handleSignup} style={styles.signupLink}>
-          <Text style={styles.signupText}>아직 회원이 아니신가요? <Text style={styles.blueText}>회원가입</Text></Text>
-        </TouchableOpacity>
+      <View style={styles.signupLink}>
+      <Text style={[styles.signupText]}>
+              아직 회원이 아니신가요?
+        </Text>
+        <Pressable onPress={() => {navigation.navigate(Signup)}}>
+          <Text style={[styles.blueText]}>회원가입</Text>
+         </Pressable>
+         </View>
     </View>
   );
 };
@@ -96,7 +98,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start', // 상단 정렬로 변경
     alignItems: 'center',
     backgroundColor: '#ffffff',
-    
+  },
+  buttonText: {
+    color: 'white',
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     marginBottom: 30,
@@ -126,7 +132,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '50%',
+    height: 30,
     borderRadius: 10,
+    backgroundColor:'#22A2F2',
+    justifyContent: "center",
+    alignItems: "center",
   },
   rounded: {
     borderRadius: 10,
@@ -144,13 +154,14 @@ const styles = StyleSheet.create({
   },
   signupLink: {
     marginTop: 10,
+    flexDirection: "row",
   },
   signupText: {
     fontSize: 14,
     color: '#000',
   },
   blueText: {
-    color: 'blue',
+    color: '#22A2F2',
   },
 
 });

@@ -19,7 +19,7 @@ const Main = ({navigation}) => {
 		},
 		{
 			dId: 123123124,
-			title: "장충동 왕족발보쌈",
+			title: "장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈",
 			due: 11222333344,
 			food: 332211,
 			location: 332211,
@@ -62,7 +62,7 @@ const Main = ({navigation}) => {
 		},
 		{
 			tId: 123123124,
-			title: "집 가고싶다",
+			title: "집 가고싶다집 가고싶다집 가고싶다",
 			due: 11222333344,
 			food: 332211,
 			location: 332211,

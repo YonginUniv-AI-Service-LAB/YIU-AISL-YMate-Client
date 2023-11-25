@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TouchableHighlight, TouchableWithoutFeedback, Linking} from 'react-native';
-import { Dimensions } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, ScrollView, Modal,TouchableOpacity, TouchableWithoutFeedback, Linking} from 'react-native';
 import GuideModal from '../Modal/GuideModal';
-// import axios from 'axios';
+import { Dimensions } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
-
-const Signup = ({ navigation }) => {
-  const [isModalVisible, setModalVisible] = useState(false);
+const Password = ({ navigation }) => {
+    const [isModalVisible, setModalVisible] = useState(false);
 
   const [studentId, setStudentId] = useState('');
   const [studentIdCheckError, setStudentIdCheckError] = useState('');
@@ -16,9 +15,6 @@ const Signup = ({ navigation }) => {
   const [emailCheckNumber, setemailCheckNumber] = useState('');
   const [emailCheckError, setEmailCheckError] = useState(''); 
   const [isEmailNumberValid,setIsEmailNumberValid] = useState(false);
-  const [nickname, setnickname] = useState('');
-  const [nickNameCheckError,setNickNameCheckError] = useState('');
-  const [isNickNameValid,setIsNickNameValid] = useState(false);
   const [pwd, setpwd] = useState('');
   const [passwordError,setPasswordError] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -27,44 +23,22 @@ const Signup = ({ navigation }) => {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [signupCheckError, setSignupCheckError] = useState('');
 
-  const handleStudentId = async () => {
+  const handleStudentId = () => {
     const studentIdPattern = /^\d{9}$/;
-  
-    if (!studentIdPattern.test(studentId)) {
-      setStudentIdCheckError('유효한 학번을 입력해주세요.');
-      setIsEmailVerified(false);
-      setIsStudentIdValid(false);
-      setEmailCheckError('');
-    } else {
-      try {
-        // 학번을 백엔드로 전송
-        const response = await axios.post('YOUR_BACKEND_API_ENDPOINT/email', {
-          studentId,
-        });
-  
-        if (response.data.success) {
-          // 성공적으로 이메일을 보낸 경우, 이메일 인증이 필요하다는 메시지를 표시할 수 있습니다.
-          setIsEmailVerified(true);
-          setIsStudentIdValid(true);
-          setStudentIdCheckError('');
-        } else {
-          // 백엔드에서 실패한 경우, 에러 메시지 표시 또는 적절한 조치 수행
-          setStudentIdCheckError(response.data.message || '이메일 전송에 실패했습니다.');
-          setIsEmailVerified(false);
-          setIsStudentIdValid(false);
-          setEmailCheckError('');
-        }
-      } catch (error) {
-        console.error('이메일 전송 실패:', error);
-        setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
+      if (!studentIdPattern.test(studentId)) {
+        setStudentIdCheckError('유효한 학번을 입력해주세요.');
         setIsEmailVerified(false);
         setIsStudentIdValid(false);
         setEmailCheckError('');
+      } else {
+        setIsStudentIdValid(true);
+        setIsEmailVerified(true);
+        setStudentIdCheckError('');
       }
-    }
-  };
+    
+  }
 
-  const handleEmailCheck = async () => {
+  const handleEmailCheck = () => {
     if(isEmailVerified){
       if(emailCheckNumber != 666){
         setEmailCheckError('인증번호가 일치하지 않습니다.');
@@ -79,15 +53,6 @@ const Signup = ({ navigation }) => {
       setEmailCheckError('이메일 확인이 필요합니다.');
     }
     
-  }
-  const handleNickNameCheck = () => {
-    if (nickname.length < 2) {
-      setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
-      setIsNickNameValid(false);
-    } else {
-      setNickNameCheckError('');
-      setIsNickNameValid(true);
-    }
   }
 
   const handlePasswordChange = (text) => {
@@ -115,15 +80,12 @@ const Signup = ({ navigation }) => {
     setPasswordConfirmation(text);
   };
 
-  const handleSignup = async () => {
+  const handleSignup = () => {
       if(!isStudentIdValid){
         setSignupCheckError('올바른 학번을 입력해주세요.');
       }
       else if(!isEmailNumberValid){
         setSignupCheckError('올바른 인증번호를 입력해주세요.');
-      }
-      else if(!isNickNameValid){
-        setSignupCheckError('올바른 닉네임을 입력해주세요.');
       }
       else if(passwordError){
         setSignupCheckError('올바른 비밀번호를 입력해주세요.');
@@ -141,9 +103,7 @@ const Signup = ({ navigation }) => {
         //   // 백엔드 API에 POST 요청 보내기
         //   const response = await axios.post('YOUR_BACKEND_API_ENDPOINT', {
         //     studentId,
-        //     emailCheckNumber,
-        //     nickName,
-        //     password,
+        //     pwd,
         //   });
     
         //   // 서버에서의 응답 처리
@@ -167,16 +127,15 @@ const Signup = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style = {styles.signup}>
+      <View style = {styles.password}>
       <View style={styles.header}>
-        {/* 상단 바 내용 */}
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
       <Image
         source={require('./../../assets/images/left.png')} // 이미지 경로를 실제 이미지 경로로 변경
         style={styles.backButtonImage}
       />
       </TouchableOpacity>
-        <Text style={styles.headerText}>회원가입</Text>
+        <Text style={styles.headerText}>비밀번호 찾기</Text>
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputRow}>
@@ -197,15 +156,15 @@ const Signup = ({ navigation }) => {
       </View>
       </View>
       <View style={styles.emptySpace}>
-      <View style={styles.guideContainer}>
-      <TouchableWithoutFeedback onPress={handleGuideButtonPress} style={styles.guidebutton}>
+  <View style={styles.guideContainer}>
+    <TouchableWithoutFeedback onPress={handleGuideButtonPress} style={styles.guidebutton}>
       <Text style={[styles.blueText, styles.underline]}>학번 인증 가이드 </Text>
-      </TouchableWithoutFeedback>
-        {studentIdCheckError ? (
-        <Text style={styles.errorText}>{studentIdCheckError}</Text>
-        ) : null}
-      </View>
-      </View>
+    </TouchableWithoutFeedback>
+    {studentIdCheckError ? (
+      <Text style={styles.errorText}>{studentIdCheckError}</Text>
+    ) : null}
+  </View>
+</View>
         <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>이메일 확인</Text>
           <TextInput
@@ -225,27 +184,6 @@ const Signup = ({ navigation }) => {
         <View style={styles.emptySpace}>
         {emailCheckError ? (
         <Text style={styles.errorText}>{emailCheckError}</Text>
-      ) : null}
-      </View>
-        <View style={styles.inputRow}>
-          <Text style={styles.smalltitle}>닉네임</Text>
-          <TextInput
-            style={[styles.input, styles.rounded]}
-            value={nickname}
-            onChangeText={(text) => {
-              setnickname(text);
-              setIsNickNameValid(false);
-            }}
-          />
-        <View style={styles.checkContainer}>
-          <TouchableWithoutFeedback onPress={handleNickNameCheck}>
-            <Text style={styles.checkBox}>중복 확인</Text>
-          </TouchableWithoutFeedback>
-        </View>
-        </View>
-        <View style={styles.emptySpace}>
-        {nickNameCheckError ? (
-        <Text style={styles.errorText}>{nickNameCheckError}</Text>
       ) : null}
       </View>
         <View style={styles.inputRow}>
@@ -276,32 +214,39 @@ const Signup = ({ navigation }) => {
         <Text style={styles.errorText}>{passwordConfirmationError}</Text>
       ) : null}
     </View>
-    </View>
-    </View>
-    <View style={styles.footer}>
+      </View>
+      </View>
+      <View style={styles.footer}>
       <View style={styles.signupCheck}>
         {signupCheckError ? (
         <Text style={styles.errorText}>{signupCheckError}</Text>
       ) : null}
       </View>
-      <TouchableOpacity onPress={handleSignup}>
+      <TouchableWithoutFeedback onPress={handleSignup}>
         <View style={styles.buttonContainer}>
-            <Text style={styles.buttonText}>회원가입</Text>
+            <Text style={styles.buttonText}>재설정</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     </View>
-
-      <GuideModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
+    
+    <GuideModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
     </ScrollView>
   );
 
 };
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "space-between",
     flex: 1,
+    justifyContent: "space-between",
   },
-  signup: {
+  buttonContainer: {
+    height: 40,
+    alignItems: 'center', // 버튼을 가로로 중앙에 정렬// 버튼을 화면 하단으로 밀어내기 위한 여백 추가
+    backgroundColor: '#22a2f2', // 배경색 추가
+    paddingVertical: 10, // 상하 여백 추가
+    borderRadius: 10,  
+  },
+  password: {
     alignItems: "center",
     alignSelf: "stretch",
   },
@@ -323,18 +268,11 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
   },
-  buttonContainer: {
-    height: 40,
-    alignItems: 'center', // 버튼을 가로로 중앙에 정렬// 버튼을 화면 하단으로 밀어내기 위한 여백 추가
-    backgroundColor: '#22a2f2', // 배경색 추가
-    paddingVertical: 10, // 상하 여백 추가
-    borderRadius: 10,  
-  },
   footer: {
     width: '95%',
     marginLeft:10,
     marginBottom:10,
-  },
+  },  
   checkBox: {
     marginTop:8,
     textAlign:'center',
@@ -423,6 +361,7 @@ const styles = StyleSheet.create({
     width:screenWidth,
     marginTop:5,
     height:20,
+    
     marginBottom:10,
   },
   signupCheck: {
@@ -441,7 +380,6 @@ const styles = StyleSheet.create({
   underline: {
     textDecorationLine: 'underline',
   },
-
 });
 
-export default Signup;
+export default Password;
