@@ -67,7 +67,7 @@ const Notification = ({navigation}) => {
 		},
         {
 			noticeId: 123123127,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉"
+			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉dddddddddddddddddddddddddd"
 		},
         {
 			noticeId: 123123127,
@@ -109,7 +109,14 @@ const Notification = ({navigation}) => {
 						</Pressable>
 					</View>
                     <View style={styles.headerTitle}>
-                        <Text style={styles.headerText}>공지 사항</Text>
+                    <Pressable onPress={() => navigation.goBack()}>
+                        <Image
+                            source={require('./../../assets/images/left.png')} // 이미지 경로를 실제 이미지 경로로 변경
+                            style={[styles.icon26]} resizeMode="cover"
+                        />
+                    </Pressable>
+                        <Text style={[styles.headerText]}>공지 사항</Text>
+                        
                     </View>
 					<View style={styles.mainBody}>
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
@@ -129,7 +136,7 @@ const Notification = ({navigation}) => {
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/taxi_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>택시</Text>
 						</Pressable>
-						<Pressable style={[styles.navigationButton]} onPress={()=>Alert.alert("홈버튼")}>
+						<Pressable style={[styles.navigationButton]} onPress={()=>navigation.goBack()}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/home_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>홈</Text>
 						</Pressable>
@@ -144,9 +151,6 @@ const Notification = ({navigation}) => {
 					</View>
       			</View>
     		</SafeAreaView>
-			<Pressable style={styles.writeButton} onPress={()=> Alert.alert("글작성버튼")}>
-				<Image style={[styles.icon50, styles.backgroundWhite]} resizeMode="cover" source={require("../../assets/images/writeButton_blue.png")}/>
-			</Pressable>
 		</>);
 };
 

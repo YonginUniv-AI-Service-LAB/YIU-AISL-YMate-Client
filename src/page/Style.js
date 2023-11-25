@@ -285,14 +285,17 @@ export const styles = StyleSheet.create({
             flex: 1,
     },
     headerTitle: {
-        height: 40, // 상단 바의 높이 조절
-        justifyContent: 'center', // 가운데 정렬
+        flexDirection: "row",
+        height: 40,  
         alignItems: 'center',
         borderBottomColor: 'black',
         backgroundColor: 'white',
+        paddingHorizontal: 10,
     },
     headerText: {
-        color: 'black', // 텍스트 색상 설정
+        flex:0.9,
+        textAlign: 'center',
+        color: 'black',
         fontSize: 20,
     },
 })
