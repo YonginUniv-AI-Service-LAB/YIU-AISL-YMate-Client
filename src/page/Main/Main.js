@@ -228,7 +228,7 @@ const Main = ({navigation}) => {
 							<View style={styles.mainSection}>
 								<View style={styles.mainSectionTitle}>
 									<Text style={styles.centerText18}>공지사항</Text>
-									<Pressable style={styles.rowView} onPress={()=>Alert.alert("공지더보기")}>
+									<Pressable style={styles.rowView} onPress={()=> navigation.navigate('Notification')}>
 										<Text style={styles.clickText13}>더보기</Text>
 										<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
 									</Pressable>
