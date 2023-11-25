@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { Color, Padding, FontSize, FontFamily, Border } from "../assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
     smallCardScroll: {
@@ -244,6 +245,9 @@ export const styles = StyleSheet.create({
     margintop3: {
             marginTop: 3
     },
+    margintop6: {
+        marginTop: 6
+    },
     opacity70: {
             opacity: 0.7
     },
@@ -276,6 +280,67 @@ export const styles = StyleSheet.create({
     },
     mainScreen: {
             flex: 1,
-    }
+    },
+    loginBody: {
+        backgroundColor: "#f2f2f2",
+        width: "100%",
+        alignSelf: "stretch",
+        flexDirection: "column",
+        flex: 1
+    },
+    loginTitle: {
+        fontSize: 30,
+        width: 115,
+        display: "flex",
+        color: Color.colorBlack,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    loginImage: {
+        width: '90%',
+        height: 100,
+    },
+    loginTitleBar: {
+        flex:1,
+        alignItems: "center",
+    },
+    inputBar: {
+        marginTop: 4,
+        paddingHorizontal: 5,
+        alignItems: "center",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignSelf: "stretch"
+    },
+    inputRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height:40,
+    },
+    inputText:{
+        fontSize: 15,
+         width: 60,
+        color: Color.colorBlack,
+    },
+    input: {
+        width: 190,
+        borderWidth: 1,
+        borderColor: Color.colorGray,
+        borderStyle: "solid",
+        borderRadius: Border.br_7xs,
+        justifyContent: "center",
+        height: 33,
+        alignItems: "center",
+    },
+    buttonBar:{
+
+    },
+    text3: {
+        textAlign:"right",
+        fontSize: 13,
+        color: "#e14a4a",
+        textDecoration: "underline",
+   },
 
 })

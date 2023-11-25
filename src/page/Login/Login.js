@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity,Pressable } from 'react-native';
 import Signup from '../Signup/Signup';
 import Main from '../Main/Main';
 import Password from '../Password/Password';
@@ -44,13 +44,7 @@ const Login = ({ navigation }) => {
     // }
   };
 
-  const handleForgotPassword = () => {
-    navigation.navigate('Password');
-  };
 
-  const handleSignup = () => {
-    navigation.navigate('Signup');
-  };
 
   return (
     <View style={styles.container}>
@@ -77,16 +71,23 @@ const Login = ({ navigation }) => {
             secureTextEntry={true}
           />
         </View>
-        <TouchableOpacity onPress={handleForgotPassword}>
+        <Pressable onPress={() => {navigation.navigate(Password)}}>
           <Text style={styles.forgotPassword}>비밀번호 찾기</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
-      <TouchableOpacity onPress={handleLogin} style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>로그인</Text>
-        </TouchableOpacity>
-      <TouchableOpacity onPress={handleSignup} style={styles.signupLink}>
-          <Text style={styles.signupText}>아직 회원이 아니신가요? <Text style={styles.blueText}>회원가입</Text></Text>
-        </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <Pressable onPress={handleLogin}>
+        <Text style={styles.buttonText}>로그인</Text>
+        </Pressable>
+      </View>
+      <View style={styles.signupLink}>
+      <Text style={[styles.signupText]}>
+              아직 회원이 아니신가요?
+        </Text>
+        <Pressable onPress={() => {navigation.navigate(Signup)}}>
+          <Text style={[styles.blueText]}>회원가입</Text>
+         </Pressable>
+         </View>
     </View>
   );
 };
@@ -97,9 +98,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start', // 상단 정렬로 변경
     alignItems: 'center',
     backgroundColor: '#ffffff',
-    
   },
-  
+  buttonText: {
+    color: 'white',
+    justifyContent: "center",
+    alignItems: "center",
+  },
   title: {
     marginBottom: 30,
     fontSize: 30,
@@ -128,14 +132,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '50%',
-    alignItems: 'center', // 버튼을 가로로 중앙에 정렬// 버튼을 화면 하단으로 밀어내기 위한 여백 추가
-    backgroundColor: '#22a2f2', // 배경색 추가
-    paddingVertical: 10, // 상하 여백 추가
-    borderRadius: 10,  
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
+    height: 30,
+    borderRadius: 10,
+    backgroundColor:'#22A2F2',
+    justifyContent: "center",
+    alignItems: "center",
   },
   rounded: {
     borderRadius: 10,
@@ -153,6 +154,7 @@ const styles = StyleSheet.create({
   },
   signupLink: {
     marginTop: 10,
+    flexDirection: "row",
   },
   signupText: {
     fontSize: 14,

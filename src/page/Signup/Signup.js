@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TouchableHighlight, TouchableWithoutFeedback, Linking} from 'react-native';
 import { Dimensions } from 'react-native';
-import axios from 'axios';
+import GuideModal from '../Modal/GuideModal';
+// import axios from 'axios';
 
 const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
+
 
 const Signup = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -166,6 +167,7 @@ const Signup = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <View style = {styles.signup}>
       <View style={styles.header}>
         {/* 상단 바 내용 */}
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
@@ -188,20 +190,22 @@ const Signup = ({ navigation }) => {
               setIsEmailVerified(false); // 학번이 변경되면 유효성 검사를 다시 진행해야 합니다.
             }}
           />
-          <TouchableOpacity style={styles.checkContainer} onPress={handleStudentId}>
-        <Text style={styles.checkBox}>인증메일 발송</Text>
-      </TouchableOpacity>
+      <View style={styles.checkContainer}>
+          <TouchableWithoutFeedback onPress={handleStudentId}>
+            <Text style={styles.checkBox}>인증메일 발송</Text>
+          </TouchableWithoutFeedback> 
+      </View>
       </View>
       <View style={styles.emptySpace}>
-  <View style={styles.guideContainer}>
-    <TouchableOpacity onPress={handleGuideButtonPress} style={styles.guidebutton}>
+      <View style={styles.guideContainer}>
+      <TouchableWithoutFeedback onPress={handleGuideButtonPress} style={styles.guidebutton}>
       <Text style={[styles.blueText, styles.underline]}>학번 인증 가이드 </Text>
-    </TouchableOpacity>
-    {studentIdCheckError ? (
-      <Text style={styles.errorText}>{studentIdCheckError}</Text>
-    ) : null}
-  </View>
-</View>
+      </TouchableWithoutFeedback>
+        {studentIdCheckError ? (
+        <Text style={styles.errorText}>{studentIdCheckError}</Text>
+        ) : null}
+      </View>
+      </View>
         <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>이메일 확인</Text>
           <TextInput
@@ -212,9 +216,11 @@ const Signup = ({ navigation }) => {
               setIsEmailNumberValid(false);
             }}
           />
-        <TouchableOpacity style={styles.checkContainer} onPress={handleEmailCheck} disabled={!isEmailVerified}>
-        <Text style={styles.checkBox}>인증번호 확인</Text>
-      </TouchableOpacity>
+        <View style={styles.checkContainer}>
+          <TouchableWithoutFeedback onPress={handleEmailCheck} disabled={!isEmailVerified}>
+            <Text style={styles.checkBox}>인증번호 확인</Text>
+          </TouchableWithoutFeedback>
+        </View>
         </View>
         <View style={styles.emptySpace}>
         {emailCheckError ? (
@@ -231,9 +237,11 @@ const Signup = ({ navigation }) => {
               setIsNickNameValid(false);
             }}
           />
-        <TouchableOpacity style={styles.checkContainer} onPress={handleNickNameCheck}>
-        <Text style={styles.checkBox}>중복 확인</Text>
-        </TouchableOpacity>
+        <View style={styles.checkContainer}>
+          <TouchableWithoutFeedback onPress={handleNickNameCheck}>
+            <Text style={styles.checkBox}>중복 확인</Text>
+          </TouchableWithoutFeedback>
+        </View>
         </View>
         <View style={styles.emptySpace}>
         {nickNameCheckError ? (
@@ -268,72 +276,34 @@ const Signup = ({ navigation }) => {
         <Text style={styles.errorText}>{passwordConfirmationError}</Text>
       ) : null}
     </View>
-      </View>
+    </View>
+    </View>
+    <View style={styles.footer}>
       <View style={styles.signupCheck}>
         {signupCheckError ? (
         <Text style={styles.errorText}>{signupCheckError}</Text>
       ) : null}
-    </View>
-      <TouchableOpacity style={styles.footer} onPress={handleSignup}>
-        <Text style={styles.buttonText}>회원가입</Text>
+      </View>
+      <TouchableOpacity onPress={handleSignup}>
+        <View style={styles.buttonContainer}>
+            <Text style={styles.buttonText}>회원가입</Text>
+        </View>
       </TouchableOpacity>
-      <Modal
-  animationType="slide"
-  transparent={false}
-  visible={isModalVisible}
-  onRequestClose={() => {
-    setModalVisible(!isModalVisible);
-  }}
-  style={styles.modal}
->
-<View style={styles.modalContent}>
-      <TouchableWithoutFeedback
-        onPress={handleGuideButtonPress}
-      >
-        <Text style={styles.modalCloseText}>닫기</Text>
-      </TouchableWithoutFeedback>
-      <View style={styles.modalHeader}>
-        <Text style={styles.modalTitle}>이메일 인증 가이드</Text>
-      </View>
-      <View style={styles.modalBody}>
-      <Text style={[styles.modalText, styles.impactText]}>
-  학교 이메일이 처음이라면
-</Text>
-        <Text style={styles.modalText}>
-          입학과 동시에 이메일이 자동 생성되므로 아래의 페이지에서 비밀번호를 수정하고 사용하면 됩니다.
-        </Text>
-        <TouchableOpacity
-          onPress={() => Linking.openURL('https://www.yongin.ac.kr/cmn/sym/mnu/mpm/105060500/htmlMenuView.do')}
-        >
-          <Text style={styles.modalLinkText}>비밀번호 수정</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.modalBody}>
-      <Text style={[styles.modalText, styles.impactText]}>
-  학교 이메일을 어디서 확인할 수 있나요?
-</Text>
-        <Text style={styles.modalText}>
-          학교 이메일로 Microsoft에서 로그인하면 Microsoft Outlook에서 이메일 확인이 가능합니다.
-        </Text>
-        <TouchableOpacity
-          onPress={() => Linking.openURL('https://www.yongin.ac.kr/cmn/sym/mnu/mpm/105060500/htmlMenuView.do')}
-        >
-          <Text style={styles.modalLinkText}>이메일 확인</Text>
-        </TouchableOpacity>
-      </View>
     </View>
-</Modal>
+
+      <GuideModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
     </ScrollView>
   );
 
 };
 const styles = StyleSheet.create({
   container: {
+    justifyContent: "space-between",
     flex: 1,
-    justifyContent: 'flex-start', // 상단 정렬로 변경
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    height: screenHeight,
+  },
+  signup: {
+    alignItems: "center",
+    alignSelf: "stretch",
   },
   header: {
     width: screenWidth,
@@ -353,12 +323,17 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
   },
-  footer: {
-    width: '95%',
+  buttonContainer: {
+    height: 40,
     alignItems: 'center', // 버튼을 가로로 중앙에 정렬// 버튼을 화면 하단으로 밀어내기 위한 여백 추가
     backgroundColor: '#22a2f2', // 배경색 추가
     paddingVertical: 10, // 상하 여백 추가
     borderRadius: 10,  
+  },
+  footer: {
+    width: '95%',
+    marginLeft:10,
+    marginBottom:10,
   },
   checkBox: {
     marginTop:8,
@@ -448,16 +423,14 @@ const styles = StyleSheet.create({
     width:screenWidth,
     marginTop:5,
     height:20,
-    
     marginBottom:10,
   },
   signupCheck: {
-    width:screenWidth,
-    marginTop:155,
     height:15,
     marginBottom:10,
   },
   guideContainer: {
+    marginLeft:10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between', // Align items on the ends (left and right)
@@ -468,53 +441,7 @@ const styles = StyleSheet.create({
   underline: {
     textDecorationLine: 'underline',
   },
-  modal: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    width: '80%', // 모달 너비 설정
-    alignSelf: 'center', // 가운데 정렬
-    marginTop: 22,
-    marginHorizontal: 20,
-  },
-  modalCloseText: {
-    fontSize: 16,
-    textAlign: 'right',
-    color: '#22A2F2',
-    marginBottom: 10,
-  },
-  modalHeader: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#22A2F2',
-    paddingBottom: 10,
-    marginBottom: 10,
-  },
-  modalTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#22A2F2',
-  },
-  modalBody: {
-    marginBottom: 15,
-  },
-  modalText: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  modalLinkText: {
-    fontSize: 16,
-    color: '#22A2F2',
-    textDecorationLine: 'underline',
-    marginTop:5,
-  },
-  impactText: {
-    fontSize: 18, // 적절한 크기로 조절
-    fontWeight: 'bold', // 굵게
-    color: '#22A2F2', // 적절한 색상
-    marginBottom: 10, // 텍스트 사이의 간격을 위해 마진 추가
-  },
+
 });
 
 export default Signup;
