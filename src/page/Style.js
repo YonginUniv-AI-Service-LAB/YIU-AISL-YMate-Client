@@ -409,6 +409,9 @@ marginRight12: {
         fontSize: FontSize.size_3xs,
         textAlign:'center',
     },
+    optionsContainer: {
+        backgroundColor: Color.colorWhite,
+    },
     myPageOption:{
         height:48,
         marginHorizontal:12,
