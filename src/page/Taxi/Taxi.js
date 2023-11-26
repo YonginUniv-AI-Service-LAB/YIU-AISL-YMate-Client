@@ -163,7 +163,7 @@ const Taxi = ({navigation}) => {
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/list_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>내가 쓴 글</Text>
 						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>Alert.alert("내정보버튼")}>
+						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('MyPage')}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/user_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>내 정보</Text>
 						</Pressable>

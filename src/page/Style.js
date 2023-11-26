@@ -113,6 +113,14 @@ export const styles = StyleSheet.create({
             width: 24,
             height: 24
     },
+    text20: {
+        fontSize: 20,
+        color: Color.colorBlack,
+    },
+    text16: {
+        fontSize: 16,
+        color: Color.colorBlack,
+    },
     locationText: {
             marginLeft: 3,
             textAlign: "center",
@@ -127,6 +135,13 @@ export const styles = StyleSheet.create({
     rowView: {
             flexDirection: "row",
             alignItems: "center"
+    },
+    spacebetween: {
+        justifyContent: "space-between",
+    },
+    columnView: {
+        flex:1,
+        flexDirection:'column',
     },
     activeAlramIcon: {
             top: 1,
@@ -169,6 +184,15 @@ export const styles = StyleSheet.create({
     marginLeft3: {
             marginLeft: 3
     },
+ marginLeft6: {
+         marginLeft: 6
+},
+marginLeft12: {
+        marginLeft: 12
+},
+marginRight12: {
+         marginRight: 12
+},
     clickText13: {
             fontSize: 13,
             color: "#22a2f2",
@@ -179,6 +203,10 @@ export const styles = StyleSheet.create({
             width: 11,
             height: 11
     },
+    icon20: {
+        width: 20,
+        height: 20
+        },
     tempViewToImage: {
             borderRadius: 11,
             backgroundColor: "#F9E583",
@@ -191,6 +219,14 @@ export const styles = StyleSheet.create({
             height: 150,
             width: 170,
             alignItems: "center"
+    },
+    myPageCard: {
+        flexDirection: "row",
+        height: 78,
+        alignSelf: "stretch",
+        alignItems: "center",
+        borderBottomColor: Color.colorGray_100,
+        borderBottomWidth:1,
     },
     bigCard: {
             marginTop: 10,
@@ -284,16 +320,20 @@ export const styles = StyleSheet.create({
     mainScreen: {
             flex: 1,
     },
-    headerTitle: {
+    header: {
         flexDirection: "row",
         height: 40,  
         alignItems: 'center',
         borderBottomColor: 'black',
         backgroundColor: 'white',
         paddingHorizontal: 10,
+        justifyContent: "space-between",
+    },
+    headerTitle: {
+        flexDirection: "row",
+        textAlign: 'center',  
     },
     headerText: {
-        flex:1,
         textAlign: 'center',
         color: 'black',
         fontSize: 20,
@@ -353,5 +393,25 @@ export const styles = StyleSheet.create({
         fontFamily: FontFamily.aBeeZeeRegular,
         fontSize: FontSize.size_3xs,
         textAlign:'center',
+    },
+    buttonContainer: {
+        borderColor: Color.colorCornflowerblue,
+        width:70,
+        height:20,
+        borderWidth:1,
+        borderRadius:6,
+        textAlign:'center',
+        justifyContent: 'center',
+    },
+    buttonText: {
+        color: Color.colorCornflowerblue,
+        fontFamily: FontFamily.aBeeZeeRegular,
+        fontSize: FontSize.size_3xs,
+        textAlign:'center',
+    },
+    myPageOption:{
+        height:48,
+        marginHorizontal:12,
+        justifyContent: "center",
     }
 })
