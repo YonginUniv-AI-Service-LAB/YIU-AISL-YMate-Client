@@ -300,8 +300,11 @@ export const styles = StyleSheet.create({
     },
     myPostContainer:{
         backgroundColor:'white',
-        borderTopWidth:0.5,
-
+        borderColor:Color.colorGray_100,
+        borderRightWidth:0.5,
+        borderRadius:5,
+        borderLeftWidth:0.5,
+        borderBottomWidth:0.5,
     },
     myPostCard:{
         flexDirection: "row",
@@ -310,14 +313,45 @@ export const styles = StyleSheet.create({
         alignItems: "center"
     },
     timeText: {
-        fontSize: FontSize.size_2xs,
+        fontFamily: FontFamily.aBeeZeeRegular,
+        fontSize: FontSize.size_3xs,
         color: Color.colorBlack,
     },
-    spacebetween:{
+    postType:{
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        borderTopColor:'black',
         paddingHorizontal: 10,
+        borderColor:Color.colorGray_100,
+        borderRadius:5,
+        borderWidth:0.5,
     },
+    writeTypeRecruitContainer: {
+        margin:1.5,
+        borderColor: Color.colorLightgreen,
+        borderWidth:1,
+        borderRadius:5,
+        flex:0.15,
+        textAlign:'center',
+    },
+    writeTypeRecruit: {
+        color: Color.colorLightgreen,
+        fontFamily: FontFamily.aBeeZeeRegular,
+        fontSize: FontSize.size_3xs,
+        textAlign:'center',
+    },
+    writeTypeApplyContainer: {
+        margin:1.5,
+        borderColor: Color.colorYellow,
+        borderWidth:1,
+        borderRadius:5,
+        flex:0.15,
+        textAlign:'center',
+    },
+    writeTypeApply: {
+        color: Color.colorYellow,
+        fontFamily: FontFamily.aBeeZeeRegular,
+        fontSize: FontSize.size_3xs,
+        textAlign:'center',
+    }
 })

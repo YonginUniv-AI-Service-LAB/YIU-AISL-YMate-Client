@@ -21,6 +21,7 @@ export const FontFamily = {
     colorBlack: '#000',
     colorLightgreen: "#86e08f",
     colorRosybrown: "#cc9797",
+    colorYellow: '#FFC700',
   };
   /* Paddings */
   export const Padding = {
