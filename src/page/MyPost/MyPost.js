@@ -18,7 +18,7 @@ const MyPost = ({navigation}) => {
 			food: 332211,
 			location: 332211,
 			createAt: new Date('2023-11-25T07:45:00'),
-            writeType: 1,
+            type: 1,
 		},
         {
 			tId: 1231231223,
@@ -27,14 +27,14 @@ const MyPost = ({navigation}) => {
 			food: 332211,
 			location: 332211,
 			createAt: new Date('2023-11-25T07:35:00'),
-            writeType: 2,
+            type: 2,
 		},
 	]
 
 
-	const MyPostCard = ({title, tId, createAt, due, writeType}) => {
+	const MyPostCard = ({title, tId, createAt, due, type}) => {
         const [now, setNow] = React.useState(moment().tz('Asia/Seoul'));
-    
+		const [writeType, setWriteType] = React.useState('');
         React.useEffect(() => {
         const interval = setInterval(() => {
             setNow(moment().tz('Asia/Seoul'));
@@ -59,51 +59,57 @@ const MyPost = ({navigation}) => {
             }
         }
         const dueStatusStyle = isPastDue ? { color: 'red' } : {};
-        const getTypeText = () => {
-            if (writeType === 1) {
-                return "신청";
-            } else if (writeType === 2) {
-                return "모집";
-            } else {
-                return "알 수 없음";
-            }
-        };
+		React.useEffect(() => {
+			let mounted = true;
+		
+			if (mounted) {
+			  let newWriteType;
+		
+			  if (type === 1) {
+				newWriteType = '모집';
+			  } else if (type === 2) {
+				newWriteType = '신청';
+			  }
+			  setWriteType(newWriteType);
+			}
+			return () => (mounted = false);
+		  }, [type]);
 
         return(
-        <View style={[styles.myPostContainer,styles.margintop6]}>
-            <View style={styles.spacebetween}>
-                <View>
-                    <Text style={styles.timeText}>{moment(createAt).format('YYYY년 MM월 DD일 HH:mm')}</Text>
-                </View>
-                <View>
-                    <Text>{getTypeText()}</Text>
-                </View>
-            </View>
-		<Pressable style={styles.myPostCard} onPress={()=>Alert.alert(`${tId}`)}>
-				{/* change view to image */}
-			<View style={styles.tempViewToImage} />
-			<View style={styles.flexView}>
-				<View style={styles.smallCardContent}>
-					<View name="taxi location" flexDirection="row">
-						<View style={styles.locationTag}>
-							<Text style={styles.centerText9}>에융대</Text>
-						</View>
-						<Image style={styles.icon17} resizeMode="cover" source={require("../../assets/images/arrowRight.png")}/>
-						<View style={styles.locationTag}>
-							<Text style={styles.centerText9}>에융대</Text>
-						</View>
-                    
+			<View style={[styles.myPostContainer,styles.margintop6]}>
+				<View style={styles.postType}>
+					<View>
+						<Text style={styles.timeText}>{moment(createAt).format('YYYY년 MM월 DD일 HH:mm')}</Text>
 					</View>
-					<Text style={[styles.centerText10, dueStatusStyle]}>{dueStatusText}</Text>
+					<View style= {type === 1 ? styles.writeTypeRecruitContainer : styles.writeTypeApplyContainer}>
+						<Text style={type === 1 ? styles.writeTypeRecruit : styles.writeTypeApply}>{writeType}</Text>
+					</View>
 				</View>
-				<View style={styles.bigCardContent}>
-					<Text style={styles.cardTitle} numberOfLines={1}>{title}</Text>
-					<Text style={[styles.centerText10, styles.bigTaxiCardNumber]}>3/4</Text>
+			<Pressable style={styles.myPostCard} onPress={()=>Alert.alert(`${tId}`)}>
+					{/* change view to image */}
+				<View style={styles.tempViewToImage} />
+				<View style={styles.flexView}>
+					<View style={styles.smallCardContent}>
+						<View name="taxi location" flexDirection="row">
+							<View style={styles.locationTag}>
+								<Text style={styles.centerText9}>에융대</Text>
+							</View>
+							<Image style={styles.icon17} resizeMode="cover" source={require("../../assets/images/arrowRight.png")}/>
+							<View style={styles.locationTag}>
+								<Text style={styles.centerText9}>에융대</Text>
+							</View>
+						
+						</View>
+						<Text style={[styles.centerText10, dueStatusStyle]}>{dueStatusText}</Text>
+					</View>
+					<View style={styles.bigCardContent}>
+						<Text style={styles.cardTitle} numberOfLines={1}>{title}</Text>
+						<Text style={[styles.centerText10, styles.bigTaxiCardNumber]}>3/4</Text>
+					</View>
 				</View>
+			</Pressable>
 			</View>
-		</Pressable>
-        </View>
-    );
+		);
 }
 
   	return (
@@ -137,7 +143,7 @@ const MyPost = ({navigation}) => {
                                     contentContainerStyle={styles.bigCardScroll}
                                     showsHorizontalScrollIndicator={false}
                                     data={MyPostData}
-                                    renderItem={({ item }) => <MyPostCard title={item.title} tId={item.tId} createAt={item.createAt} due={item.due} type={item.writeType}/>}
+                                    renderItem={({ item }) => <MyPostCard title={item.title} tId={item.tId} createAt={item.createAt} due={item.due} type={item.type}/>}
                                     keyExtractor={item => item.tId}
                                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => Alert.alert("새로고침")} />}
                                 />
