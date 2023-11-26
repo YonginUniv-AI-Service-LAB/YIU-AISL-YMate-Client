@@ -60,11 +60,13 @@ const Notification = ({navigation}) => {
 							<View style={styles.mainSection}>
 								<View>
                                 <FlatList
+                                    showsHorizontalScrollIndicator={false}
                                     data={MyData}
                                     renderItem={({ item }) => <MyPageCard studentId={item.studentId} nickname={item.nickname}/>}
-                                    keyExtractor={item => item.tId}
+                                    keyExtractor={item => item.studentId}
                                 />
                                 </View>
+                                <View style={styles.optionsContainer}>
                                 <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('MyPost')}>
                                     <View style={[styles.rowView, styles.spacebetween]}>
                                         <Text style={styles.text16}>내가 작성한 글</Text>
@@ -89,6 +91,7 @@ const Notification = ({navigation}) => {
                                         <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
                                     </View>
                                 </Pressable>     
+                                </View>
 							</View>
 						</ScrollView>
 					</View>
