@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, ScrollView, Modal,TouchableOpacity, TouchableWithoutFeedback, Linking} from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { Dimensions } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -126,7 +127,7 @@ const Password = ({ navigation }) => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <KeyboardAwareScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
       <View style = {styles.password}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
@@ -230,14 +231,17 @@ const Password = ({ navigation }) => {
     </View>
     
     <GuideModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
   },
   buttonContainer: {
     height: 40,
@@ -252,7 +256,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: screenWidth,
-    height: 60, // 상단 바의 높이 조절
+    height: 51, // 상단 바의 높이 조절
     justifyContent: 'center', // 가운데 정렬
     alignItems: 'center',
     borderWidth: 0.5,
