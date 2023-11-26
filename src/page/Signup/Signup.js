@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TouchableHighlight, TouchableWithoutFeedback, Linking} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TouchableHighlight, TouchableWithoutFeedback, Linking, SafeAreaView} from 'react-native';
 import { Dimensions } from 'react-native';
 import GuideModal from '../Modal/GuideModal';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import axios from 'axios';
 
 const screenWidth = Dimensions.get('window').width;
@@ -166,7 +167,7 @@ const Signup = ({ navigation }) => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <KeyboardAwareScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
       <View style = {styles.signup}>
       <View style={styles.header}>
         {/* 상단 바 내용 */}
@@ -292,14 +293,17 @@ const Signup = ({ navigation }) => {
     </View>
 
       <GuideModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 
 };
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "space-between",
     flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
   },
   signup: {
     alignItems: "center",
@@ -307,7 +311,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: screenWidth,
-    height: 60, // 상단 바의 높이 조절
+    height: 51, // 상단 바의 높이 조절
     justifyContent: 'center', // 가운데 정렬
     alignItems: 'center',
     borderWidth: 0.5,
