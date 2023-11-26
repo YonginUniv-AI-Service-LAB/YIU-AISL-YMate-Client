@@ -410,6 +410,7 @@ marginRight12: {
         textAlign:'center',
     },
     optionsContainer: {
+        height:500,
         backgroundColor: Color.colorWhite,
     },
     myPageOption:{

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
+import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, SectionList} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
@@ -31,7 +31,7 @@ const Notification = ({navigation}) => {
 
   	return (
 		<>
-    		<SafeAreaView style={styles.mainScreen}>
+    		<View style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
 					<View style={styles.uppermenu}>
 						<Pressable style={styles.locationButton} onPress={()=>Alert.alert("위치재설정버튼")}>
@@ -58,14 +58,7 @@ const Notification = ({navigation}) => {
 					<View style={styles.mainBody}>
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
 							<View style={styles.mainSection}>
-								<View>
-                                <FlatList
-                                    showsHorizontalScrollIndicator={false}
-                                    data={MyData}
-                                    renderItem={({ item }) => <MyPageCard studentId={item.studentId} nickname={item.nickname}/>}
-                                    keyExtractor={item => item.studentId}
-                                />
-                                </View>
+                            <MyPageCard studentId={MyData[0].studentId} nickname={MyData[0].nickname} />
                                 <View style={styles.optionsContainer}>
                                 <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('MyPost')}>
                                     <View style={[styles.rowView, styles.spacebetween]}>
@@ -118,7 +111,7 @@ const Notification = ({navigation}) => {
 						</Pressable>
 					</View>
       			</View>
-    		</SafeAreaView>
+    		</View>
 		</>);
 };
 
