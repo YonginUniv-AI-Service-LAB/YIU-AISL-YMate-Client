@@ -7,8 +7,13 @@ export const styles = StyleSheet.create({
             paddingVertical: 10
     },
     bigCardScroll: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 15,
         paddingBottom: 20
+    },
+    mypostCardScroll: {
+        paddingHorizontal: 15,
+        paddingBottom: 20,
+        backgroundColor: "#f2f2f2"
     },
     icon26: {
             width: 26,
@@ -29,6 +34,12 @@ export const styles = StyleSheet.create({
     flexView: {
         flex:1,
         alignSelf: "stretch"
+    },
+    myPageBody: {
+        flex:1,
+        width: "100%",
+        alignSelf: "stretch",
+        backgroundColor: "#fff"
     },
     bigCardContent: {
             marginVertical: 4,
@@ -154,6 +165,7 @@ export const styles = StyleSheet.create({
             overflow: "hidden"
     },
     uppermenu: {
+            backgroundColor: "#fff",
             shadowColor: "rgba(0, 0, 0, 0.25)",
             shadowOffset: {
                 width: 0,
@@ -262,6 +274,14 @@ marginRight12: {
             backgroundColor: "#fff",
             flex: 1
     },
+    myPageSection: {
+        marginTop: 7,
+        paddingTop: 10,
+        justifyContent: "center",
+        overflow: "hidden",
+        alignSelf: "stretch",
+        backgroundColor: "#fff",
+    },
     icon17: {
             width: 17,
             height: 17
@@ -320,7 +340,7 @@ marginRight12: {
     mainScreen: {
             flex: 1,
     },
-    header: {
+    notificationHeader: {
         flexDirection: "row",
         height: 40,  
         alignItems: 'center',
@@ -328,6 +348,16 @@ marginRight12: {
         backgroundColor: 'white',
         paddingHorizontal: 10,
         justifyContent: "space-between",
+    },
+    myPageHeader: {
+        flexDirection: "row",
+        height: 43,  
+        alignItems: 'center',
+        borderBottomColor: '#f2f2f2',
+        borderBottomWidth: 4,
+        backgroundColor: 'white',
+        paddingHorizontal: 10,
+        justifyContent: "center"
     },
     headerTitle: {
         flexDirection: "row",
@@ -339,12 +369,11 @@ marginRight12: {
         fontSize: 20,
     },
     myPostContainer:{
-        backgroundColor:'white',
+        marginTop: 10,
+        backgroundColor:'#fff',
         borderColor:Color.colorGray_100,
-        borderRightWidth:0.5,
-        borderRadius:5,
-        borderLeftWidth:0.5,
-        borderBottomWidth:0.5,
+        borderRadius:11,
+        borderWidth:0.5,
     },
     myPostCard:{
         flexDirection: "row",
