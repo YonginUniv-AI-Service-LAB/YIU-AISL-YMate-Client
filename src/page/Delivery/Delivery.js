@@ -154,7 +154,7 @@ const Delivery = ({navigation}) => {
 					</View>
       			</View>
     		</SafeAreaView>
-			<Pressable style={styles.writeButton} onPress={()=> Alert.alert("글작성버튼")}>
+			<Pressable style={styles.writeButton} onPress={()=>navigation.navigate('DeliveryRecruit')}>
 				<Image style={[styles.icon50, styles.backgroundWhite]} resizeMode="cover" source={require("../../assets/images/writeButton_blue.png")}/>
 			</Pressable>
 		</>);

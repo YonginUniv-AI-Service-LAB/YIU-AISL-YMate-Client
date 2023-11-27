@@ -9,7 +9,11 @@ import Main from './src/page/Main/Main';
 import Login from './src/page/Login/Login';
 import Signup from './src/page/Signup/Signup';
 import Delivery from './src/page/Delivery/Delivery';
+import DeliveryRecruit from './src/page/Delivery/DeliveryRecruit';
+import DeliveryRequest from './src/page/Delivery/DeliveryRequest';
 import Taxi from './src/page/Taxi/Taxi';
+import TaxiRecruit from './src/page/Taxi/TaxiRecruit';
+import TaxiRequest from './src/page/Taxi/TaxiRequest';
 import Password from './src/page/Password/Password';
 import Notification from './src/page/Notification/Notification';
 import MyPost from './src/page/MyPost/MyPost';
@@ -28,9 +32,13 @@ const App = () => {
         <Stack.Screen name="Main" component={Main} />
         <Stack.Screen name="Delivery" component={Delivery} />
         <Stack.Screen name="Taxi" component={Taxi} />
+        <Stack.Screen name="TaxiRecruit" component={TaxiRecruit} />
+        <Stack.Screen name="TaxiRequest" component={TaxiRequest} />
         <Stack.Screen name="Notification" component={Notification} />
         <Stack.Screen name="MyPost" component={MyPost} />
         <Stack.Screen name="MyPage" component={MyPage} />
+        <Stack.Screen name="DeliveryRecruit" component={DeliveryRecruit} />
+        <Stack.Screen name="DeliveryRequest" component={DeliveryRequest} />
       </Stack.Navigator>
     </NavigationContainer>
   );

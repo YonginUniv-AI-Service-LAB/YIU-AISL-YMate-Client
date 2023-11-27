@@ -132,6 +132,25 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: Color.colorBlack,
     },
+    text12: {
+        fontSize: 12,
+        color: Color.colorBlack,
+    },
+    text11: {
+        fontSize: 11,
+        color: Color.colorBlack,
+    },
+    whiteText: {
+        color: Color.colorWhite,
+    },
+    rightGrayText: {
+        textAlign: "right",
+        color: "rgba(0, 0, 0, 0.5)"
+    },
+    errorText: {
+        textAlign: "right",
+        color: "#e14a4a"
+    },
     locationText: {
             marginLeft: 3,
             textAlign: "center",
@@ -274,6 +293,41 @@ marginRight12: {
             backgroundColor: "#fff",
             flex: 1
     },
+    recruitSection: {
+            paddingTop: 11,
+            paddingHorizontal: 15,
+            overflow: "hidden",
+            alignSelf: "stretch",
+            backgroundColor: "#fff",
+            flex: 1
+    },
+    recruitInput: {
+        height: 33,
+        alignSelf: "stretch",
+        overflow: "hidden",
+        marginTop: 3,
+        borderWidth: 1,
+        borderRadius: 6,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        borderStyle: "solid",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    recruitContent: {
+        height: 66
+    },
+    recruitInputDropdown: {
+        borderLeftWidth: 1,
+        paddingHorizontal: 7,
+        paddingVertical: 0,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        borderStyle: "solid",
+        alignSelf: "stretch",
+        overflow: "hidden",
+    },
     myPageSection: {
         marginTop: 7,
         paddingTop: 10,
@@ -307,6 +361,12 @@ marginRight12: {
     margintop6: {
         marginTop: 6
     },
+    margintop9: {
+        marginTop: 9
+    },
+    margintop11: {
+        marginTop: 11
+    },
     opacity70: {
             opacity: 0.7
     },
@@ -319,6 +379,29 @@ marginRight12: {
             flexDirection: "row",
             alignItems: "center",
             alignSelf: "stretch"
+    },
+    bottomContainer: {
+        // height: 80,
+        backgroundColor: "#fff",
+        paddingBottom: 14,
+        paddingHorizontal: 25,
+},
+bottomButton: {
+        marginTop: 11,
+        backgroundColor: "#22a2f2",
+        height: 45,
+        borderRadius: 6,
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
+        shadowOpacity: 1,
+        elevation: 4,
+        shadowRadius: 4,
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowColor: "rgba(0, 0, 0, 0.25)",
     },
     mainBackground: {
             flex: 1
