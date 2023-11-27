@@ -21,7 +21,34 @@ const MyPost = ({navigation}) => {
             type: 1,
 		},
         {
-			tId: 1231231223,
+			tId: 1231231224,
+			title: "집 가고싶다",
+			due: new Date('2023-11-25T22:45:00'),
+			food: 332211,
+			location: 332211,
+			createAt: new Date('2023-11-25T07:35:00'),
+            type: 2,
+		},
+        {
+			tId: 1231231225,
+			title: "집 가고싶다",
+			due: new Date('2023-11-25T22:45:00'),
+			food: 332211,
+			location: 332211,
+			createAt: new Date('2023-11-25T07:35:00'),
+            type: 2,
+		},
+        {
+			tId: 1231231226,
+			title: "집 가고싶다",
+			due: new Date('2023-11-25T22:45:00'),
+			food: 332211,
+			location: 332211,
+			createAt: new Date('2023-11-25T07:35:00'),
+            type: 2,
+		},
+        {
+			tId: 1231231227,
 			title: "집 가고싶다",
 			due: new Date('2023-11-25T22:45:00'),
 			food: 332211,
@@ -36,12 +63,12 @@ const MyPost = ({navigation}) => {
         const [now, setNow] = React.useState(moment().tz('Asia/Seoul'));
 		const [writeType, setWriteType] = React.useState('');
         React.useEffect(() => {
-        const interval = setInterval(() => {
-            setNow(moment().tz('Asia/Seoul'));
-        }, 60000); // 1분마다 갱신 (설정에 따라 조절 가능)
-        
-            return () => clearInterval(interval);
-        }, []);
+			const interval = setInterval(() => {
+					setNow(moment().tz('Asia/Seoul'));
+				}, 60000); // 1분마다 갱신 (설정에 따라 조절 가능)
+			
+				return () => clearInterval(interval);
+			}, []);
 
         let dueDate = moment(due);
         let isPastDue = now.isAfter(dueDate);
@@ -76,7 +103,7 @@ const MyPost = ({navigation}) => {
 		  }, [type]);
 
         return(
-			<View style={[styles.myPostContainer,styles.margintop6]}>
+			<Pressable style={styles.myPostContainer} onPress={()=>Alert.alert(`${tId}`)}>
 				<View style={styles.postType}>
 					<View>
 						<Text style={styles.timeText}>{moment(createAt).format('YYYY년 MM월 DD일 HH:mm')}</Text>
@@ -85,30 +112,30 @@ const MyPost = ({navigation}) => {
 						<Text style={type === 1 ? styles.writeTypeRecruit : styles.writeTypeApply}>{writeType}</Text>
 					</View>
 				</View>
-			<Pressable style={styles.myPostCard} onPress={()=>Alert.alert(`${tId}`)}>
-					{/* change view to image */}
-				<View style={styles.tempViewToImage} />
-				<View style={styles.flexView}>
-					<View style={styles.smallCardContent}>
-						<View name="taxi location" flexDirection="row">
-							<View style={styles.locationTag}>
-								<Text style={styles.centerText9}>에융대</Text>
+				<Pressable style={styles.myPostCard}>
+						{/* change view to image */}
+					<View style={styles.tempViewToImage} />
+					<View style={styles.flexView}>
+						<View style={styles.smallCardContent}>
+							<View name="taxi location" flexDirection="row">
+								<View style={styles.locationTag}>
+									<Text style={styles.centerText9}>에융대</Text>
+								</View>
+								<Image style={styles.icon17} resizeMode="cover" source={require("../../assets/images/arrowRight.png")}/>
+								<View style={styles.locationTag}>
+									<Text style={styles.centerText9}>에융대</Text>
+								</View>
+							
 							</View>
-							<Image style={styles.icon17} resizeMode="cover" source={require("../../assets/images/arrowRight.png")}/>
-							<View style={styles.locationTag}>
-								<Text style={styles.centerText9}>에융대</Text>
-							</View>
-						
+							<Text style={[styles.centerText10, dueStatusStyle]}>{dueStatusText}</Text>
 						</View>
-						<Text style={[styles.centerText10, dueStatusStyle]}>{dueStatusText}</Text>
+						<View style={styles.bigCardContent}>
+							<Text style={styles.cardTitle} numberOfLines={1}>{title}</Text>
+							<Text style={[styles.centerText10, styles.bigTaxiCardNumber]}>3/4</Text>
+						</View>
 					</View>
-					<View style={styles.bigCardContent}>
-						<Text style={styles.cardTitle} numberOfLines={1}>{title}</Text>
-						<Text style={[styles.centerText10, styles.bigTaxiCardNumber]}>3/4</Text>
-					</View>
-				</View>
+				</Pressable>
 			</Pressable>
-			</View>
 		);
 }
 
@@ -133,20 +160,20 @@ const MyPost = ({navigation}) => {
 								<View style={styles.rowView}>
 										<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/list.png")}/>
 										<Text style={[styles.centerText18, styles.marginLeft3]}>내가 쓴 글</Text>
-									</View>
+								</View>
 								<Pressable style={styles.rowView} onPress={()=>Alert.alert("마감순")}>
 									<Text style={styles.clickText13}>마감 가까운 순</Text>
 									<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
 								</Pressable>
 							</View>
-                                <FlatList
-                                    contentContainerStyle={styles.bigCardScroll}
-                                    showsHorizontalScrollIndicator={false}
-                                    data={MyPostData}
-                                    renderItem={({ item }) => <MyPostCard title={item.title} tId={item.tId} createAt={item.createAt} due={item.due} type={item.type}/>}
-                                    keyExtractor={item => item.tId}
-                                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => Alert.alert("새로고침")} />}
-                                />
+							<FlatList
+								contentContainerStyle={styles.mypostCardScroll}
+								showsHorizontalScrollIndicator={false}
+								data={MyPostData}
+								renderItem={({ item }) => <MyPostCard title={item.title} tId={item.tId} createAt={item.createAt} due={item.due} type={item.type}/>}
+								keyExtractor={item => item.tId}
+								refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => Alert.alert("새로고침")} />}
+							/>
 						</View>
 					</View>
 					<View style={styles.navigationBar}>

@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Ale
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
+import { symbol } from "prop-types";
 
 
 const Notification = ({navigation}) => {
@@ -44,54 +45,48 @@ const Notification = ({navigation}) => {
 							<Image style={styles.activeAlramIcon} resizeMode="cover" source={require("../../assets/images/dot_red.png")}/>
 						</Pressable>
 					</View>
-                    <View style={styles.header}>
-                    <View style={styles.icon26}></View>
-                    <View style={styles.headerTitle}>
-                        <Image
-                            source={require('./../../assets/images/user.png')}
-                            style={[styles.icon26]} resizeMode="cover"
-                        />
-                        <Text style={[styles.headerText]}>내 정보</Text>
+                    <View style={styles.myPageHeader}>
+                        <View style={styles.icon26}></View>
+                        <View style={styles.headerTitle}>
+                            <Image style={styles.icon26} resizeMode="cover" source={require('./../../assets/images/user.png')}/>
+                            <Text style={[styles.headerText, styles.marginLeft3]}>내 정보</Text>
+                        </View>
                     </View>
-                    <View style={styles.icon26}></View>
-                    </View>
-					<View style={styles.mainBody}>
-						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
-							<View style={styles.mainSection}>
-								<View>
-                                <FlatList
-                                    data={MyData}
-                                    renderItem={({ item }) => <MyPageCard studentId={item.studentId} nickname={item.nickname}/>}
-                                    keyExtractor={item => item.tId}
-                                />
+                    <View style={styles.myPageBody}>
+                        <View style={styles.myPageSection}>
+                            <View>
+                            <FlatList
+                                data={MyData}
+                                renderItem={({ item }) => <MyPageCard studentId={item.studentId} nickname={item.nickname}/>}
+                                keyExtractor={item => item.tId}
+                            />
+                            </View>
+                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('MyPost')}>
+                                <View style={[styles.rowView, styles.spacebetween]}>
+                                    <Text style={styles.text16}>내가 작성한 글</Text>
+                                    <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
-                                <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('MyPost')}>
-                                    <View style={[styles.rowView, styles.spacebetween]}>
-                                        <Text style={styles.text16}>내가 작성한 글</Text>
-                                        <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
-                                    </View>
-                                </Pressable> 
-                                <Pressable style = {styles.myPageOption}>
-                                    <View style={[styles.rowView, styles.spacebetween]}>
-                                        <Text style={styles.text16}>닉네임 변경</Text>
-                                        <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
-                                    </View>
-                                </Pressable> 
-                                <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('Password')}>
-                                    <View style={[styles.rowView, styles.spacebetween]}>
-                                        <Text style={styles.text16}>비밀번호 변경</Text>
-                                        <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
-                                    </View>
-                                </Pressable> 
-                                <Pressable style = {styles.myPageOption}>
-                                    <View style={[styles.rowView, styles.spacebetween]}>
-                                        <Text style={styles.text16}>서비스 정보</Text>
-                                        <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
-                                    </View>
-                                </Pressable>     
-							</View>
-						</ScrollView>
-					</View>
+                            </Pressable> 
+                            <Pressable style = {styles.myPageOption}>
+                                <View style={[styles.rowView, styles.spacebetween]}>
+                                    <Text style={styles.text16}>닉네임 변경</Text>
+                                    <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
+                                </View>
+                            </Pressable> 
+                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('Password')}>
+                                <View style={[styles.rowView, styles.spacebetween]}>
+                                    <Text style={styles.text16}>비밀번호 변경</Text>
+                                    <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
+                                </View>
+                            </Pressable> 
+                            <Pressable style = {styles.myPageOption}>
+                                <View style={[styles.rowView, styles.spacebetween]}>
+                                    <Text style={styles.text16}>서비스 정보</Text>
+                                    <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
+                                </View>
+                            </Pressable>     
+                        </View>
+                    </View>
 					<View style={styles.navigationBar}>
 						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('Delivery')}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/restaurant_white.png")}/>
