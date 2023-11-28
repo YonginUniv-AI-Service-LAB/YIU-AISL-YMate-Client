@@ -4,12 +4,12 @@ import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/Globa
 import { SafeAreaView } from "react-native-safe-area-context";
 import {styles} from "../Style"
 
-const DeliveryRequest = () => {
+const DeliveryRequest = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainScreen}>
       <View style={styles.mainBackground}>
           <View style={styles.uppermenu}>
-            <Pressable style={styles.locationButton} onPress={() => {}}>
+            <Pressable style={styles.locationButton} onPress={() => navigation.pop()}>
                 <Image
                 style={styles.icon20}
                 resizeMode="cover"

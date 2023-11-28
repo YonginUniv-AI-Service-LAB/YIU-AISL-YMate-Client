@@ -151,7 +151,7 @@ const Taxi = ({navigation}) => {
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/restaurant_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>배달</Text>
 						</Pressable>
-						<Pressable style={[styles.navigationButton]} onPress={()=>Alert.alert("택시버튼")}>
+						<Pressable style={[styles.navigationButton]} onPress={()=>navigation.navigate('TaxiRequest')}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/taxi_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>택시</Text>
 						</Pressable>

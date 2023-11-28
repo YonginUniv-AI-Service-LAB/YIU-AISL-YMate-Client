@@ -14,10 +14,10 @@ const MyPost = ({navigation}) => {
 		{
 			tId: 123123123,
 			title: "집 가고싶다",
-			due: new Date('2023-11-25T21:55:00'),
+			due: new Date('2023-11-28T17:55:00'),
 			food: 332211,
 			location: 332211,
-			createAt: new Date('2023-11-25T07:45:00'),
+			createAt: new Date('2023-11-28T07:45:00'),
             type: 1,
 		},
         {

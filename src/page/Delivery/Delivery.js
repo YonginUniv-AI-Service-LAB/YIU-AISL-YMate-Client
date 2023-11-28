@@ -131,7 +131,7 @@ const Delivery = ({navigation}) => {
 						</View>
 					</View>
 					<View style={styles.navigationBar}>
-						<Pressable style={[styles.navigationButton]} onPress={()=>Alert.alert("배달버튼")}>
+						<Pressable style={[styles.navigationButton]} onPress={()=>navigation.navigate('DeliveryRequest')}>
 							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/restaurant_white.png")}/>
 							<Text style={[styles.centerText11, styles.margintop3]}>배달</Text>
 						</Pressable>
