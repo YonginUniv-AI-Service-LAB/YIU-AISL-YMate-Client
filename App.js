@@ -14,6 +14,7 @@ import Password from './src/page/Password/Password';
 import Notification from './src/page/Notification/Notification';
 import MyPost from './src/page/MyPost/MyPost';
 import MyPage from './src/page/MyPage/MyPage';
+import DelivertRecruiter from './src/page/DeliveryDetail/DelivertRecruiter';
 
 const Stack = createStackNavigator()
 enableScreens()
@@ -31,6 +32,7 @@ const App = () => {
         <Stack.Screen name="Notification" component={Notification} />
         <Stack.Screen name="MyPost" component={MyPost} />
         <Stack.Screen name="MyPage" component={MyPage} />
+        <Stack.Screen name="DeliveryRecruiter" component={DelivertRecruiter}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

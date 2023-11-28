@@ -3,45 +3,38 @@ import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity,Pres
 import Signup from '../Signup/Signup';
 import Main from '../Main/Main';
 import Password from '../Password/Password';
+import axios from 'axios';
 
 const Login = ({ navigation }) => {
     const [studentId, setStudentId] = useState('');
   const [pwd, setpwd] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!studentId || !pwd) {
       alert('학번과 비밀번호를 모두 입력해주세요.');
         navigation.navigate('Main');
       return;
     }
-    // const apiUrl = 'https://example.com/api/login';
-
-    // try {
-    //   // Send a POST request to the authentication endpoint
-    //   const response = await fetch(apiUrl, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       studentId,
-    //       password: pwd,
-    //     }),
-    //   });
+    try {
+      // Axios를 사용하여 POST 요청 보내기
+      const response = await axios.post(apiUrl, {
+        studentId,
+        password: pwd,
+      });
   
-    //   // Check if the response is successful
-    //   if (response.ok) {
-    //     // Successful login
-    //     alert('로그인 성공!');
-    //     // You may want to navigate to another screen or perform other actions
-    //   } else {
-    //     // Handle failed login
-    //     alert('로그인 실패. 올바른 학번과 비밀번호를 입력하세요.');
-    //   }
-    // } catch (error) {
-    //   console.error('Error during login:', error);
-    //   alert('로그인 중 오류가 발생했습니다.');
-    // }
+      // 응답이 성공적인지 확인
+      if (response.status === 200) {
+        // 성공적인 로그인
+        alert('로그인 성공!');
+        // 다른 화면으로 이동하거나 다른 작업 수행 가능
+      } else {
+        // 로그인 실패 처리
+        alert('로그인 실패. 올바른 학번과 비밀번호를 입력하세요.');
+      }
+    } catch (error) {
+      console.error('로그인 중 오류 발생:', error);
+      alert('로그인 중 오류가 발생했습니다.');
+    }
   };
 
 
