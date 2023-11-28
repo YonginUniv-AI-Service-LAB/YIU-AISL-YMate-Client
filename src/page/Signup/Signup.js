@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView,
 import { Dimensions } from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-// import axios from 'axios';
+import axios from 'axios';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -37,13 +37,14 @@ const Signup = ({ navigation }) => {
       setIsStudentIdValid(false);
       setEmailCheckError('');
     } else {
+      const apiUrl = 'https://example.com/api/mail';
       try {
         // 학번을 백엔드로 전송
-        const response = await axios.post('YOUR_BACKEND_API_ENDPOINT/email', {
+        const response = await axios.post(apiUrl, {
           studentId,
         });
   
-        if (response.data.success) {
+        if (response.status===200) {
           // 성공적으로 이메일을 보낸 경우, 이메일 인증이 필요하다는 메시지를 표시할 수 있습니다.
           setIsEmailVerified(true);
           setIsStudentIdValid(true);
@@ -81,15 +82,33 @@ const Signup = ({ navigation }) => {
     }
     
   }
-  const handleNickNameCheck = () => {
+  const handleNickNameCheck = async() => {
     if (nickname.length < 2) {
       setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
       setIsNickNameValid(false);
     } else {
-      setNickNameCheckError('');
-      setIsNickNameValid(true);
+      const apiUrl = 'https://example.com/api/mail';
+      try {
+        // 학번을 백엔드로 전송
+        const response = await axios.post(apiUrl, {
+          nickname,
+        });
+        if (response.status===200) {
+          setNickNameCheckError('');
+          setIsNickNameValid(true);
+        }
+        else{
+          setNickNameCheckError('닉네임 중복');
+          setIsNickNameValid(flase);
+        }
+      }catch(error){
+        console.error('닉네임 전송 실패:', error);
+        setNickNameCheckError('닉네임 전송에 실패했습니다. 다시 시도해주세요.');
+        setIsNickNameValid(flase);
+      }
+
     }
-  }
+  };
 
   const handlePasswordChange = (text) => {
     const passwordPattern = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-z\d!@#$%^&*()_+]{8,}$/;
@@ -138,28 +157,28 @@ const Signup = ({ navigation }) => {
       else{
         setSignupCheckError('');
         navigation.navigate('Login');
-        // try {
-        //   // 백엔드 API에 POST 요청 보내기
-        //   const response = await axios.post('YOUR_BACKEND_API_ENDPOINT', {
-        //     studentId,
-        //     emailCheckNumber,
-        //     nickName,
-        //     password,
-        //   });
+        const apiUrl = "http://localhost:8080/join";
+        try {
+          // 백엔드 API에 POST 요청 보내기
+          const response = await axios.post(apiUrl, {
+            studentId: studentId,
+            nickname: nickname,
+            pwd: pwd,
+          });
     
-        //   // 서버에서의 응답 처리
-        //   if (response.data.success) {
-        //     // 가입 성공 시, 이전 화면으로 돌아가기
-        //     navigation.goBack(); // 또는 navigation.navigate('PreviousScreen');
-        //   } else {
-        //     // 가입 실패 시, 에러 메시지 표시 또는 적절한 조치 수행
-        //     setSignupCheckError(response.data.message || '가입 실패했습니다.');
-        //   }
-        // } catch (error) {
-        //   // 네트워크 오류 또는 요청 중 발생한 다른 오류 처리
-        //   console.error('가입 실패:', error);
-        //   setSignupCheckError('가입에 실패했습니다. 다시 시도해주세요.');
-        // }
+          // 서버에서의 응답 처리
+          if (response.status === 200) {
+            // 가입 성공 시, 이전 화면으로 돌아가기
+            navigation.goBack(); // 또는 navigation.navigate('PreviousScreen');
+          } else {
+            // 가입 실패 시, 에러 메시지 표시 또는 적절한 조치 수행
+            setSignupCheckError(response.data.message || '가입 실패했습니다.');
+          }
+        } catch (error) {
+          // 네트워크 오류 또는 요청 중 발생한 다른 오류 처리
+          console.error('가입 실패:', error);
+          setSignupCheckError('가입에 실패했습니다. 다시 시도해주세요.');
+        }
       }
   };
   const handleGuideButtonPress = () => {

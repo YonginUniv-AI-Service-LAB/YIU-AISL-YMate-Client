@@ -27,6 +27,10 @@ export const styles = StyleSheet.create({
             justifyContent: "space-between",
             alignSelf: "stretch"
     },
+    cardStatusContainer:{
+        marginTop: 4,
+        paddingHorizontal: 5,
+    },
     bigTaxiCardNumber: {
         alignSelf:"stretch", 
         textAlignVertical:"bottom"
@@ -89,6 +93,20 @@ export const styles = StyleSheet.create({
     centerText18: {
         fontSize: 18,
         textAlign: "center",
+        color: "#000",
+        fontFamily: "ABeeZee-Regular"
+    },
+    text13: {
+        fontSize: 13,
+        fontFamily: "ABeeZee-Regular"
+    },
+    text12: {
+        fontSize: 12,
+        color: "#000",
+        fontFamily: "ABeeZee-Regular"
+    },
+    text10: {
+        fontSize: 10,
         color: "#000",
         fontFamily: "ABeeZee-Regular"
     },
@@ -266,12 +284,19 @@ marginRight12: {
             alignSelf: "stretch",
             alignItems: "center"
     },
+    padding10: {
+        paddingHorizontal: 10,
+    },
     mainSectionList: {
             height: 170,
             alignSelf: "stretch"
     },
     notificationSectionList: {
         height: '100%',
+    },
+    recruiterSectionList: {
+        height: '100%',
+        paddingHorizontal: 5,
     },
     mainSectionTitle: {
             paddingHorizontal: 15,
@@ -369,6 +394,14 @@ marginRight12: {
     },
     opacity70: {
             opacity: 0.7
+    },
+    boxShadow:{
+        elevation: 4,
+        // iOS에서는 shadow 속성을 사용하여 그림자를 추가할 수 있습니다.
+        shadowColor: 'rgba(0, 0, 0, 0.25)',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
     },
     navigationBar: {
             backgroundColor: "#22a2f2",
@@ -515,10 +548,51 @@ bottomButton: {
         textAlign:'center',
         justifyContent: 'center',
     },
+    bluebuttonContainer: {
+        borderColor: Color.colorCornflowerblue,
+        width:70,
+        height:20,
+        borderWidth:1,
+        borderRadius:6,
+        textAlign:'center',
+        justifyContent: 'center',
+    },
+    realbluebuttonContainer: {
+        borderColor: Color.colorRealBlue,
+        width:70,
+        height:20,
+        borderWidth:1,
+        borderRadius:6,
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    redbuttonContainer: {
+        borderColor: '#F00',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width:70,
+        height:20,
+        borderWidth:1,
+        borderRadius:6,
+    },
+    shadow:{
+        shadowColor: 'rgba(0, 0, 0, 0.25)',
+        elevation: 2,
+    },
+    modifybuttonContainer: {
+        borderColor: Color.colorCornflowerblue,
+        width:'100%',
+        height:20,
+        borderWidth:1,
+        borderRadius:6,
+        textAlign:'center',
+        justifyContent: 'center',
+    },
     buttonText: {
         color: Color.colorCornflowerblue,
         fontFamily: FontFamily.aBeeZeeRegular,
-        fontSize: FontSize.size_3xs,
+        fontSize: 13,
         textAlign:'center',
     },
     optionsContainer: {
@@ -529,5 +603,82 @@ bottomButton: {
         height:48,
         marginHorizontal:12,
         justifyContent: "center",
+    },
+    redContainer: {
+        width: 67,
+        height: 19,
+        borderRadius: 6,
+        borderColor: '#F00',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth:1,
+    },
+    redText: {
+        color: '#F00',
+        fontSize: FontSize.size_3xs,
+    },
+    realblueText: {
+        color: Color.colorRealBlue,
+        fontSize: 13,
+    },
+    deliveryDetailheader:{
+        flexDirection: "row",
+        height: 32,
+        alignSelf: "stretch",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingHorizontal: 10,
+    },
+    deliveryDetailContainer: {
+        height: 140,
+        margin:10,
+        flexDirection: "column",
+        alignItems: "center",
+    },
+    deliverytitleContainer: {
+        paddingHorizontal: 10,
+        width: '100%',
+        height: 34,
+        borderWidth: 1,
+        borderColor: Color.colorGray_100,
+        borderRadius: 5,
+        justifyContent: 'center',
+    },
+    deliveryContentsContainer: {
+        paddingHorizontal: 5,
+        alignSelf: 'stretch',
+    },
+    deliveryTitleText: {
+        color: Color.colorBlack,
+        fontSize: FontSize.size_sm,
+    },
+    deliveryContentsText: {
+        color: Color.colorBlack,
+        fontSize: FontSize.size_smi,
+    },
+    infoContainer: {
+        marginBottom:3,
+    },
+    commentContainer:{
+        flex:1,
+        height: 57,
+        marginTop: 10,
+        backgroundColor:'#fff',
+        borderColor:Color.colorGray_100,
+        borderRadius:6,
+        borderWidth:0.5,
+        justifyContent: 'center',
+    },
+    commentDetails: {
+        backgroundColor:'#fff',
+        borderColor:'#22A2F2',
+        borderRadius:6,
+        borderWidth:0.5,
+        justifyContent: 'center',
+        paddingHorizontal:10,
+    },
+    commentheader:{
+        paddingHorizontal:10,
+        flex:1,
     }
 })

@@ -24,22 +24,45 @@ const Password = ({ navigation }) => {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [signupCheckError, setSignupCheckError] = useState('');
 
-  const handleStudentId = () => {
+  const handleStudentId = async () => {
     const studentIdPattern = /^\d{9}$/;
-      if (!studentIdPattern.test(studentId)) {
-        setStudentIdCheckError('유효한 학번을 입력해주세요.');
+  
+    if (!studentIdPattern.test(studentId)) {
+      setStudentIdCheckError('유효한 학번을 입력해주세요.');
+      setIsEmailVerified(false);
+      setIsStudentIdValid(false);
+      setEmailCheckError('');
+    } else {
+      const apiUrl = 'https://example.com/api/mail';
+      try {
+        // 학번을 백엔드로 전송
+        const response = await axios.post(apiUrl, {
+          studentId,
+        });
+  
+        if (response.status===200) {
+          // 성공적으로 이메일을 보낸 경우, 이메일 인증이 필요하다는 메시지를 표시할 수 있습니다.
+          setIsEmailVerified(true);
+          setIsStudentIdValid(true);
+          setStudentIdCheckError('');
+        } else {
+          // 백엔드에서 실패한 경우, 에러 메시지 표시 또는 적절한 조치 수행
+          setStudentIdCheckError(response.data.message || '이메일 전송에 실패했습니다.');
+          setIsEmailVerified(false);
+          setIsStudentIdValid(false);
+          setEmailCheckError('');
+        }
+      } catch (error) {
+        console.error('이메일 전송 실패:', error);
+        setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
         setIsEmailVerified(false);
         setIsStudentIdValid(false);
         setEmailCheckError('');
-      } else {
-        setIsStudentIdValid(true);
-        setIsEmailVerified(true);
-        setStudentIdCheckError('');
       }
-    
-  }
+    }
+  };
 
-  const handleEmailCheck = () => {
+  const handleEmailCheck = async () => {
     if(isEmailVerified){
       if(emailCheckNumber != 666){
         setEmailCheckError('인증번호가 일치하지 않습니다.');
@@ -81,7 +104,7 @@ const Password = ({ navigation }) => {
     setPasswordConfirmation(text);
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
       if(!isStudentIdValid){
         setSignupCheckError('올바른 학번을 입력해주세요.');
       }
@@ -99,27 +122,27 @@ const Password = ({ navigation }) => {
       } 
       else{
         setSignupCheckError('');
-        navigation.navigate('Login');
-        // try {
-        //   // 백엔드 API에 POST 요청 보내기
-        //   const response = await axios.post('YOUR_BACKEND_API_ENDPOINT', {
-        //     studentId,
-        //     pwd,
-        //   });
-    
-        //   // 서버에서의 응답 처리
-        //   if (response.data.success) {
-        //     // 가입 성공 시, 이전 화면으로 돌아가기
-        //     navigation.goBack(); // 또는 navigation.navigate('PreviousScreen');
-        //   } else {
-        //     // 가입 실패 시, 에러 메시지 표시 또는 적절한 조치 수행
-        //     setSignupCheckError(response.data.message || '가입 실패했습니다.');
-        //   }
-        // } catch (error) {
-        //   // 네트워크 오류 또는 요청 중 발생한 다른 오류 처리
-        //   console.error('가입 실패:', error);
-        //   setSignupCheckError('가입에 실패했습니다. 다시 시도해주세요.');
-        // }
+        const apiUrl = 'https://example.com/changepwd';
+        try {
+          // 백엔드 API에 POST 요청 보내기
+          const response = await axios.post(apiUrl, {
+            studentId,
+            pwd,
+          });
+  
+          // 서버에서의 응답 처리
+          if (response.data.success) {
+            // 가입 성공 시, 이전 화면으로 돌아가기
+            navigation.goBack(); // 또는 navigation.navigate('PreviousScreen');
+          } else {
+            // 가입 실패 시, 에러 메시지 표시 또는 적절한 조치 수행
+            setSignupCheckError(response.data.message || '가입 실패했습니다.');
+          }
+        } catch (error) {
+          // 네트워크 오류 또는 요청 중 발생한 다른 오류 처리
+          console.error('가입 실패:', error);
+          setSignupCheckError('가입에 실패했습니다. 다시 시도해주세요.');
+        }
       }
   };
   const handleGuideButtonPress = () => {
