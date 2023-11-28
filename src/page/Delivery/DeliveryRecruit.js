@@ -2,14 +2,15 @@ import * as React from "react";
 import { Text, StyleSheet, Image, Pressable, View } from "react-native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/GlobalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 import {styles} from "../Style"
 
-const DeliveryRecruit = () => {
+const DeliveryRecruit = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainScreen}>
       <View style={styles.mainBackground}>
           <View style={styles.uppermenu}>
-            <Pressable style={styles.locationButton} onPress={() => {}}>
+            <Pressable style={styles.locationButton} onPress={() => navigation.pop()}>
                 <Image
                 style={styles.icon20}
                 resizeMode="cover"
@@ -78,7 +79,7 @@ const DeliveryRecruit = () => {
             </Text>
           </View>
           <View style={[styles.bottomContainer]}>
-            <Pressable style={styles.bottomButton} onPress={() => {}}>
+            <Pressable style={styles.bottomButton} onPress={() => navigation.navigate('Delivery')}>
               <Text style={[styles.text16, styles.whiteText]}>모집 글 등록</Text>
             </Pressable>
           </View>

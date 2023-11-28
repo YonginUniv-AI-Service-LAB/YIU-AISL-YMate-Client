@@ -48,10 +48,12 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source = {require('../../assets/images/dot_red.png')}
-        style={styles.image}
-      />
+      <View style={styles.mainLogo}>
+        <Image
+          source = {require('../../assets/images/ymate_logo.png')}
+          style={styles.image}
+        />
+      </View>
       <Text style={styles.title}>YMATE</Text>
       <View style={styles.inputContainer}>
         <View style={styles.inputRow}>
@@ -91,6 +93,10 @@ const Login = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  mainLogo:{
+    width:120,
+    overflow: "hidden",
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start', // 상단 정렬로 변경
