@@ -27,7 +27,7 @@ const DelivertRecruiter = ({navigation}) => {
             nickname: "두글자",
 			title: "같이 먹어용",
 			due: new Date('2023-11-28T21:55:00'),
-			contents: "아아아아아아아아아아ㅏ아아아아아아아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ",
+			contents: "오늘 저녁 같이 학교에서 시켜드실 분 제가 아주아주아주 많이 먹어서 많이 시켜서 나눠드실 분이면 더욱더욱 좋습니다!!",
 			food: 332211,
 			location: 332211,
 			createAt: new Date('2023-11-28T07:45:00'),
@@ -41,6 +41,13 @@ const DelivertRecruiter = ({navigation}) => {
 			title: "이이이잉잉이잉이이이이이잉",
 			count:2,
 			details: "안녕하세요 반갑습니다",
+			state: 1,
+		},
+		{
+			nickname: 123123123,
+			title: "이이이잉잉이잉이이이이이잉",
+			count:1,
+			details: "안녕하세요 반갑습니다",
 			state: 0,
 		},
 		{
@@ -49,13 +56,6 @@ const DelivertRecruiter = ({navigation}) => {
 			count:1,
 			details: "안녕하세요 반갑습니다",
 			state: 2,
-		},
-		{
-			nickname: 123123123,
-			title: "이이이잉잉이잉이이이이이잉",
-			count:1,
-			details: "안녕하세요 반갑습니다",
-			state: 1,
 		},
 	]
 
@@ -119,7 +119,7 @@ const DelivertRecruiter = ({navigation}) => {
 							<Text style={styles.text10}>작성 : {moment(createAt).format('YYYY년 MM월 DD일 HH:mm')}</Text>
 							<Text style={styles.text10}>마감 : {moment(due).format('YYYY년 MM월 DD일 HH:mm')}</Text>
 						</View>
-						<Pressable style={[styles.modifybuttonContainer,styles.marginRight12]} onPress={()=>Alert.alert("로그아웃")}>
+						<Pressable style={[styles.modifybuttonContainer,styles.marginRight12]} onPress={()=>Alert.alert("수정하기")}>
 							<Text style={styles.buttonText}>수정하기</Text>
 						</Pressable>
 					</View>
@@ -141,12 +141,12 @@ const DelivertRecruiter = ({navigation}) => {
 
     const commentCard = CommentData.map((comment) => 
 	<View>
-    <View style={[styles.commentContainer, { borderColor: comment.state === 2 ? Color.colorGray_100 : '#22A2F2'}]}>
+    <View style={[styles.commentContainer, { borderColor: comment.state === 0 ? Color.colorGray_100 : '#22A2F2'}]}>
         <View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
 			<Text style={styles.text16}>{comment.nickname}</Text>
 			<View style={styles.rowView}>
 				<Text style={styles.text16}>인원 : {comment.count} </Text>
-				{comment.state === 0 && (
+				{comment.state === 1 && (
 				<>
 					<Pressable style={[styles.bluebuttonContainer]} onPress={() => Alert.alert("수락")}>
 					<Text style={styles.buttonText}>수락</Text>
@@ -156,12 +156,12 @@ const DelivertRecruiter = ({navigation}) => {
 					</Pressable>
 				</>
 				)}
-				{comment.state === 1 && (
+				{comment.state === 2 && (
 				<View style={[styles.realbluebuttonContainer, styles.shadow]}>
 					<Text style={styles.realblueText}>수락됨</Text>
 				</View>
 				)}
-				{comment.state === 2 && (
+				{comment.state === 0 && (
 				<View style={[styles.redbuttonContainer,styles.shadow]}>
 					<Text style={[styles.redText,styles.text13]}>거절됨</Text>
 				</View>
@@ -172,7 +172,7 @@ const DelivertRecruiter = ({navigation}) => {
 			<Text style={styles.text12}>{comment.title}</Text>
 		</View>
 	</View>
-		{comment.state === 1 && (
+		{comment.state === 2 && (
 				<View style = {styles.commentDetails}>
 					<Text style = {styles.text12}>{comment.details}</Text>
 				</View>

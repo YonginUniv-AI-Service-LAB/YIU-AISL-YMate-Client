@@ -534,7 +534,6 @@ marginRight12: {
     },
     deliveryContentsContainer: {
         paddingHorizontal: 5,
-        alignItems: 'center',
         alignSelf: 'stretch',
     },
     deliveryTitleText: {
