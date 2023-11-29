@@ -173,7 +173,7 @@ const Main = ({navigation}) => {
 							<Text style={styles.locationText}>AI융합대학</Text>
 							<Image style={[styles.icon16, styles.marginLeft3]} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
 						</Pressable>
-						<Pressable name="alramButton" onPress={()=>Alert.alert("알림버튼")}>
+						<Pressable name="alramButton" onPress={()=>navigation.navigate("Alarm")}>
 							<Image style={styles.icon26} resizeMode="cover" source={require("../../assets/images/notification.png")}/>
 							<Image style={styles.activeAlramIcon} resizeMode="cover" source={require("../../assets/images/dot_red.png")}/>
 						</Pressable>

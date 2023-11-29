@@ -19,6 +19,10 @@ export const styles = StyleSheet.create({
             width: 26,
             height: 26
     },
+    icon21: {
+            width: 21,
+            height: 21
+    },
     smallCardContent: {
             marginTop: 4,
             paddingHorizontal: 5,
@@ -146,6 +150,10 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         color: Color.colorBlack,
     },
+    text14: {
+        fontSize: 14,
+        color: Color.colorBlack,
+    },
     text16: {
         fontSize: 16,
         color: Color.colorBlack,
@@ -233,15 +241,18 @@ export const styles = StyleSheet.create({
     marginLeft3: {
             marginLeft: 3
     },
- marginLeft6: {
+    marginLeft6: {
          marginLeft: 6
-},
-marginLeft12: {
+    },
+    marginLeft12: {
         marginLeft: 12
-},
-marginRight12: {
+    },
+    marginRight12: {
          marginRight: 12
-},
+    },
+    marginHorizontal6:{
+        marginHorizontal: 6,
+    },  
     clickText13: {
             fontSize: 13,
             color: "#22a2f2",
@@ -680,5 +691,34 @@ bottomButton: {
     commentheader:{
         paddingHorizontal:10,
         flex:1,
+    },
+    alarmCard:{
+        marginTop: 12,
+        borderWidth: 1,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        borderRadius: 6,
+        borderStyle: "solid",
+        flexDirection: "row",
+        alignSelf: "stretch",
+        alignItems: "center",
+        overflow: "hidden",
+    },
+    alarmViewed: {
+        height: 38,
+        width: 6,
+    },
+    alarmContentBox: {
+        paddingRight: 7,
+        marginLeft: 6,
+        justifyContent: "center",
+        flex: 1,
+    },
+    alarmContent: {
+        alignSelf: "stretch",
+    },
+    alarmCreateAt: {
+        alignSelf: "stretch",
+        textAlign: "right",
+        marginTop: 3,
     }
 })
