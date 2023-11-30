@@ -19,7 +19,7 @@ import Notification from './src/page/Notification/Notification';
 import MyPost from './src/page/MyPost/MyPost';
 import MyPage from './src/page/MyPage/MyPage';
 import Alarm from './src/page/Alarm/Alarm';
-import DeliveryRecruiter from './src/page/DeliveryDetail/DeliveryRecruiter';
+import DelivertDetail from './src/page/DeliveryDetail/DeliveryDetail';
 
 const Stack = createStackNavigator()
 enableScreens()
@@ -41,7 +41,7 @@ const App = () => {
         <Stack.Screen name="MyPage" component={MyPage} />
         <Stack.Screen name="Alarm" component={Alarm} />
         <Stack.Screen name="DeliveryRecruit" component={DeliveryRecruit} />
-        <Stack.Screen name="DeliveryRecruiter" component={DeliveryRecruiter} />
+        <Stack.Screen name="DelivertDetail" component={DelivertDetail} />
         <Stack.Screen name="DeliveryRequest" component={DeliveryRequest} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -118,7 +118,7 @@ const Main = ({navigation}) => {
 	]
 
 	const SmallDeliveryCard = ({title, dId}) => (
-		<Pressable style={styles.smallCard} onPress={()=>navigation.navigate('DeliveryRecruiter')}>
+		<Pressable style={styles.smallCard} onPress={()=>navigation.navigate('DelivertDetail')}>
 				{/* change view to image */}
 				<View style={styles.tempViewToImage} />
 				<View style={styles.smallCardContent}>

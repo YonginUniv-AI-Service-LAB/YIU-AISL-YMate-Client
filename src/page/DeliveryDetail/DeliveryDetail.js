@@ -6,7 +6,7 @@ import {styles} from "../Style"
 import moment from 'moment-timezone';
 
 
-const DelivertRecruiter = ({navigation}) => {
+const DelivertDetail = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
     const [expanded, setExpanded] = React.useState([]);
     const toggleExpand = (noticeId) => {
@@ -238,4 +238,4 @@ const DelivertRecruiter = ({navigation}) => {
 
 
 
-export default DelivertRecruiter;
+export default DelivertDetail;
