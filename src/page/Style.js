@@ -445,7 +445,7 @@ bottomButton: {
     },
     writeButton: {
             right: 15,
-            bottom: 90,
+            bottom: 15,
             position: "absolute"
     },
     backgroundWhite: {

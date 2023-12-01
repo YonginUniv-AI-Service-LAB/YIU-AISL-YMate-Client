@@ -6,7 +6,7 @@ import {styles} from "../Style"
 import moment from 'moment-timezone';
 
 
-const DelivertRecruiter = ({navigation}) => {
+const DeliveryDetail = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
     const [expanded, setExpanded] = React.useState([]);
     const toggleExpand = (noticeId) => {
@@ -21,7 +21,7 @@ const DelivertRecruiter = ({navigation}) => {
         });
       };
 
-      const DeliveryData = [
+      const TaxiData = [
 		{
 			tId: 123123123,
             nickname: "두글자",
@@ -60,7 +60,7 @@ const DelivertRecruiter = ({navigation}) => {
 	]
 
 
-	const DeliveryDetailCard = ({title, nickname, createAt, due, contents}) => {
+	const TaxiDetailCard = ({title, nickname, createAt, due, contents}) => {
         const [now, setNow] = React.useState(moment().tz('Asia/Seoul'));
 		const [writeType, setWriteType] = React.useState('');
         React.useEffect(() => {
@@ -105,9 +105,15 @@ const DelivertRecruiter = ({navigation}) => {
 				<View style={styles.tempViewToImage} />
 				<View style={styles.flexView}>
 					<View style={styles.smallCardContent}>
-						<View style={styles.locationTag}>
-							<Text style={styles.centerText9}>에융대</Text>
-						</View>
+                    <View style={styles.rowView}>
+                    <View style={styles.locationTag}>
+						<Text style={styles.centerText9}>에융대</Text>
+					</View>
+					<Image style={styles.icon17} resizeMode="cover" source={require("../../assets/images/arrowRight.png")}/>
+					<View style={styles.locationTag}>
+						<Text style={styles.centerText9}>에융대</Text>
+					</View>
+                    </View>
 						<Text style={[styles.centerText10, dueStatusStyle]}>{dueStatusText}</Text>
 					</View>
 					<View style={styles.cardStatusContainer}>
@@ -184,8 +190,8 @@ const DelivertRecruiter = ({navigation}) => {
 		<>
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
-                    <View style={styles.header}>
-						<Pressable onPress={() => navigation.goBack()}>
+                    <View style={styles.uppermenu}>
+						<Pressable onPress={() => navigation.pop()}>
 							<Image
 								source={require('./../../assets/images/left.png')}
 								style={[styles.icon20]} resizeMode="cover"
@@ -201,35 +207,13 @@ const DelivertRecruiter = ({navigation}) => {
 							/>
 						</Pressable>
                     </View>
-                    	<DeliveryDetailCard title={DeliveryData[0].title} nickname={DeliveryData[0].nickname} createAt={DeliveryData[0].createAt} due={DeliveryData[0].due} contents={DeliveryData[0].contents}/>
+                    	<TaxiDetailCard title={TaxiData[0].title} nickname={TaxiData[0].nickname} createAt={TaxiData[0].createAt} due={TaxiData[0].due} contents={TaxiData[0].contents}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
 								<View style={styles.recruiterSectionList}>
 									{commentCard}
 								</View> 
 						</ScrollView>
-					</View>
-					<View style={styles.navigationBar}>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('Delivery')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/restaurant_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>배달</Text>
-						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('Taxi')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/taxi_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>택시</Text>
-						</Pressable>
-						<Pressable style={[styles.navigationButton]} onPress={()=>navigation.goBack()}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/home_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>홈</Text>
-						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('MyPost')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/list_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>내가 쓴 글</Text>
-						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>Alert.alert("내정보버튼")}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/user_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>내 정보</Text>
-						</Pressable>
 					</View>
       			</View>
     		</SafeAreaView>
@@ -238,4 +222,4 @@ const DelivertRecruiter = ({navigation}) => {
 
 
 
-export default DelivertRecruiter;
+export default DeliveryDetail;

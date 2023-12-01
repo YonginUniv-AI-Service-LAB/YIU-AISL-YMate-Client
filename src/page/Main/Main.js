@@ -118,7 +118,7 @@ const Main = ({navigation}) => {
 	]
 
 	const SmallDeliveryCard = ({title, dId}) => (
-		<Pressable style={styles.smallCard} onPress={()=>navigation.navigate('DeliveryRecruiter')}>
+		<Pressable style={styles.smallCard} onPress={()=>navigation.navigate('DeliveryDetail')}>
 				{/* change view to image */}
 				<View style={styles.tempViewToImage} />
 				<View style={styles.smallCardContent}>
@@ -134,7 +134,7 @@ const Main = ({navigation}) => {
 	)
 
 	const SmallTaxiCard = ({title, tId}) => ( 
-		<Pressable style={styles.smallCard} onPress={()=>Alert.alert(`${tId}`)}>
+		<Pressable style={styles.smallCard} onPress={()=>navigation.navigate('TaxiDetail')}>
 			{/* change view to image */}
 			<View style={styles.tempViewToImage} />
 			<View style={styles.smallCardContent}>
@@ -187,7 +187,7 @@ const Main = ({navigation}) => {
 										<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/restaurant.png")}/>
 										<Text style={[styles.centerText18, styles.marginLeft3]}>같이 배달</Text>
 									</View>
-									<Pressable style={styles.rowView} onPress={()=>navigation.navigate('Delivery')}>
+									<Pressable style={styles.rowView} onPress={()=>navigation.navigate('배달')}>
 										<Text style={styles.clickText13}>더보기</Text>
 										<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
 									</Pressable>
@@ -209,7 +209,7 @@ const Main = ({navigation}) => {
 										<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/taxi.png")}/>
 										<Text style={[styles.centerText18, styles.marginLeft3]}>같이 택시</Text>
 									</View>
-									<Pressable style={styles.rowView} onPress={()=>navigation.navigate('Taxi')}>
+									<Pressable style={styles.rowView} onPress={()=>navigation.navigate('택시')}>
 										<Text style={styles.clickText13}>더보기</Text>
 										<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
 									</Pressable>
@@ -238,28 +238,6 @@ const Main = ({navigation}) => {
 								</View>
 							</View>
 						</ScrollView>
-					</View>
-					<View style={styles.navigationBar}>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('Delivery')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/restaurant_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>배달</Text>
-						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('Taxi')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/taxi_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>택시</Text>
-						</Pressable>
-						<Pressable style={[styles.navigationButton]} onPress={()=>Alert.alert("홈버튼")}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/home_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>홈</Text>
-						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('MyPost')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/list_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>내가 쓴 글</Text>
-						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('MyPage')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/user_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>내 정보</Text>
-						</Pressable>
 					</View>
       			</View>
     		</SafeAreaView>

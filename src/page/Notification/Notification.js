@@ -129,28 +129,6 @@ const Notification = ({navigation}) => {
 							</View>
 						</ScrollView>
 					</View>
-					<View style={styles.navigationBar}>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('Delivery')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/restaurant_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>배달</Text>
-						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('Taxi')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/taxi_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>택시</Text>
-						</Pressable>
-						<Pressable style={[styles.navigationButton]} onPress={()=>navigation.goBack()}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/home_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>홈</Text>
-						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>navigation.navigate('MyPost')}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/list_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>내가 쓴 글</Text>
-						</Pressable>
-						<Pressable style={[styles.opacity70, styles.navigationButton]} onPress={()=>Alert.alert("내정보버튼")}>
-							<Image style={styles.icon30} resizeMode="cover" source={require("../../assets/images/user_white.png")}/>
-							<Text style={[styles.centerText11, styles.margintop3]}>내 정보</Text>
-						</Pressable>
-					</View>
       			</View>
     		</SafeAreaView>
 		</>);
