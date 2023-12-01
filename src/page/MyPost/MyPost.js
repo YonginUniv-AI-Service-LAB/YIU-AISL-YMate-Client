@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import moment from 'moment-timezone';
+import {WriteButton} from '../../components'
 
 
 const MyPost = ({navigation}) => {
@@ -200,9 +201,7 @@ const MyPost = ({navigation}) => {
 					</View>
       			</View>
     		</SafeAreaView>
-			<Pressable style={styles.writeButton} onPress={()=> Alert.alert("글작성버튼")}>
-				<Image style={[styles.icon50, styles.backgroundWhite]} resizeMode="cover" source={require("../../assets/images/writeButton_blue.png")}/>
-			</Pressable>
+			<WriteButton expandable={true} onPressDelivery={()=>navigation.navigate('DeliveryRecruit')} onPressTaxi={()=>navigation.navigate('TaxiRecruit')}/>
 		</>);
 };
 

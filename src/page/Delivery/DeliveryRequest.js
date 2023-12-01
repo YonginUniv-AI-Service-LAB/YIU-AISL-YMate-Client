@@ -3,24 +3,13 @@ import { Text, StyleSheet, Image, Pressable, View } from "react-native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/GlobalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {styles} from "../Style"
+import {Header} from "../../components"
 
 const DeliveryRequest = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainScreen}>
       <View style={styles.mainBackground}>
-          <View style={styles.uppermenu}>
-            <Pressable style={styles.locationButton} onPress={() => navigation.pop()}>
-                <Image
-                style={styles.icon20}
-                resizeMode="cover"
-                source={require("../../assets/images/left.png")}
-                />
-            </Pressable>
-            <Text style={[styles.text20]}>
-                배달 신청 작성
-            </Text>
-            <View style={[styles.icon20]} />
-          </View>
+          <Header title = '배달 신청 작성' onPressBack={() => navigation.pop()} />
 
           <View style={[styles.recruitSection]}>
 

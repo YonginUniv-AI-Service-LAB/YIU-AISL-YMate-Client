@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Ale
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
+import {WriteButton} from "../../components"
 
 
 const Main = ({navigation}) => {
@@ -263,9 +264,7 @@ const Main = ({navigation}) => {
 					</View>
       			</View>
     		</SafeAreaView>
-			<Pressable style={styles.writeButton} onPress={()=> Alert.alert("글작성버튼")}>
-				<Image style={[styles.icon50, styles.backgroundWhite]} resizeMode="cover" source={require("../../assets/images/writeButton_blue.png")}/>
-			</Pressable>
+			<WriteButton expandable={true} onPressDelivery={()=>navigation.navigate('DeliveryRecruit')} onPressTaxi={()=>navigation.navigate('TaxiRecruit')}/>
 		</>);
 };
 

@@ -4,7 +4,7 @@ import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/Globa
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import {styles} from "../Style"
-import Header from "../../components/Header"
+import {Header} from "../../components"
 import Alarm from "../Alarm/Alarm";
 
 const DeliveryRecruit = ({navigation}) => {

@@ -4,6 +4,7 @@ import { Dimensions } from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
+import {Header} from "../../components"
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -188,8 +189,8 @@ const Signup = ({ navigation }) => {
   return (
     <KeyboardAwareScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
       <View style = {styles.signup}>
-      <View style={styles.header}>
-        {/* 상단 바 내용 */}
+      {/* <View style={styles.header}>
+        상단 바 내용
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
       <Image
         source={require('./../../assets/images/left.png')} // 이미지 경로를 실제 이미지 경로로 변경
@@ -197,7 +198,8 @@ const Signup = ({ navigation }) => {
       />
       </TouchableOpacity>
         <Text style={styles.headerText}>회원가입</Text>
-      </View>
+      </View> */}
+      <Header title = '회원가입' onPressBack={() => navigation.goBack()}/>
       <View style={styles.inputContainer}>
         <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>학번</Text>
@@ -381,6 +383,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
+    marginTop: 10
   },
   inputRow: {
     flexDirection: 'row',

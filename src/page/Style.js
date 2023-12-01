@@ -459,6 +459,16 @@ bottomButton: {
             bottom: 90,
             position: "absolute"
     },
+    DeliveryWriteButton: {
+            right: 15,
+            bottom: 210,
+            position: "absolute"
+    },
+    TaxiWriteButton: {
+            right: 15,
+            bottom: 150,
+            position: "absolute"
+    },
     backgroundWhite: {
             backgroundColor: "#fff",
             borderWidth: 0,

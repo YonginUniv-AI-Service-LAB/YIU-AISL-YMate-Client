@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, Image, ScrollView, Modal,TouchableOp
 import GuideModal from '../Modal/GuideModal';
 import { Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {Header} from "../../components"
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -152,15 +153,7 @@ const Password = ({ navigation }) => {
   return (
     <KeyboardAwareScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
       <View style = {styles.password}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
-      <Image
-        source={require('./../../assets/images/left.png')} // 이미지 경로를 실제 이미지 경로로 변경
-        style={styles.backButtonImage}
-      />
-      </TouchableOpacity>
-        <Text style={styles.headerText}>비밀번호 찾기</Text>
-      </View>
+      <Header title = '비밀번호 찾기' onPressBack={() => navigation.goBack()}/>
       <View style={styles.inputContainer}>
         <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>학번</Text>
@@ -323,6 +316,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
+    marginTop: 10
   },
   inputRow: {
     flexDirection: 'row',

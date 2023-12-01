@@ -4,24 +4,13 @@ import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/Globa
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import {styles} from "../Style"
+import {Header} from "../../components"
 
 const TaxiRecruit = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainScreen}>
       <View style={styles.mainBackground}>
-          <View style={styles.uppermenu}>
-            <Pressable style={styles.locationButton} onPress={() => navigation.pop()}>
-                <Image
-                style={styles.icon20}
-                resizeMode="cover"
-                source={require("../../assets/images/left.png")}
-                />
-            </Pressable>
-            <Text style={[styles.text20]}>
-                택시 모집 글 작성
-            </Text>
-            <View style={[styles.icon20]} />
-          </View>
+          <Header title="택시 모집 글 작성" onPressBack={() => navigation.pop()}/>
 
           <View style={[styles.recruitSection]}>
             <View style={styles.rowView}>
