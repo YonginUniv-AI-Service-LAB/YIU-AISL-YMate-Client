@@ -1,27 +1,17 @@
 import * as React from "react";
-import { Text, StyleSheet, Image, Pressable, View } from "react-native";
+import { Text, StyleSheet, Image, Pressable, View, Alert } from "react-native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/GlobalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import {styles} from "../Style"
+import Header from "../../components/Header"
+import Alarm from "../Alarm/Alarm";
 
 const DeliveryRecruit = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainScreen}>
       <View style={styles.mainBackground}>
-          <View style={styles.uppermenu}>
-            <Pressable style={styles.locationButton} onPress={() => navigation.pop()}>
-                <Image
-                style={styles.icon20}
-                resizeMode="cover"
-                source={require("../../assets/images/left.png")}
-                />
-            </Pressable>
-            <Text style={[styles.text20]}>
-                배달 모집 글 작성
-            </Text>
-            <View style={[styles.icon20]} />
-          </View>
+          <Header title = "배달 모집 글 작성" onPressBack={() => navigation.pop()}/>
 
           <View style={[styles.recruitSection]}>
             <View style={styles.rowView}>

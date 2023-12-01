@@ -23,7 +23,7 @@ const Notification = ({navigation}) => {
                 <Text style={styles.text16}>{studentId}</Text>
             </View>
             <View>
-            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={()=>Alert.alert("로그아웃")}>
+            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={()=>navigation.navigate('Login')}>
                 <Text style={styles.buttonText}>로그아웃</Text>
             </Pressable>
             </View>
