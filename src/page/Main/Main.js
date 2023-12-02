@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Ale
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
-import {WriteButton} from "../../components"
+import {TopMenu, WriteButton} from "../../components"
 
 
 const Main = ({navigation}) => {
@@ -168,17 +168,7 @@ const Main = ({navigation}) => {
 		<>
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
-					<View style={styles.uppermenu}>
-						<Pressable style={styles.locationButton} onPress={()=>Alert.alert("위치재설정버튼")}>
-							<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/location.png")}/>
-							<Text style={styles.locationText}>AI융합대학</Text>
-							<Image style={[styles.icon16, styles.marginLeft3]} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-						</Pressable>
-						<Pressable name="alramButton" onPress={()=>navigation.navigate("Alarm")}>
-							<Image style={styles.icon26} resizeMode="cover" source={require("../../assets/images/notification.png")}/>
-							<Image style={styles.activeAlramIcon} resizeMode="cover" source={require("../../assets/images/dot_red.png")}/>
-						</Pressable>
-					</View>
+					<TopMenu onPressAlarm ={()=>navigation.navigate('Alarm')} />
 					<View style={styles.mainBody}>
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
 							<Image style={styles.advertiseImage} resizeMode="cover" source={require("../../assets/images/advertise.png")}/>
@@ -264,7 +254,7 @@ const Main = ({navigation}) => {
 					</View>
       			</View>
     		</SafeAreaView>
-			<WriteButton expandable={true} onPressDelivery={()=>navigation.navigate('DeliveryRecruit')} onPressTaxi={()=>navigation.navigate('TaxiRecruit')}/>
+			<WriteButton expandable={true}/>
 		</>);
 };
 

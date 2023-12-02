@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import moment from 'moment-timezone';
-import {WriteButton} from '../../components'
+import {TopMenu, WriteButton} from '../../components'
 
 
 const MyPost = ({navigation}) => {
@@ -144,17 +144,7 @@ const MyPost = ({navigation}) => {
 		<>
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
-					<View style={styles.uppermenu}>
-						<Pressable style={styles.locationButton} onPress={()=>Alert.alert("위치재설정버튼")}>
-							<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/location.png")}/>
-							<Text style={styles.locationText}>AI융합대학</Text>
-							<Image style={[styles.icon16, styles.marginLeft3]} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-						</Pressable>
-						<Pressable name="alramButton" onPress={()=>Alert.alert("알림버튼")}>
-							<Image style={styles.icon26} resizeMode="cover" source={require("../../assets/images/notification.png")}/>
-							<Image style={styles.activeAlramIcon} resizeMode="cover" source={require("../../assets/images/dot_red.png")}/>
-						</Pressable>
-					</View>
+					<TopMenu />
 					<View style={styles.mainBody}>
 						<View name="mypostSection" style={styles.mainSection}>
 							<View style={styles.mainSectionTitle}>
@@ -201,7 +191,7 @@ const MyPost = ({navigation}) => {
 					</View>
       			</View>
     		</SafeAreaView>
-			<WriteButton expandable={true} onPressDelivery={()=>navigation.navigate('DeliveryRecruit')} onPressTaxi={()=>navigation.navigate('TaxiRecruit')}/>
+			<WriteButton expandable={true}/>
 		</>);
 };
 

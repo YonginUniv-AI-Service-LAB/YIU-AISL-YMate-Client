@@ -1,13 +1,13 @@
 import * as React from 'react'
-import {Text, StyleSheet, Image, Pressable, View, Alert} from 'react-native'
+import {Image, Pressable, View, Alert} from 'react-native'
 import {styles} from '../page/Style'
 import {useState} from 'react'
+import { useNavigation } from "@react-navigation/native"
 
 // expandable: 확장기능 활성화
-// onPress: + 버튼 클릭 시 액션
-// onPressDelivery: 배달 버튼 클릭 시 액션
-// onPressTaxi: 택시 버튼 클릭 시 액션
-const WriteButton = ({ expandable = false, onPress = () => Alert.alert('작성버튼'), onPressDelivery = () => Alert.alert('배달작성버튼'), onPressTaxi = () => Alert.alert('택시작성버튼')}) => {
+// onPress: + 버튼 클릭 시 액션(확장기능 비활성화일때)
+const WriteButton = ({ expandable = false, onPress = () => Alert.alert('작성버튼')}) => {
+	const navigation = useNavigation()
 	const [writeState, setWriteState] = useState(0)
 
 	const toggleExpand = writeState => {
@@ -19,10 +19,10 @@ const WriteButton = ({ expandable = false, onPress = () => Alert.alert('작성�
 		writeState ?
 			// 확장 상태
 			<View>
-				<Pressable style={styles.DeliveryWriteButton} onPress={onPressDelivery}>
+				<Pressable style={styles.DeliveryWriteButton} onPress={() => navigation.navigate('DeliveryRecruit')}>
 					<Image style={[styles.icon50, styles.backgroundWhite]} resizeMode="cover" source={require('../assets/images/DeliveryWriteButton_blue.png')}/>
 				</Pressable>
-				<Pressable style={styles.TaxiWriteButton} onPress={onPressTaxi}>
+				<Pressable style={styles.TaxiWriteButton} onPress={() => navigation.navigate('TaxiRecruit')}>
 					<Image style={[styles.icon50, styles.backgroundWhite]} resizeMode="cover" source={require('../assets/images/TaxiWriteButton_blue.png')}/>
 				</Pressable>
 				<Pressable style={styles.writeButton} onPress={() => toggleExpand(writeState)}>
