@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
-import {Header} from "../../components"
+import {BottomButton, ErrorText, Header} from "../../components"
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -218,16 +218,17 @@ const Signup = ({ navigation }) => {
           </TouchableWithoutFeedback> 
       </View>
       </View>
-      <View style={styles.emptySpace}>
+      {/* <View style={styles.emptySpace}> */}
       <View style={styles.guideContainer}>
       <TouchableWithoutFeedback onPress={handleGuideButtonPress} style={styles.guidebutton}>
       <Text style={[styles.blueText, styles.underline]}>학번 인증 가이드 </Text>
       </TouchableWithoutFeedback>
-        {studentIdCheckError ? (
+        {/* {studentIdCheckError ? (
         <Text style={styles.errorText}>{studentIdCheckError}</Text>
-        ) : null}
+        ) : null} */}
+        <ErrorText isError={studentIdCheckError} errorMessage={studentIdCheckError}/>
       </View>
-      </View>
+      {/* </View> */}
         <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>이메일 확인</Text>
           <TextInput
@@ -244,11 +245,12 @@ const Signup = ({ navigation }) => {
           </TouchableWithoutFeedback>
         </View>
         </View>
-        <View style={styles.emptySpace}>
+        {/* <View style={styles.emptySpace}>
         {emailCheckError ? (
         <Text style={styles.errorText}>{emailCheckError}</Text>
       ) : null}
-      </View>
+      </View> */}
+      <ErrorText isError={emailCheckError} errorMessage={emailCheckError}/>
         <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>닉네임</Text>
           <TextInput
@@ -265,11 +267,12 @@ const Signup = ({ navigation }) => {
           </TouchableWithoutFeedback>
         </View>
         </View>
-        <View style={styles.emptySpace}>
+        {/* <View style={styles.emptySpace}>
         {nickNameCheckError ? (
         <Text style={styles.errorText}>{nickNameCheckError}</Text>
       ) : null}
-      </View>
+      </View> */}
+      <ErrorText isError={nickNameCheckError} errorMessage={nickNameCheckError}/>
         <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>비밀번호</Text>
           <TextInput
@@ -279,11 +282,12 @@ const Signup = ({ navigation }) => {
             secureTextEntry={true}
           />
         </View>
-        <View style={styles.emptySpace}>
+        {/* <View style={styles.emptySpace}>
         {passwordError ? (
         <Text style={styles.errorText}>{passwordError}</Text>
       ) : null}
-      </View>
+      </View> */}
+      <ErrorText isError={passwordError} errorMessage={passwordError}/>
         <View style={styles.inputRow}>
           <Text style={styles.smalltitle}>비밀번호 확인</Text>
           <TextInput
@@ -293,14 +297,15 @@ const Signup = ({ navigation }) => {
             secureTextEntry={true}
           />
         </View>
-        <View style={styles.emptySpace}>
+        {/* <View style={styles.emptySpace}>
         {passwordConfirmationError ? (
         <Text style={styles.errorText}>{passwordConfirmationError}</Text>
       ) : null}
+    </View> */}
+      <ErrorText isError={passwordConfirmationError} errorMessage={passwordConfirmationError}/>
     </View>
     </View>
-    </View>
-    <View style={styles.footer}>
+    {/* <View style={styles.footer}>
       <View style={styles.signupCheck}>
         {signupCheckError ? (
         <Text style={styles.errorText}>{signupCheckError}</Text>
@@ -311,7 +316,9 @@ const Signup = ({ navigation }) => {
             <Text style={styles.buttonText}>회원가입</Text>
         </View>
       </TouchableOpacity>
-    </View>
+    </View> */}
+      <ErrorText isError={signupCheckError} errorMessage={signupCheckError} style={{marginRight: 20}}/>
+      <BottomButton title='회원가입' onPress={handleSignup}/>
 
       <GuideModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
     </KeyboardAwareScrollView>
@@ -327,6 +334,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   signup: {
+    flex: 1,
     alignItems: "center",
     alignSelf: "stretch",
   },
@@ -376,16 +384,18 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   smalltitle: {
-    marginLeft: 10,
+    marginRight: 10,
     fontSize: 15,
-    width: 100,
+    width: 90,
     color: '#000'
   },
   inputContainer: {
     width: '100%',
-    marginTop: 10
+    // marginTop: 10
+    paddingHorizontal: 15
   },
   inputRow: {
+    marginTop: 9,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -396,7 +406,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: 'gray',
     paddingLeft: 10,
-    marginRight: 10,
+    // marginRight: 10,
   },
   rounded: {
     borderRadius: 10,
@@ -413,7 +423,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   guidebutton: {
-    marginLeft:13,
+    // marginLeft:13,
+    marginTop: 4,
     borderBottomColor: '#22A2F2',
   },
   signupText: {
@@ -427,7 +438,7 @@ const styles = StyleSheet.create({
     height:40,
     borderWidth:1,
     width:100,
-    marginRight:10,
+    marginLeft:10,
     borderColor: '#22A2F2',
     borderRadius: 7,
   },
@@ -456,7 +467,7 @@ const styles = StyleSheet.create({
     marginBottom:10,
   },
   guideContainer: {
-    marginLeft:10,
+    // marginLeft:10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between', // Align items on the ends (left and right)

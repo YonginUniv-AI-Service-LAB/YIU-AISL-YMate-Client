@@ -4,13 +4,13 @@ import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/Globa
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import {styles} from "../Style"
-import {Header} from "../../components"
+import {BottomButton, Header, ErrorText} from "../../components"
 import Alarm from "../Alarm/Alarm";
 
 const DeliveryRecruit = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainScreen}>
-      <View style={styles.mainBackground}>
+      <View style={[styles.mainBackground, styles.backgroundWhite]}>
           <Header title = "배달 모집 글 작성" onPressBack={() => navigation.pop()}/>
 
           <View style={[styles.recruitSection]}>
@@ -63,16 +63,9 @@ const DeliveryRecruit = ({navigation}) => {
                 {`배달 링크는 수락받은 신청자에게만 노출됩니다.
 배달 앱의 함계 주문하기 링크를 입력해주세요.`}
             </Text>
-            <View style={[styles.flexView]} />
-            <Text style={[styles.errorText]}>
-              입력되지 않은 정보가 있습니다.
-            </Text>
           </View>
-          <View style={[styles.bottomContainer]}>
-            <Pressable style={styles.bottomButton} onPress={() => navigation.navigate('Delivery')}>
-              <Text style={[styles.text16, styles.whiteText]}>모집 글 등록</Text>
-            </Pressable>
-          </View>
+          <ErrorText isError={true} style={styles.marginRight20}/>
+          <BottomButton title="모집 글 등록" onPress={() => navigation.navigate('Delivery')}/>
       </View>
     </SafeAreaView>
   );

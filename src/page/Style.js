@@ -174,8 +174,23 @@ export const styles = StyleSheet.create({
         color: "rgba(0, 0, 0, 0.5)"
     },
     errorText: {
+        // flex: 1,
+        fontSize: 12,
         textAlign: "right",
+        marginTop: 4,
         color: "#e14a4a"
+    },
+    checkedText: {
+        // flex: 1,
+        fontSize: 12,
+        textAlign: "right",
+        marginTop: 4,
+        color: "#22a2f2"
+    },
+    errorBox: {
+        // flex: 1,
+        height: 16,
+        marginTop: 4,
     },
     locationText: {
             marginLeft: 3,
@@ -249,6 +264,9 @@ export const styles = StyleSheet.create({
     },
     marginRight12: {
          marginRight: 12
+    },
+    marginRight20: {
+         marginRight: 20
     },
     marginHorizontal6:{
         marginHorizontal: 6,
@@ -428,9 +446,9 @@ export const styles = StyleSheet.create({
         // height: 80,
         backgroundColor: "#fff",
         paddingBottom: 14,
-        paddingHorizontal: 25,
-},
-bottomButton: {
+        paddingHorizontal: 20,
+    },
+    bottomButton: {
         marginTop: 11,
         backgroundColor: "#22a2f2",
         height: 45,
