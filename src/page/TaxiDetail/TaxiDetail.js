@@ -25,6 +25,7 @@ const DeliveryDetail = ({navigation}) => {
 		{
 			tId: 123123123,
             nickname: "두글자",
+            studentId: 201933008,
 			title: "같이 먹어용",
 			due: new Date('2023-11-28T21:55:00'),
 			contents: "오늘 저녁 같이 학교에서 시켜드실 분 제가 아주아주아주 많이 먹어서 많이 시켜서 나눠드실 분이면 더욱더욱 좋습니다!!",

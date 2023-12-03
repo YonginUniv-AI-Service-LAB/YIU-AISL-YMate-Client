@@ -9,8 +9,6 @@ import Taxi from '../Taxi/Taxi';
 import Notification from '../Notification/Notification';
 import MyPost from '../MyPost/MyPost';
 import MyPage from '../MyPage/MyPage';
-import DeliveryDetail from '../DeliveryDetail/DeliveryDetail';
-import TaxiDetail from '../TaxiDetail/TaxiDetail';
 import TabBar from './TabBar';
 
 const Stack = createStackNavigator();
@@ -29,7 +27,6 @@ const MainStackScreen = () => {
     return(
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Delivery" component={Delivery} />
-      <Stack.Screen name="DeliveryDetail" component={DeliveryDetail} />
     </Stack.Navigator>
     )
   };
@@ -38,7 +35,6 @@ const MainStackScreen = () => {
     return(
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Taxi" component={Taxi} />
-        <Stack.Screen name="TaxiDetail" component={TaxiDetail} />
       </Stack.Navigator>
     )
    };

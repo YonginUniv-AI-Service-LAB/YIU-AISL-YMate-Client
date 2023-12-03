@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, Image, SafeAreaView } from 'react-native';
 import Signup from '../Signup/Signup';
 import Main from '../Main/Main';
 import Password from '../Password/Password';
 import axios from 'axios';
+import {styles} from "../Style"
 
 const Login = ({ navigation, route }) => {
   const { onLogin } = route.params || {};
@@ -43,127 +44,59 @@ const Login = ({ navigation, route }) => {
 
 
   return (
-    <View style={styles.container}>
-      <View style={styles.mainLogo}>
-        <Image
-          source = {require('../../assets/images/ymate_logo.png')}
-          style={styles.image}
-        />
-      </View>
-      <Text style={styles.title}>YMATE</Text>
-      <View style={styles.inputContainer}>
-        <View style={styles.inputRow}>
-          <Text style={styles.smalltitle}>학번</Text>
-          <TextInput
-            style={[styles.input, styles.rounded]}
-            value={studentId}
-            onChangeText={(text) => setStudentId(text)}
-          />
+    <SafeAreaView style={[styles.mainScreen, styles.backgroundWhite]}>
+      <View style={[styles.mainBackground, styles.center]}>
+        <View style= {[styles.columnView]}>
+          <View style={styles.flex025}></View>
+          <View style={styles.mainLogo}>
+            <Image
+              source = {require('../../assets/images/ymate_logo.png')}
+              style={styles.icon100}
+            />
+            <Text style={styles.centerText20}>YMATE</Text>
+          </View>
+          <View style={styles.loginSection}>
+            <View style={[styles.rowView, styles.margintop11]} >
+              <Text style={[styles.text15, styles.flex025]}>학번</Text>
+              <TextInput
+                style={[styles.loginInput]}
+                value={studentId}
+                onChangeText={(text) => {
+                  setStudentId(text);
+                }}
+              />
+            </View>
+            <View style={[styles.rowView, styles.margintop11]} >
+              <Text style={[styles.text15, styles.flex025]}>비밀번호</Text>
+              <TextInput
+                style={[styles.loginInput]}
+                value={pwd}
+                onChangeText={(text) => {
+                  setpwd(text);
+                }}
+              />
+            </View>
+            <View style={[styles.flexView,styles.margintop3]}>
+              <Pressable onPress={() => {navigation.navigate(Password)}}>
+                <Text style={styles.rightRedText}>비밀번호 찾기</Text>
+              </Pressable>
+            <View style={styles.center}>
+              <Pressable style = {styles.loginButton} onPress={handleLogin}>
+                  <Text style={[styles.text16, styles.whiteText]}>로그인</Text>
+              </Pressable>
+              <View style={[styles.rowView, styles.margintop3]}>
+                <Text style={styles.text11}>아직 회원이 아니신가요? </Text>
+                <Pressable onPress={() => {navigation.navigate(Signup)}}>
+                  <Text style={[styles.text11, styles.blueText]}>회원가입</Text>
+                </Pressable>
+              </View>
+              </View>
+            </View>
+          </View>
         </View>
-        <View style={styles.inputRow}>
-          <Text style={styles.smalltitle}>비밀번호</Text>
-          <TextInput
-            style={[styles.input, styles.rounded]}
-            value={pwd}
-            onChangeText={(text) => setpwd(text)}
-            secureTextEntry={true}
-          />
-        </View>
-        <Pressable onPress={() => {navigation.navigate(Password)}}>
-          <Text style={styles.forgotPassword}>비밀번호 찾기</Text>
-        </Pressable>
       </View>
-      <Pressable style = {styles.buttonContainer} onPress={handleLogin}>
-          <Text style={styles.buttonText}>로그인</Text>
-      </Pressable>
-      <View style={styles.signupLink}>
-      <Text style={[styles.signupText]}>
-              아직 회원이 아니신가요?
-        </Text>
-        <Pressable onPress={() => {navigation.navigate(Signup)}}>
-          <Text style={[styles.blueText]}>회원가입</Text>
-         </Pressable>
-         </View>
-    </View>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  mainLogo:{
-    width:120,
-    overflow: "hidden",
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start', // 상단 정렬로 변경
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-  },
-  buttonText: {
-    color: 'white',
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    marginBottom: 30,
-    fontSize: 30,
-    color: '#000',
-  },
-  smalltitle: {
-    fontSize: 15,
-    width: 60,
-    color: '#000'
-  },
-  inputContainer: {
-    width: '80%',
-  },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderColor: 'gray',
-    paddingLeft: 10,
-  },
-  buttonContainer: {
-    width: '50%',
-    height: 30,
-    borderRadius: 10,
-    backgroundColor:'#22A2F2',
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  rounded: {
-    borderRadius: 10,
-  },
-  image: {
-    marginTop: 100,
-    width: '90%',
-    height: 110,
-  },
-  forgotPassword: {
-    color: 'red',
-    fontSize: 12,
-    textAlign: 'right',
-    marginBottom: 10,
-  },
-  signupLink: {
-    marginTop: 10,
-    flexDirection: "row",
-  },
-  signupText: {
-    fontSize: 14,
-    color: '#000',
-  },
-  blueText: {
-    color: '#22A2F2',
-  },
-
-});
 
 export default Login;

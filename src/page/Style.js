@@ -73,10 +73,16 @@ export const styles = StyleSheet.create({
             overflow: "hidden"
     },
     centerText11: {
-            color: "#fff",
+            color: "#000",
             textAlign: "center",
             fontSize: 11,
             fontFamily: "ABeeZee-Regular"
+    },
+    centerText20: {
+        color: "#000",
+        textAlign: "center",
+        fontSize: 20,
+        fontFamily: "ABeeZee-Regular"
     },
     centerText9: {
             fontSize: 9,
@@ -105,10 +111,18 @@ export const styles = StyleSheet.create({
         color: "#000",
         fontFamily: "ABeeZee-Regular"
     },
+    text15: {
+        fontSize: 15,
+        color: "#000",
+        fontFamily: "ABeeZee-Regular"
+    },
     text10: {
         fontSize: 10,
         color: "#000",
         fontFamily: "ABeeZee-Regular"
+    },
+    flex025: {
+        flex: 0.25,
     },
     noticeTitle: {
         fontSize: 11,
@@ -161,9 +175,17 @@ export const styles = StyleSheet.create({
     whiteText: {
         color: Color.colorWhite,
     },
+    blueText: {
+        color: Color.colorCornflowerblue,
+    },
     rightGrayText: {
         textAlign: "right",
         color: "rgba(0, 0, 0, 0.5)"
+    },
+    rightRedText: {
+        textAlign: "right",
+        fontSize: 11,
+        color: "#E14A4A"
     },
     errorText: {
         textAlign: "right",
@@ -181,15 +203,27 @@ export const styles = StyleSheet.create({
             alignItems: "center"
     },
     rowView: {
-            flexDirection: "row",
-            alignItems: "center"
+        flexDirection: "row",
+        alignItems: "center"
     },
+    centerJustify: {
+        justifyContent:'center',
+    },  
     spacebetween: {
         justifyContent: "space-between",
     },
     columnView: {
         flex:1,
         flexDirection:'column',
+    },
+    mainLogo: {
+        flex: 0.4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: "#fff",
+    },
+    center: {
+        alignItems:'center',
     },
     activeAlramIcon: {
             top: 1,
@@ -256,6 +290,10 @@ marginRight12: {
         width: 20,
         height: 20
         },
+     icon100: {
+        width: 100,
+        height: 100
+    },
     tempViewToImage: {
             borderRadius: 11,
             backgroundColor: "#F9E583",
@@ -324,7 +362,30 @@ marginRight12: {
             overflow: "hidden",
             alignSelf: "stretch",
             backgroundColor: "#fff",
-            flex: 1
+            alignItems:'center',
+    },
+    loginSection: {
+        width: '80%',
+        paddingTop: 11,
+        paddingHorizontal: 15,
+        overflow: "hidden",
+        alignSelf: "stretch",
+        backgroundColor: "#fff",
+        alignItems:'center',
+        flex: 1
+    },
+    loginInput: {
+        height: 33,
+        alignSelf: "stretch",
+        overflow: "hidden",
+    
+        borderWidth: 1,
+        borderRadius: 6,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        borderStyle: "solid",
+        justifyContent: "center",
+        alignItems: "center",
+        flex:0.8,
     },
     recruitInput: {
         height: 33,
@@ -395,6 +456,7 @@ marginRight12: {
     opacity70: {
             opacity: 0.7
     },
+    
     boxShadow:{
         elevation: 4,
         // iOS에서는 shadow 속성을 사용하여 그림자를 추가할 수 있습니다.
@@ -423,6 +485,24 @@ bottomButton: {
         marginTop: 11,
         backgroundColor: "#22a2f2",
         height: 45,
+        borderRadius: 6,
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
+        shadowOpacity: 1,
+        elevation: 4,
+        shadowRadius: 4,
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowColor: "rgba(0, 0, 0, 0.25)",
+    },
+    loginButton: {
+        width: '55%',
+        marginTop: 11,
+        backgroundColor: "#22a2f2",
+        height: 24,
         borderRadius: 6,
         justifyContent: "center",
         alignItems: "center",
@@ -680,5 +760,5 @@ bottomButton: {
     commentheader:{
         paddingHorizontal:10,
         flex:1,
-    }
+    },
 })
