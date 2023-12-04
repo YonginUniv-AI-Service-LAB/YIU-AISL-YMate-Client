@@ -124,6 +124,9 @@ export const styles = StyleSheet.create({
     flex025: {
         flex: 0.25,
     },
+    flex075: {
+        fles:0.75,
+    },
     noticeTitle: {
         fontSize: 11,
         color: "#000",
@@ -177,6 +180,19 @@ export const styles = StyleSheet.create({
     },
     blueText: {
         color: Color.colorCornflowerblue,
+    },
+    underline: {
+        textDecorationLine: 'underline',
+    },
+    checkBox: {
+        borderColor: Color.colorCornflowerblue,
+        height:24,
+        borderWidth:1,
+        borderRadius:6,
+        textAlign:'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 0.4,
     },
     rightGrayText: {
         textAlign: "right",
@@ -375,17 +391,16 @@ marginRight12: {
         flex: 1
     },
     loginInput: {
-        height: 33,
+        height: 40,
         alignSelf: "stretch",
         overflow: "hidden",
-    
         borderWidth: 1,
         borderRadius: 6,
         borderColor: "rgba(0, 0, 0, 0.1)",
         borderStyle: "solid",
         justifyContent: "center",
         alignItems: "center",
-        flex:0.8,
+        flex:1,
     },
     recruitInput: {
         height: 33,
@@ -761,4 +776,9 @@ bottomButton: {
         paddingHorizontal:10,
         flex:1,
     },
+    emptySpace: {
+        width: '100%',
+        marginTop:10,
+        height:20,
+    }
 })
