@@ -2,7 +2,7 @@ import * as React from 'react'
 import {Image, Pressable, View, Alert} from 'react-native'
 import {styles} from '../page/Style'
 import {useState} from 'react'
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation , useFocusEffect} from "@react-navigation/native"
 
 // expandable: 확장기능 활성화
 // onPress: + 버튼 클릭 시 액션(확장기능 비활성화일때)
@@ -13,6 +13,13 @@ const WriteButton = ({ expandable = false, onPress = () => Alert.alert('작성�
 	const toggleExpand = writeState => {
 		setWriteState(writeState ? 0 : 1)
 	}
+	
+	useFocusEffect(
+        React.useCallback(() => {
+            // 화면 포커스가 변경될 때마다 AsyncStorage에서 location을 로드합니다.
+            setWriteState(0);
+        }, [])
+    );
 
 	return expandable ? 
 		// 확장기능 활성화 시

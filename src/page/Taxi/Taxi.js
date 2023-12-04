@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Ale
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
-import {WriteButton} from '../../components'
+import {WriteButton, TaxiCard, TopMenu} from '../../components'
 
 
 const Taxi = ({navigation}) => {
@@ -14,117 +14,100 @@ const Taxi = ({navigation}) => {
 		{
 			tId: 123123123,
 			title: "집 가고싶다",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T17:55:00'),
+			startCode: 10000001,
+			endCode: 10000003,
+			current: 3,
+			max: 4,
 			createAt: 3322111,
 		},
 		{
 			tId: 123123124,
-			title: "집 가고싶다집 가고싶다집 가고싶다집 가고싶다집 가고싶다집 가고싶다집 가고싶다집 가고싶다집 가고싶다",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			title: "집 가고싶다집 가고싶다집 가고싶다",
+			due: new Date('2023-12-04T17:55:00'),
+			startCode: 10000002,
+			endCode: 10000003,
+			current: 3,
+			max: 4,
 			createAt: 3322111,
 		},
 		{
 			tId: 123123125,
 			title: "집 가고싶다",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T17:55:00'),
+			startCode: 10000003,
+			endCode: 10000003,
+			current: 3,
+			max: 4,
 			createAt: 3322111,
 		},
 		{
 			tId: 123123126,
 			title: "집 가고싶다",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-05T11:55:00'),
+			startCode: 10000004,
+			endCode: 10000003,
+			current: 3,
+			max: 4,
 			createAt: 3322111,
 		},
 		{
 			tId: 123123127,
 			title: "집 가고싶다",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
 			createAt: 3322111,
 		},
 		{
 			tId: 123123128,
 			title: "집 가고싶다",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
 			createAt: 3322111,
 		},
 		{
 			tId: 123123129,
 			title: "집 가고싶다",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
 			createAt: 3322111,
 		},
 		{
 			tId: 123123130,
 			title: "집 가고싶다",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
 			createAt: 3322111,
 		},
 		{
 			tId: 123123131,
 			title: "집 가고싶다",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
 			createAt: 3322111,
 		}
 	]
-
-	const BigTaxiCard = ({title, tId}) => (
-		<Pressable style={styles.bigCard} onPress={()=>Alert.alert(`${tId}`)}>
-				{/* change view to image */}
-			<View style={styles.tempViewToImage} />
-			<View style={styles.flexView}>
-				<View style={styles.smallCardContent}>
-					<View name="taxi location" flexDirection="row">
-						<View style={styles.locationTag}>
-							<Text style={styles.centerText9}>에융대</Text>
-						</View>
-						<Image style={styles.icon17} resizeMode="cover" source={require("../../assets/images/arrowRight.png")}/>
-						<View style={styles.locationTag}>
-							<Text style={styles.centerText9}>에융대</Text>
-						</View>
-					</View>
-					<Text style={styles.centerText10}>3분 후 마감</Text>
-				</View>
-				<View style={styles.bigCardContent}>
-					<Text style={styles.cardTitle} numberOfLines={3}>{title}</Text>
-					<Text style={[styles.centerText10, styles.bigTaxiCardNumber]}>3/4</Text>
-				</View>
-			</View>
-		</Pressable>
-	)
 
   	return (
 		<>
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
-					<View style={styles.uppermenu}>
-						<Pressable style={styles.locationButton} onPress={()=>Alert.alert("위치재설정버튼")}>
-							<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/location.png")}/>
-							<Text style={styles.locationText}>AI융합대학</Text>
-							<Image style={[styles.icon16, styles.marginLeft3]} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-						</Pressable>
-						<Pressable name="alramButton" onPress={()=>Alert.alert("알림버튼")}>
-							<Image style={styles.icon26} resizeMode="cover" source={require("../../assets/images/notification.png")}/>
-							<Image style={styles.activeAlramIcon} resizeMode="cover" source={require("../../assets/images/dot_red.png")}/>
-						</Pressable>
-					</View>
+					<TopMenu/>
 					<View style={styles.mainBody}>
 						<View name="taxiSection" style={styles.mainSection}>
 							<View style={styles.mainSectionTitle}>
@@ -141,7 +124,7 @@ const Taxi = ({navigation}) => {
 									contentContainerStyle={styles.bigCardScroll}
 									showsHorizontalScrollIndicator={false}
 									data={TaxiData}
-									renderItem={({item}) => <BigTaxiCard title={item.title} tId={item.tId}/>}
+									renderItem={({item}) => <TaxiCard size={1} tId={item.tId} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max}/>}
 									keyExtractor={item => item.tId}
 									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}
 								/>

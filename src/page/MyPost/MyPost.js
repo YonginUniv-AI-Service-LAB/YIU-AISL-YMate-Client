@@ -3,142 +3,212 @@ import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Ale
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
-import moment from 'moment-timezone';
-import {TopMenu, WriteButton} from '../../components'
+import {TopMenu, WriteButton, MyPostCard} from '../../components'
 
 
 const MyPost = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
 
-	
 	const MyPostData = [
 		{
-			tId: 123123123,
-			title: "집 가고싶다",
-			due: new Date('2023-11-28T17:55:00'),
+			type: 0,
+			isComment: 0,
+			dId: 123123123,
+			title: "장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
 			food: 332211,
-			location: 332211,
-			createAt: new Date('2023-11-28T07:45:00'),
-            type: 1,
+			location: 10000001,
+			createAt: new Date('2023-12-04T17:55:00'),
 		},
-        {
-			tId: 1231231224,
+		{
+			type: 0,
+			isComment: 1,
+			dId: 123123124,
+			title: "장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 3321,
+			location: 10000009,
+			createAt: new Date('2023-12-04T17:55:00'),
+		},
+		{
+			type: 0,
+			isComment: 0,
+			dId: 123123125,
+			title: "장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 341211,
+			location: 10000002,
+			createAt: new Date('2023-12-04T17:55:00'),
+		},
+		{
+			type: 0,
+			isComment: 1,
+			dId: 123123126,
+			title: "장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 33123412211,
+			location: 10000002,
+			createAt: new Date('2023-12-04T17:55:00'),
+		},
+		{
+			type: 0,
+			isComment: 1,
+			dId: 12312312711,
+			title: "장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 31234211,
+			location: 10000002,
+			createAt: new Date('2023-12-04T17:55:00'),
+		},
+		{
+			type: 0,
+			isComment: 0,
+			dId: 12312124124126,
+			title: "장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 331235678211,
+			location: 10000002,
+			createAt: new Date('2023-12-04T17:55:00'),
+		},
+		{
+			type: 0,
+			isComment: 1,
+			dId: 1212455233126,
+			title: "장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 3367895678211,
+			location: 10000002,
+			createAt: new Date('2023-12-04T17:55:00'),
+		},
+		{
+			type: 0,
+			isComment: 0,
+			dId: 12543586226,
+			title: "장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 33123123111,
+			location: 10000002,
+			createAt: new Date('2023-12-04T17:55:00'),
+		},
+		{
+			type: 0,
+			isComment: 1,
+			dId: 1123458673126,
+			title: "장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 3376831,
+			location: 10000002,
+			createAt: new Date('2023-12-04T17:55:00'),
+		},
+		{
+			type: 1,
+			isComment: 0,
+			tId: 123123616123,
 			title: "집 가고싶다",
-			due: new Date('2023-11-25T22:45:00'),
-			food: 332211,
-			location: 332211,
-			createAt: new Date('2023-11-25T07:35:00'),
-            type: 2,
+			due: new Date('2023-12-04T17:55:00'),
+			startCode: 10000001,
+			endCode: 10000003,
+			current: 3,
+			max: 4,
+			createAt: 3322111,
 		},
-        {
-			tId: 1231231225,
+		{
+			type: 1,
+			isComment: 1,
+			tId: 1231232431124,
+			title: "집 가고싶다집 가고싶다집 가고싶다",
+			due: new Date('2023-12-04T17:55:00'),
+			startCode: 10000002,
+			endCode: 10000003,
+			current: 3,
+			max: 4,
+			createAt: 3322111,
+		},
+		{
+			type: 1,
+			isComment: 0,
+			tId: 12312253125,
 			title: "집 가고싶다",
-			due: new Date('2023-11-25T22:45:00'),
-			food: 332211,
-			location: 332211,
-			createAt: new Date('2023-11-25T07:35:00'),
-            type: 2,
+			due: new Date('2023-12-04T17:55:00'),
+			startCode: 10000003,
+			endCode: 10000003,
+			current: 3,
+			max: 4,
+			createAt: 3322111,
 		},
-        {
-			tId: 1231231226,
+		{
+			type: 1,
+			isComment: 1,
+			tId: 12312613126,
 			title: "집 가고싶다",
-			due: new Date('2023-11-25T22:45:00'),
-			food: 332211,
-			location: 332211,
-			createAt: new Date('2023-11-25T07:35:00'),
-            type: 2,
+			due: new Date('2023-12-05T11:55:00'),
+			startCode: 10000004,
+			endCode: 10000003,
+			current: 3,
+			max: 4,
+			createAt: 3322111,
 		},
-        {
-			tId: 1231231227,
+		{
+			type: 1,
+			isComment: 0,
+			tId: 123123123213127,
 			title: "집 가고싶다",
-			due: new Date('2023-11-25T22:45:00'),
-			food: 332211,
-			location: 332211,
-			createAt: new Date('2023-11-25T07:35:00'),
-            type: 2,
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
+			createAt: 3322111,
 		},
+		{
+			type: 1,
+			isComment: 1,
+			tId: 123123123213218,
+			title: "집 가고싶다",
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
+			createAt: 3322111,
+		},
+		{
+			type: 1,
+			isComment: 0,
+			tId: 123123321321129,
+			title: "집 가고싶다",
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
+			createAt: 3322111,
+		},
+		{
+			type: 1,
+			isComment: 0,
+			tId: 123123312312130,
+			title: "집 가고싶다",
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
+			createAt: 3322111,
+		},
+		{
+			type: 1,
+			isComment: 1,
+			tId: 123213123131,
+			title: "집 가고싶다",
+			due: new Date('2023-12-04T15:55:00'),
+			startCode: 10000005,
+			endCode: 10000003,
+			current: 2,
+			max: 7,
+			createAt: 3322111,
+		}
 	]
-
-
-	const MyPostCard = ({title, tId, createAt, due, type}) => {
-        const [now, setNow] = React.useState(moment().tz('Asia/Seoul'));
-		const [writeType, setWriteType] = React.useState('');
-        React.useEffect(() => {
-			const interval = setInterval(() => {
-					setNow(moment().tz('Asia/Seoul'));
-				}, 60000); // 1분마다 갱신 (설정에 따라 조절 가능)
-			
-				return () => clearInterval(interval);
-			}, []);
-
-        let dueDate = moment(due);
-        let isPastDue = now.isAfter(dueDate);
-        let minutesDiff = Math.abs(moment.utc(dueDate).diff(moment.utc(now), 'minutes'))-540; 
-        let dueStatusText;
-        if (isPastDue) {
-            dueStatusText = "마감";
-        } else {
-            if (minutesDiff < 60) {
-                dueStatusText = `${minutesDiff}분 후 마감`;
-            } else {
-                let hoursDiff = Math.floor(minutesDiff / 60);
-                let remainingMinutes = minutesDiff % 60;
-                dueStatusText = `${hoursDiff}시간 ${remainingMinutes}분 후 마감`;
-            }
-        }
-        const dueStatusStyle = isPastDue ? { color: 'red' } : {};
-		React.useEffect(() => {
-			let mounted = true;
-		
-			if (mounted) {
-			  let newWriteType;
-		
-			  if (type === 1) {
-				newWriteType = '모집';
-			  } else if (type === 2) {
-				newWriteType = '신청';
-			  }
-			  setWriteType(newWriteType);
-			}
-			return () => (mounted = false);
-		  }, [type]);
-
-        return(
-			<Pressable style={styles.myPostContainer} onPress={()=>Alert.alert(`${tId}`)}>
-				<View style={styles.postType}>
-					<View>
-						<Text style={styles.timeText}>{moment(createAt).format('YYYY년 MM월 DD일 HH:mm')}</Text>
-					</View>
-					<View style= {type === 1 ? styles.writeTypeRecruitContainer : styles.writeTypeApplyContainer}>
-						<Text style={type === 1 ? styles.writeTypeRecruit : styles.writeTypeApply}>{writeType}</Text>
-					</View>
-				</View>
-				<Pressable style={styles.myPostCard}>
-						{/* change view to image */}
-					<View style={styles.tempViewToImage} />
-					<View style={styles.flexView}>
-						<View style={styles.smallCardContent}>
-							<View name="taxi location" flexDirection="row">
-								<View style={styles.locationTag}>
-									<Text style={styles.centerText9}>에융대</Text>
-								</View>
-								<Image style={styles.icon17} resizeMode="cover" source={require("../../assets/images/arrowRight.png")}/>
-								<View style={styles.locationTag}>
-									<Text style={styles.centerText9}>에융대</Text>
-								</View>
-							
-							</View>
-							<Text style={[styles.centerText10, dueStatusStyle]}>{dueStatusText}</Text>
-						</View>
-						<View style={styles.bigCardContent}>
-							<Text style={styles.cardTitle} numberOfLines={1}>{title}</Text>
-							<Text style={[styles.centerText10, styles.bigTaxiCardNumber]}>3/4</Text>
-						</View>
-					</View>
-				</Pressable>
-			</Pressable>
-		);
-}
 
   	return (
 		<>
@@ -161,8 +231,22 @@ const MyPost = ({navigation}) => {
 								contentContainerStyle={styles.mypostCardScroll}
 								showsHorizontalScrollIndicator={false}
 								data={MyPostData}
-								renderItem={({ item }) => <MyPostCard title={item.title} tId={item.tId} createAt={item.createAt} due={item.due} type={item.type}/>}
-								keyExtractor={item => item.tId}
+								renderItem={({ item }) => (
+									<MyPostCard
+										type={item.type}
+										isComment={item.isComment}
+										Id={item.type ? item.tId : item.dId}
+										title={item.title}
+										due={item.due}
+										startCode={item.type ? item.startCode : undefined}
+										endCode={item.type ? item.endCode : undefined}
+										current={item.type ? item.current : undefined}
+										max={item.type ? item.max : undefined}
+										food={item.type ? undefined : item.food}
+										location={item.type ? undefined : item.location}
+									/>
+								)}
+								keyExtractor={item => item.type?item.tId : item.dId}
 								refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => Alert.alert("새로고침")} />}
 							/>
 						</View>

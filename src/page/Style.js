@@ -100,6 +100,11 @@ export const styles = StyleSheet.create({
         color: "#000",
         fontFamily: "ABeeZee-Regular"
     },
+    textAlignRight: {
+        textAlign: "right",
+        // backgroundColor: "#000",
+        flex: 1,
+    },
     text13: {
         fontSize: 13,
         fontFamily: "ABeeZee-Regular"
@@ -286,6 +291,13 @@ export const styles = StyleSheet.create({
         height: 20
         },
     tempViewToImage: {
+            borderRadius: 11,
+            backgroundColor: "#F9E583",
+            width: 170,
+            height: 96,
+            alignSelf: "stretch"
+    },
+    cardImage: {
             borderRadius: 11,
             backgroundColor: "#F9E583",
             width: 170,

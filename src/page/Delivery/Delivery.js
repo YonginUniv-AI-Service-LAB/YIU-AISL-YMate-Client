@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Ale
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
-import { WriteButton } from "../../components";
+import { WriteButton, DeliveryCard, TopMenu } from "../../components";
 
 
 const Delivery = ({navigation}) => {
@@ -13,102 +13,82 @@ const Delivery = ({navigation}) => {
 		{
 			dId: 123123123,
 			title: "장충동 왕족발보쌈",
-			due: 11222333344,
+			due: new Date('2023-12-04T17:55:00'),
 			food: 332211,
-			location: 332211,
+			location: 10000001,
 			createAt: 3322111,
 		},
 		{
 			dId: 123123124,
-			title: "장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			title: "장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 3321,
+			location: 10000009,
 			createAt: 3322111,
 		},
 		{
 			dId: 123123125,
 			title: "장충동 왕족발보쌈",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T17:55:00'),
+			food: 341211,
+			location: 10000002,
 			createAt: 3322111,
 		},
 		{
 			dId: 123123126,
 			title: "장충동 왕족발보쌈",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T17:55:00'),
+			food: 33123412211,
+			location: 10000002,
 			createAt: 3322111,
 		},
 		{
 			dId: 123123127,
 			title: "장충동 왕족발보쌈",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T17:55:00'),
+			food: 31234211,
+			location: 10000002,
 			createAt: 3322111,
 		},
 		{
-			dId: 123123128,
+			dId: 12312124124126,
 			title: "장충동 왕족발보쌈",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T17:55:00'),
+			food: 331235678211,
+			location: 10000002,
 			createAt: 3322111,
 		},
 		{
-			dId: 123123129,
+			dId: 1212455233126,
 			title: "장충동 왕족발보쌈",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T17:55:00'),
+			food: 3367895678211,
+			location: 10000002,
 			createAt: 3322111,
 		},
 		{
-			dId: 123123130,
+			dId: 12543586226,
 			title: "장충동 왕족발보쌈",
-			due: 11222333344,
-			food: 332211,
-			location: 332211,
+			due: new Date('2023-12-04T17:55:00'),
+			food: 33123123111,
+			location: 10000002,
 			createAt: 3322111,
-		}
+		},
+		{
+			dId: 1123458673126,
+			title: "장충동 왕족발보쌈",
+			due: new Date('2023-12-04T17:55:00'),
+			food: 3376831,
+			location: 10000002,
+			createAt: 3322111,
+		},
 	]
-
-	const BigDeliveryCard = ({title, dId}) => (
-		<Pressable style={styles.bigCard} onPress={()=>Alert.alert(`${dId}`)}>
-				{/* change view to image */}
-				<View style={styles.tempViewToImage} />
-				<View style={styles.flexView}>
-					<View style={styles.smallCardContent}>
-						<View style={styles.locationTag}>
-							<Text style={styles.centerText9}>에융대</Text>
-						</View>
-						<Text style={styles.centerText10}>3분 후 마감</Text>
-					</View>
-					<View style={styles.bigCardContent}>
-						<Text style={styles.cardTitle} numberOfLines={3}>{title}</Text>
-					</View>
-				</View>
-		</Pressable>
-	)
 
   	return (
 		<>
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
-					<View style={styles.uppermenu}>
-						<Pressable style={styles.locationButton} onPress={()=>Alert.alert("위치재설정버튼")}>
-							<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/location.png")}/>
-							<Text style={styles.locationText}>AI융합대학</Text>
-							<Image style={[styles.icon16, styles.marginLeft3]} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-						</Pressable>
-						<Pressable name="alramButton" onPress={()=>Alert.alert("알림버튼")}>
-							<Image style={styles.icon26} resizeMode="cover" source={require("../../assets/images/notification.png")}/>
-							<Image style={styles.activeAlramIcon} resizeMode="cover" source={require("../../assets/images/dot_red.png")}/>
-						</Pressable>
-					</View>
+					<TopMenu/>
 					<View style={styles.mainBody}>
 						<View name="deliverySection" style={styles.mainSection}>
 							<View style={styles.mainSectionTitle}>
@@ -125,7 +105,7 @@ const Delivery = ({navigation}) => {
 									contentContainerStyle={styles.bigCardScroll}
 									showsHorizontalScrollIndicator={false}
 									data={DeliveryData}
-									renderItem={({item}) => <BigDeliveryCard title={item.title} dId={item.dId}/>}
+									renderItem={({item}) => <DeliveryCard size={1} dId={item.dId} title={item.title} due={item.due} food={item.food} location={item.location}/>}
 									keyExtractor={item => item.dId}
 									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}
 								/>
