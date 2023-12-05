@@ -8,20 +8,21 @@ import moment from 'moment-timezone'
 
 //size: 0 -> smallCard 1 -> bigCard
 const TaxiCard = ({size = 0, tId, title, due, startCode, endCode, current, max}) => {
-	const navigation = useNavigation()
-    const [now, setNow] = useState(moment.tz('Asia/Seoul'))
+   const navigation = useNavigation()
+    const [now, setNow] = useState(moment.tz('Asia/Seoul').add(9, 'hours'))
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setNow(moment.tz('Asia/Seoul'))
+            setNow(moment.tz('Asia/Seoul').add(9, 'hours'))
         }, 60000)
         return () => clearInterval(interval)
     }, [])
 
     let dueDate = moment(due);
-    let isPastDue = now.isAfter(dueDate);
-    let minutesDiff = Math.abs(moment.utc(dueDate).diff(moment.utc(now), 'minutes'))-540; 
+    let minutesDiff = moment.utc(dueDate).diff(moment.utc(now), 'minutes');
+    let isPastDue = minutesDiff < 0 ? 1 : 0;
     let dueStatusText;
+    
     if (isPastDue) {
         dueStatusText = "마감";
     } else {
@@ -69,7 +70,7 @@ const TaxiCard = ({size = 0, tId, title, due, startCode, endCode, current, max})
                     <Text style={styles.centerText10}>{current}/{max}</Text>
                 </View>
             </Pressable>
-	)
+   )
 }
 
 export default TaxiCard

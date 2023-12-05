@@ -14,7 +14,7 @@ const Taxi = ({navigation}) => {
 		{
 			tId: 123123123,
 			title: "집 가고싶다",
-			due: new Date('2023-12-04T17:55:00'),
+			due: new Date('2023-12-05T17:19:00'),
 			startCode: 10000001,
 			endCode: 10000003,
 			current: 3,

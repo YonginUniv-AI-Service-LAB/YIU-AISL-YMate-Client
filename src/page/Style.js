@@ -641,6 +641,7 @@ export const styles = StyleSheet.create({
         borderColor:Color.colorGray_100,
         borderRadius:5,
         borderWidth:0.5,
+        marginBottom: -10
     },
     writeTypeRecruitContainer: {
         margin:1.5,

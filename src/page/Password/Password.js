@@ -39,7 +39,7 @@ const Password = ({ navigation }) => {
       setIsStudentIdValid(false);
       setEmailCheckError('');
     } else {
-      const apiUrl = 'https://example.com/api/mail';
+      const apiUrl = 'https://192.168.0.3:8080/mail';
       try {
         // 학번을 백엔드로 전송
         const response = await axios.post(apiUrl, {
@@ -132,12 +132,11 @@ const Password = ({ navigation }) => {
       else{
         setSignupCheckError('');
         navigation.navigate('Login');
-        const apiUrl = "http://localhost:8080/join";
+        const apiUrl = "http://192.168.0.3:8080/changepwd";
         try {
           // 백엔드 API에 POST 요청 보내기
           const response = await axios.post(apiUrl, {
             studentId: studentId,
-            nickname: nickname,
             pwd: pwd,
           });
     

@@ -13,7 +13,7 @@ const Delivery = ({navigation}) => {
 		{
 			dId: 123123123,
 			title: "장충동 왕족발보쌈",
-			due: new Date('2023-12-04T17:55:00'),
+			due: new Date('2023-12-05T17:55:00'),
 			food: 332211,
 			location: 10000001,
 			createAt: 3322111,

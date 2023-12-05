@@ -5,17 +5,19 @@ import Main from '../Main/Main';
 import Password from '../Password/Password';
 import axios from 'axios';
 import {styles} from "../Style"
+import { AsyncStorage } from 'react-native';
 
 const Login = ({ navigation, route }) => {
   const { onLogin } = route.params || {};
-    const [studentId, setStudentId] = useState('');
+  const [studentId, setStudentId] = useState('');
   const [pwd, setpwd] = useState('');
 
   const handleLogin = async () => {
     if (!studentId || !pwd) {
+      await AsyncStorage.setItem('studentId', studentId);
       navigation.navigate('Main');
     }else{
-      const apiUrl = "http://localhost:8080/join";
+      const apiUrl = "http://localhost:8080/login";
     try {
       // Axios를 사용하여 POST 요청 보내기
       const response = await axios.post(apiUrl, {
@@ -74,6 +76,7 @@ const Login = ({ navigation, route }) => {
                 onChangeText={(text) => {
                   setpwd(text);
                 }}
+                secureTextEntry={true}
               />
             </View>
             <View style={[styles.flexView,styles.margintop3]}>

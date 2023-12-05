@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, Pressable, SafeAreaView} from 'react-native';
-import { Dimensions } from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import {styles} from "../Style"
 import {BottomButton, ErrorText, Header} from "../../components"
-
-const screenWidth = Dimensions.get('window').width;
 
 
 const Signup = ({ navigation }) => {
@@ -39,7 +36,7 @@ const Signup = ({ navigation }) => {
       setIsStudentIdValid(false);
       setEmailCheckError('');
     } else {
-      const apiUrl = 'https://example.com/api/mail';
+      const apiUrl = 'https://192.168.0.3:8080/mail';
       try {
         // 학번을 백엔드로 전송
         const response = await axios.post(apiUrl, {
@@ -89,7 +86,8 @@ const Signup = ({ navigation }) => {
       setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
       setIsNickNameValid(false);
     } else {
-      const apiUrl = 'https://example.com/api/mail';
+      setIsNickNameValid(true);
+      const apiUrl = 'https://192.168.0.3:8080/nickcheck';
       try {
         // 학번을 백엔드로 전송
         const response = await axios.post(apiUrl, {
@@ -158,31 +156,24 @@ const Signup = ({ navigation }) => {
       } 
       else{
         setSignupCheckError('');
-        navigation.navigate('Login');
-        const apiUrl = "http://localhost:8080/join";
-        try {
+        console.log("학번:", studentId);
+        console.log("닉네임:", nickname);
+        console.log("비번:", pwd);
           // 백엔드 API에 POST 요청 보내기
-          const response = await axios.post(apiUrl, {
+          const response = await axios.post("http://192.168.0.3:8080/join", {
             studentId: studentId,
             nickname: nickname,
             pwd: pwd,
-          });
-    
-          // 서버에서의 응답 처리
-          if (response.status === 200) {
-            // 가입 성공 시, 이전 화면으로 돌아가기
-            navigation.goBack(); // 또는 navigation.navigate('PreviousScreen');
-          } else {
-            // 가입 실패 시, 에러 메시지 표시 또는 적절한 조치 수행
-            setSignupCheckError(response.data.message || '가입 실패했습니다.');
-          }
-        } catch (error) {
-          // 네트워크 오류 또는 요청 중 발생한 다른 오류 처리
-          console.error('가입 실패:', error);
-          setSignupCheckError('가입에 실패했습니다. 다시 시도해주세요.');
-        }
-      }
-  };
+          }).then((res) => {
+            console.log('>>> [LOGIN] ✅ SUCCESS', res.data);
+            if (res.status === 200) {
+                navigate('login');
+            }
+        }).catch((error) => {
+          console.log('>>> [LOGIN] 🤬 ERROR', error);
+        });
+      }   
+    };
   const handleGuideButtonPress = () => {
     setModalVisible(!isModalVisible);
   }
@@ -272,9 +263,7 @@ const Signup = ({ navigation }) => {
                   secureTextEntry={true}
                 />
             </View>
-         
               <ErrorText isError={passwordError} errorMessage={passwordError}/>
-   
             <View style={[styles.rowView, styles.margintop11]} >
                 <Text style={[styles.text12, styles.flex025]}>비밀번호 확인</Text>
                 <TextInput
@@ -286,9 +275,7 @@ const Signup = ({ navigation }) => {
             </View>
               <ErrorText isError={passwordConfirmationError} errorMessage={passwordConfirmationError}/>
           </View>
-          
             </KeyboardAwareScrollView>
-        
             <ErrorText style={styles.marginRight20} isError={signupCheckError} errorMessage={signupCheckError}/>   
             <BottomButton title='회원가입' onPress={handleSignup}/>
       

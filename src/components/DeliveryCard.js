@@ -9,17 +9,17 @@ import moment from 'moment-timezone'
 //size: 0 -> smallCard 1 -> bigCard
 const DeliveryCard = ({size = 0, dId, title, due, food, location}) => {
 	const navigation = useNavigation()
-    const [now, setNow] = useState(moment.tz('Asia/Seoul'))
+    const [now, setNow] = useState(moment.tz('Asia/Seoul').add(9,'hour'))
     useEffect(() => {
         const interval = setInterval(() => {
-            setNow(moment.tz('Asia/Seoul'))
+            setNow(moment.tz('Asia/Seoul').add(9,'hour'))
         }, 60000)
         return () => clearInterval(interval)
     }, [])
 
     let dueDate = moment(due);
-    let isPastDue = now.isAfter(dueDate);
-    let minutesDiff = Math.abs(moment.utc(dueDate).diff(moment.utc(now), 'minutes'))-540; 
+    let minutesDiff = moment.utc(dueDate).diff(moment.utc(now), 'minutes');
+    let isPastDue = minutesDiff < 0 ? 1 : 0; 
     let dueStatusText;
     if (isPastDue) {
         dueStatusText = "마감";
