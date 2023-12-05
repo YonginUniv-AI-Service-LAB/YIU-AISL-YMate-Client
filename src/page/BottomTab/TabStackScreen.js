@@ -10,6 +10,7 @@ import Notification from '../Notification/Notification';
 import MyPost from '../MyPost/MyPost';
 import MyPage from '../MyPage/MyPage';
 import TabBar from './TabBar';
+import Alarm from '../Alarm/Alarm';
 
 const Stack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
@@ -19,6 +20,7 @@ const MainStackScreen = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Notification" component={Notification} />
+      <Stack.Screen name="Alarm" component={Alarm} />
     </Stack.Navigator>
     )
  };

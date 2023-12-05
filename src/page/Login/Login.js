@@ -44,8 +44,8 @@ const Login = ({ navigation, route }) => {
 
 
   return (
-    <SafeAreaView style={[styles.mainScreen, styles.backgroundWhite]}>
-      <View style={[styles.mainBackground, styles.center]}>
+    <SafeAreaView style={[styles.mainScreen]}>
+      <View style={[styles.mainBackground,styles.backgroundWhite,styles.center]}>
         <View style= {[styles.columnView]}>
           <View style={styles.flex025}></View>
           <View style={styles.mainLogo}>
@@ -57,7 +57,7 @@ const Login = ({ navigation, route }) => {
           </View>
           <View style={styles.loginSection}>
             <View style={[styles.rowView, styles.margintop11]} >
-              <Text style={[styles.text15, styles.flex025]}>학번</Text>
+              <Text style={[styles.text15, styles.flex03]}>학번</Text>
               <TextInput
                 style={[styles.loginInput]}
                 value={studentId}
@@ -67,7 +67,7 @@ const Login = ({ navigation, route }) => {
               />
             </View>
             <View style={[styles.rowView, styles.margintop11]} >
-              <Text style={[styles.text15, styles.flex025]}>비밀번호</Text>
+              <Text style={[styles.text15, styles.flex03]}>비밀번호</Text>
               <TextInput
                 style={[styles.loginInput]}
                 value={pwd}
@@ -78,13 +78,13 @@ const Login = ({ navigation, route }) => {
             </View>
             <View style={[styles.flexView,styles.margintop3]}>
               <Pressable onPress={() => {navigation.navigate(Password)}}>
-                <Text style={styles.rightRedText}>비밀번호 찾기</Text>
+                <Text style={[styles.text11,styles.errorText]}>비밀번호를 잊으셨나요?</Text>
               </Pressable>
             <View style={styles.center}>
               <Pressable style = {styles.loginButton} onPress={handleLogin}>
                   <Text style={[styles.text16, styles.whiteText]}>로그인</Text>
               </Pressable>
-              <View style={[styles.rowView, styles.margintop3]}>
+              <View style={[styles.rowView, styles.margintop6]}>
                 <Text style={styles.text11}>아직 회원이 아니신가요? </Text>
                 <Pressable onPress={() => {navigation.navigate(Signup)}}>
                   <Text style={[styles.text11, styles.blueText]}>회원가입</Text>

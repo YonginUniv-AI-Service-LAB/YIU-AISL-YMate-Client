@@ -3,24 +3,13 @@ import { Text, StyleSheet, Image, Pressable, View } from "react-native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/GlobalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {styles} from "../Style"
+import {Header, BottomButton, ErrorText} from "../../components"
 
 const DeliveryRequest = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainScreen}>
-      <View style={styles.mainBackground}>
-          <View style={styles.uppermenu}>
-            <Pressable style={styles.locationButton} onPress={() => navigation.pop()}>
-                <Image
-                style={styles.icon20}
-                resizeMode="cover"
-                source={require("../../assets/images/left.png")}
-                />
-            </Pressable>
-            <Text style={[styles.text20]}>
-                배달 신청 작성
-            </Text>
-            <View style={[styles.icon20]} />
-          </View>
+      <View style={[styles.mainBackground, styles.backgroundWhite]}>
+          <Header title = '배달 신청 작성' onPressBack={() => navigation.pop()} />
 
           <View style={[styles.recruitSection]}>
 
@@ -36,16 +25,10 @@ const DeliveryRequest = ({navigation}) => {
                 {`신청 수락 전에는 제목만 노출됩니다.
                 내용에는 연락수단을 입력하세요.`}
             </Text>
-            <View style={[styles.flexView]} />
-            <Text style={[styles.errorText]}>
-              입력되지 않은 정보가 있습니다.
-            </Text>
           </View>
-          <View style={[styles.bottomContainer]}>
-            <Pressable style={styles.bottomButton} onPress={() => {}}>
-              <Text style={[styles.text16, styles.whiteText]}>신청 등록</Text>
-            </Pressable>
-          </View>
+          <ErrorText isError={true} style={styles.marginRight20}/>
+          {/* onPress추가 필요 */}
+          <BottomButton title="신청 등록"/>
       </View>
     </SafeAreaView>
   );

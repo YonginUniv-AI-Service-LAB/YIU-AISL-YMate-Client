@@ -19,6 +19,14 @@ export const styles = StyleSheet.create({
             width: 26,
             height: 26
     },
+    icon100: {
+        width: 100,
+        height: 100
+    },
+    icon21: {
+            width: 21,
+            height: 21
+    },
     smallCardContent: {
             marginTop: 4,
             paddingHorizontal: 5,
@@ -72,6 +80,11 @@ export const styles = StyleSheet.create({
             alignItems: "center",
             overflow: "hidden"
     },
+    text15: {
+        fontSize: 15,
+        color: "#000",
+        fontFamily: "ABeeZee-Regular"
+    },
     centerText11: {
             color: "#000",
             textAlign: "center",
@@ -102,6 +115,11 @@ export const styles = StyleSheet.create({
         color: "#000",
         fontFamily: "ABeeZee-Regular"
     },
+    textAlignRight: {
+        textAlign: "right",
+        // backgroundColor: "#000",
+        flex: 1,
+    },
     text13: {
         fontSize: 13,
         fontFamily: "ABeeZee-Regular"
@@ -111,21 +129,10 @@ export const styles = StyleSheet.create({
         color: "#000",
         fontFamily: "ABeeZee-Regular"
     },
-    text15: {
-        fontSize: 15,
-        color: "#000",
-        fontFamily: "ABeeZee-Regular"
-    },
     text10: {
         fontSize: 10,
         color: "#000",
         fontFamily: "ABeeZee-Regular"
-    },
-    flex025: {
-        flex: 0.25,
-    },
-    flex075: {
-        fles:0.75,
     },
     noticeTitle: {
         fontSize: 11,
@@ -163,6 +170,10 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         color: Color.colorBlack,
     },
+    text14: {
+        fontSize: 14,
+        color: Color.colorBlack,
+    },
     text16: {
         fontSize: 16,
         color: Color.colorBlack,
@@ -178,34 +189,28 @@ export const styles = StyleSheet.create({
     whiteText: {
         color: Color.colorWhite,
     },
-    blueText: {
-        color: Color.colorCornflowerblue,
-    },
-    underline: {
-        textDecorationLine: 'underline',
-    },
-    checkBox: {
-        borderColor: Color.colorCornflowerblue,
-        height:24,
-        borderWidth:1,
-        borderRadius:6,
-        textAlign:'center',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 0.4,
-    },
     rightGrayText: {
         textAlign: "right",
         color: "rgba(0, 0, 0, 0.5)"
     },
-    rightRedText: {
-        textAlign: "right",
-        fontSize: 11,
-        color: "#E14A4A"
-    },
     errorText: {
+        // flex: 1,
+        fontSize: 12,
         textAlign: "right",
+        marginTop: 4,
         color: "#e14a4a"
+    },
+    checkedText: {
+        // flex: 1,
+        fontSize: 12,
+        textAlign: "right",
+        marginTop: 4,
+        color: "#22a2f2"
+    },
+    errorBox: {
+        // flex: 1,
+        height: 16,
+        marginTop: 4,
     },
     locationText: {
             marginLeft: 3,
@@ -219,27 +224,15 @@ export const styles = StyleSheet.create({
             alignItems: "center"
     },
     rowView: {
-        flexDirection: "row",
-        alignItems: "center"
+            flexDirection: "row",
+            alignItems: "center"
     },
-    centerJustify: {
-        justifyContent:'center',
-    },  
     spacebetween: {
         justifyContent: "space-between",
     },
     columnView: {
         flex:1,
         flexDirection:'column',
-    },
-    mainLogo: {
-        flex: 0.4,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: "#fff",
-    },
-    center: {
-        alignItems:'center',
     },
     activeAlramIcon: {
             top: 1,
@@ -283,15 +276,21 @@ export const styles = StyleSheet.create({
     marginLeft3: {
             marginLeft: 3
     },
- marginLeft6: {
+    marginLeft6: {
          marginLeft: 6
-},
-marginLeft12: {
+    },
+    marginLeft12: {
         marginLeft: 12
-},
-marginRight12: {
+    },
+    marginRight12: {
          marginRight: 12
-},
+    },
+    marginRight20: {
+         marginRight: 20
+    },
+    marginHorizontal6:{
+        marginHorizontal: 6,
+    },  
     clickText13: {
             fontSize: 13,
             color: "#22a2f2",
@@ -306,11 +305,14 @@ marginRight12: {
         width: 20,
         height: 20
         },
-     icon100: {
-        width: 100,
-        height: 100
-    },
     tempViewToImage: {
+            borderRadius: 11,
+            backgroundColor: "#F9E583",
+            width: 170,
+            height: 96,
+            alignSelf: "stretch"
+    },
+    cardImage: {
             borderRadius: 11,
             backgroundColor: "#F9E583",
             width: 170,
@@ -378,7 +380,7 @@ marginRight12: {
             overflow: "hidden",
             alignSelf: "stretch",
             backgroundColor: "#fff",
-            alignItems:'center',
+            flex: 1
     },
     loginSection: {
         width: '80%',
@@ -401,6 +403,49 @@ marginRight12: {
         justifyContent: "center",
         alignItems: "center",
         flex:1,
+    },
+    loginButton: {
+        width: '55%',
+        marginTop: 11,
+        backgroundColor: "#22a2f2",
+        height: 24,
+        borderRadius: 6,
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
+        shadowOpacity: 1,
+        elevation: 4,
+        shadowRadius: 4,
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowColor: "rgba(0, 0, 0, 0.25)",
+    },
+    flex025: {
+        flex: 0.25,
+    },
+    flex03: {
+        flex: 0.3,
+    },
+    blueText: {
+        color: Color.colorCornflowerblue,
+    },
+    center: {
+        alignItems:'center',
+    },
+    checkBox: {
+        borderColor: Color.colorCornflowerblue,
+        height:24,
+        borderWidth:1,
+        borderRadius:6,
+        textAlign:'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 0.4,
+    },
+    underline: {
+        textDecorationLine: 'underline',
     },
     recruitInput: {
         height: 33,
@@ -471,7 +516,6 @@ marginRight12: {
     opacity70: {
             opacity: 0.7
     },
-    
     boxShadow:{
         elevation: 4,
         // iOS에서는 shadow 속성을 사용하여 그림자를 추가할 수 있습니다.
@@ -494,30 +538,12 @@ marginRight12: {
         // height: 80,
         backgroundColor: "#fff",
         paddingBottom: 14,
-        paddingHorizontal: 25,
-},
-bottomButton: {
+        paddingHorizontal: 20,
+    },
+    bottomButton: {
         marginTop: 11,
         backgroundColor: "#22a2f2",
         height: 45,
-        borderRadius: 6,
-        justifyContent: "center",
-        alignItems: "center",
-        overflow: "hidden",
-        shadowOpacity: 1,
-        elevation: 4,
-        shadowRadius: 4,
-        shadowOffset: {
-          width: 0,
-          height: 4,
-        },
-        shadowColor: "rgba(0, 0, 0, 0.25)",
-    },
-    loginButton: {
-        width: '55%',
-        marginTop: 11,
-        backgroundColor: "#22a2f2",
-        height: 24,
         borderRadius: 6,
         justifyContent: "center",
         alignItems: "center",
@@ -541,6 +567,16 @@ bottomButton: {
     writeButton: {
             right: 15,
             bottom: 15,
+            position: "absolute"
+    },
+    DeliveryWriteButton: {
+            right: 15,
+            bottom: 135,
+            position: "absolute"
+    },
+    TaxiWriteButton: {
+            right: 15,
+            bottom: 75,
             position: "absolute"
     },
     backgroundWhite: {
@@ -776,9 +812,39 @@ bottomButton: {
         paddingHorizontal:10,
         flex:1,
     },
-    emptySpace: {
-        width: '100%',
-        marginTop:10,
-        height:20,
-    }
+    alarmCard:{
+        marginTop: 12,
+        borderWidth: 1,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        borderRadius: 6,
+        borderStyle: "solid",
+        flexDirection: "row",
+        alignSelf: "stretch",
+        alignItems: "center",
+        overflow: "hidden",
+    },
+    alarmViewed: {
+        height: 38,
+        width: 6,
+    },
+    alarmContentBox: {
+        paddingRight: 7,
+        marginLeft: 6,
+        justifyContent: "center",
+        flex: 1,
+    },
+    alarmContent: {
+        alignSelf: "stretch",
+    },
+    alarmCreateAt: {
+        alignSelf: "stretch",
+        textAlign: "right",
+        marginTop: 3,
+    },
+    mainLogo: {
+        flex: 0.4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: "#fff",
+    },
 })

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, ScrollView, Modal,TouchableOpacity, TouchableWithoutFeedback, Linking} from 'react-native';
-import GuideModal from '../Modal/GuideModal';
+import { View, Text, TextInput, StyleSheet, Image, Pressable, SafeAreaView} from 'react-native';
 import { Dimensions } from 'react-native';
+import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import axios from 'axios';
+import {styles} from "../Style"
+import {BottomButton, ErrorText, Header} from "../../components"
 
 const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
+
 
 const Password = ({ navigation }) => {
-    const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const [studentId, setStudentId] = useState('');
   const [studentIdCheckError, setStudentIdCheckError] = useState('');
@@ -16,6 +19,9 @@ const Password = ({ navigation }) => {
   const [emailCheckNumber, setemailCheckNumber] = useState('');
   const [emailCheckError, setEmailCheckError] = useState(''); 
   const [isEmailNumberValid,setIsEmailNumberValid] = useState(false);
+  const [nickname, setnickname] = useState('');
+  const [nickNameCheckError,setNickNameCheckError] = useState('');
+  const [isNickNameValid,setIsNickNameValid] = useState(false);
   const [pwd, setpwd] = useState('');
   const [passwordError,setPasswordError] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -55,9 +61,9 @@ const Password = ({ navigation }) => {
       } catch (error) {
         console.error('이메일 전송 실패:', error);
         setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
-        setIsEmailVerified(false);
-        setIsStudentIdValid(false);
-        setEmailCheckError('');
+        setIsEmailVerified(true);
+          setIsStudentIdValid(true);
+          setStudentIdCheckError('');
       }
     }
   };
@@ -111,6 +117,9 @@ const Password = ({ navigation }) => {
       else if(!isEmailNumberValid){
         setSignupCheckError('올바른 인증번호를 입력해주세요.');
       }
+      else if(!isNickNameValid){
+        setSignupCheckError('올바른 닉네임을 입력해주세요.');
+      }
       else if(passwordError){
         setSignupCheckError('올바른 비밀번호를 입력해주세요.');
       }
@@ -122,16 +131,18 @@ const Password = ({ navigation }) => {
       } 
       else{
         setSignupCheckError('');
-        const apiUrl = 'https://example.com/changepwd';
+        navigation.navigate('Login');
+        const apiUrl = "http://localhost:8080/join";
         try {
           // 백엔드 API에 POST 요청 보내기
           const response = await axios.post(apiUrl, {
-            studentId,
-            pwd,
+            studentId: studentId,
+            nickname: nickname,
+            pwd: pwd,
           });
-  
+    
           // 서버에서의 응답 처리
-          if (response.data.success) {
+          if (response.status === 200) {
             // 가입 성공 시, 이전 화면으로 돌아가기
             navigation.goBack(); // 또는 navigation.navigate('PreviousScreen');
           } else {
@@ -150,263 +161,91 @@ const Password = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAwareScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
-      <View style = {styles.password}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
-      <Image
-        source={require('./../../assets/images/left.png')} // 이미지 경로를 실제 이미지 경로로 변경
-        style={styles.backButtonImage}
-      />
-      </TouchableOpacity>
-        <Text style={styles.headerText}>비밀번호 찾기</Text>
-      </View>
-      <View style={styles.inputContainer}>
-        <View style={styles.inputRow}>
-          <Text style={styles.smalltitle}>학번</Text>
-          <TextInput
-            style={[styles.input, styles.rounded]}
-            value={studentId}
-            onChangeText={(text) => {
-              setStudentId(text);
-              setIsStudentIdValid(false);
-              setIsEmailVerified(false); // 학번이 변경되면 유효성 검사를 다시 진행해야 합니다.
-            }}
-          />
-      <View style={styles.checkContainer}>
-          <TouchableWithoutFeedback onPress={handleStudentId}>
-            <Text style={styles.checkBox}>인증메일 발송</Text>
-          </TouchableWithoutFeedback> 
-      </View>
-      </View>
-      <View style={styles.emptySpace}>
-  <View style={styles.guideContainer}>
-    <TouchableWithoutFeedback onPress={handleGuideButtonPress} style={styles.guidebutton}>
-      <Text style={[styles.blueText, styles.underline]}>학번 인증 가이드 </Text>
-    </TouchableWithoutFeedback>
-    {studentIdCheckError ? (
-      <Text style={styles.errorText}>{studentIdCheckError}</Text>
-    ) : null}
-  </View>
-</View>
-        <View style={styles.inputRow}>
-          <Text style={styles.smalltitle}>이메일 확인</Text>
-          <TextInput
-            style={[styles.input, styles.rounded]}
-            value={emailCheckNumber}
-            onChangeText={(text) => {
-              setemailCheckNumber(text)
-              setIsEmailNumberValid(false);
-            }}
-          />
-        <View style={styles.checkContainer}>
-          <TouchableWithoutFeedback onPress={handleEmailCheck} disabled={!isEmailVerified}>
-            <Text style={styles.checkBox}>인증번호 확인</Text>
-          </TouchableWithoutFeedback>
+    <SafeAreaView style={styles.mainScreen}>
+    <View style={styles.mainBackground}>
+      <Header title = '비밀번호 변경' onPressBack={() => navigation.goBack()}/>
+        <View style = {[styles.spacebetween, styles.flexView, styles.backgroundWhite]}>
+          <KeyboardAwareScrollView>
+          <View style={[styles.recruitSection]}>
+            <View style={[styles.rowView, styles.margintop11]} >
+              <View style = {styles.flex025}>
+                <Text style={[styles.text12]}>학번</Text>
+              </View>
+              <View style={[styles.rowView, styles.flexView]}>
+                <TextInput
+                  style={[styles.loginInput]}
+                  value={studentId}
+                  onChangeText={(text) => {
+                    setStudentId(text);
+                    setIsStudentIdValid(false);
+                    setIsEmailVerified(false);
+                  }}
+                />
+                <Pressable style={[styles.checkBox,styles.marginLeft12]} onPress={handleStudentId}>
+                  <Text style={[styles.text11, styles.blueText]}>인증메일 발송</Text>
+                </Pressable>
+              </View>
+            </View>
+            <View style={[styles.rowView, styles.spacebetween]}>
+                <Pressable onPress={handleGuideButtonPress}>
+                    <Text style={[styles.text11, styles.blueText, styles.underline]}>
+                      학번 인증 가이드 
+                    </Text>
+                </Pressable>
+                <ErrorText isError={studentIdCheckError} errorMessage={studentIdCheckError}/>
+            </View>
+            <View style={[styles.rowView, styles.margintop11]} >
+              <View style = {styles.flex025}>
+                <Text style={[styles.text12]}>이메일 확인</Text>
+              </View>
+              <View style={[styles.rowView, styles.flexView]}>
+                <TextInput
+                  style={[styles.loginInput]}
+                  value={emailCheckNumber}
+                  onChangeText={(text) => {
+                    setemailCheckNumber(text)
+                    setIsEmailNumberValid(false);
+                  }}
+                />
+                <Pressable style={[styles.checkBox,styles.marginLeft12]} onPress={handleEmailCheck} disabled={!isEmailVerified}>
+                  <Text style={[styles.text11, styles.blueText]}>인증번호 발송</Text>
+                </Pressable>
+              </View>
+            </View>
+           
+                <ErrorText isError={emailCheckError} errorMessage={emailCheckError}/>
+           
+            <View style={[styles.rowView, styles.margintop11]} >
+                <Text style={[styles.text12, styles.flex025]}>비밀번호</Text>
+                <TextInput
+                  style={[styles.loginInput]}
+                  value={pwd}
+                  onChangeText={handlePasswordChange}
+                  secureTextEntry={true}
+                />
+            </View>
+              <ErrorText isError={passwordError} errorMessage={passwordError}/>
+            <View style={[styles.rowView, styles.margintop11]} >
+                <Text style={[styles.text12, styles.flex025]}>비밀번호 확인</Text>
+                <TextInput
+                  style={[styles.loginInput,  pwd !== passwordConfirmation ? styles.errorInput : null]}
+                  value={passwordConfirmation}
+                  onChangeText={handlePasswordConfirmationChange}
+                  secureTextEntry={true}
+                />
+            </View>
+              <ErrorText isError={passwordConfirmationError} errorMessage={passwordConfirmationError}/>
+          </View>
+            </KeyboardAwareScrollView>
+            <ErrorText style={styles.marginRight20} isError={signupCheckError} errorMessage={signupCheckError}/>   
+            <BottomButton title='재설정' onPress={handleSignup}/>
+      
         </View>
-        </View>
-        <View style={styles.emptySpace}>
-        {emailCheckError ? (
-        <Text style={styles.errorText}>{emailCheckError}</Text>
-      ) : null}
-      </View>
-        <View style={styles.inputRow}>
-          <Text style={styles.smalltitle}>비밀번호</Text>
-          <TextInput
-            style={[styles.input, styles.rounded]}
-            value={pwd}
-            onChangeText={handlePasswordChange}
-            secureTextEntry={true}
-          />
-        </View>
-        <View style={styles.emptySpace}>
-        {passwordError ? (
-        <Text style={styles.errorText}>{passwordError}</Text>
-      ) : null}
-      </View>
-        <View style={styles.inputRow}>
-          <Text style={styles.smalltitle}>비밀번호 확인</Text>
-          <TextInput
-            style={[styles.input, styles.rounded, pwd !== passwordConfirmation ? styles.errorInput : null]}
-            value={passwordConfirmation}
-            onChangeText={handlePasswordConfirmationChange}
-            secureTextEntry={true}
-          />
-        </View>
-        <View style={styles.emptySpace}>
-        {passwordConfirmationError ? (
-        <Text style={styles.errorText}>{passwordConfirmationError}</Text>
-      ) : null}
     </View>
-      </View>
-      </View>
-      <View style={styles.footer}>
-      <View style={styles.signupCheck}>
-        {signupCheckError ? (
-        <Text style={styles.errorText}>{signupCheckError}</Text>
-      ) : null}
-      </View>
-      <TouchableWithoutFeedback onPress={handleSignup}>
-        <View style={styles.buttonContainer}>
-            <Text style={styles.buttonText}>재설정</Text>
-        </View>
-      </TouchableWithoutFeedback>
-    </View>
-    
-    <GuideModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
-    </KeyboardAwareScrollView>
-  );
+    <GuideModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />    
+  </SafeAreaView>
+  )
 
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: 'space-between',
-  },
-  buttonContainer: {
-    height: 40,
-    alignItems: 'center', // 버튼을 가로로 중앙에 정렬// 버튼을 화면 하단으로 밀어내기 위한 여백 추가
-    backgroundColor: '#22a2f2', // 배경색 추가
-    paddingVertical: 10, // 상하 여백 추가
-    borderRadius: 10,  
-  },
-  password: {
-    alignItems: "center",
-    alignSelf: "stretch",
-  },
-  header: {
-    width: screenWidth,
-    height: 51, // 상단 바의 높이 조절
-    justifyContent: 'center', // 가운데 정렬
-    alignItems: 'center',
-    borderWidth: 0.5,
-    borderColor: 'gray',
-    marginBottom: 10,
-  },
-  goBackButton: {
-    position: 'absolute',
-    left: 10,
-    top: 15, // 원하는 위치에 조절
-  },
-  backButtonImage: {
-    width: 28,
-    height: 28,
-  },
-  footer: {
-    width: '95%',
-    marginLeft:10,
-    marginBottom:10,
-  },  
-  checkBox: {
-    marginTop:8,
-    textAlign:'center',
-    color: '#22A2F2',
-  },
-  headerText: {
-    color: 'black', // 텍스트 색상 설정
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  title: {
-    marginBottom: 30,
-    fontSize: 30,
-    color: '#000',
-  },
-  smalltitle: {
-    marginLeft: 10,
-    fontSize: 15,
-    width: 100,
-    color: '#000'
-  },
-  inputContainer: {
-    width: '100%',
-  },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1.5,
-    borderColor: 'gray',
-    paddingLeft: 10,
-    marginRight: 10,
-  },
-  rounded: {
-    borderRadius: 10,
-  },
-  image: {
-    marginTop: 50,
-    width: '100%',
-    height: 200,
-  },
-  forgotPassword: {
-    color: 'red',
-    fontSize: 12,
-    textAlign: 'right',
-    marginBottom: 10,
-  },
-  guidebutton: {
-    marginLeft:13,
-    borderBottomColor: '#22A2F2',
-  },
-  signupText: {
-    fontSize: 14,
-    color: '#000',
-  },
-  blueText: {
-    color: '#22A2F2',
-  },
-  checkContainer:{
-    height:40,
-    borderWidth:1,
-    width:100,
-    marginRight:10,
-    borderColor: '#22A2F2',
-    borderRadius: 7,
-  },
-  errorInput: {
-    borderColor: 'red',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 12,
-    textAlign: 'right',
-    marginRight:10,
-    
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  emptySpace: {
-    width:screenWidth,
-    marginTop:5,
-    height:20,
-    
-    marginBottom:10,
-  },
-  signupCheck: {
-    height:15,
-    marginBottom:10,
-  },
-  guideContainer: {
-    marginLeft:10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between', // Align items on the ends (left and right)
-  },
-  errorContainer: {
-    marginLeft: 'auto', // Push the error text to the right
-  },
-  underline: {
-    textDecorationLine: 'underline',
-  },
-});
 
 export default Password;

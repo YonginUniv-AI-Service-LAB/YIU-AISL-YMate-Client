@@ -5,6 +5,7 @@ import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import {styles} from "../Style"
+import {BottomButton, ErrorText, Header} from "../../components"
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -189,19 +190,7 @@ const Signup = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.mainScreen}>
     <View style={styles.mainBackground}>
-        <View style={styles.uppermenu}>
-          <Pressable style={styles.locationButton} onPress={() => navigation.pop()}>
-              <Image
-              style={styles.icon20}
-              resizeMode="cover"
-              source={require("../../assets/images/left.png")}
-              />
-          </Pressable>
-          <Text style={[styles.text20]}>
-              회원 가입
-          </Text>
-          <View style={[styles.icon20]} />
-        </View>
+      <Header title = '회원가입' onPressBack={() => navigation.goBack()}/>
         <View style = {[styles.spacebetween, styles.flexView, styles.backgroundWhite]}>
           <KeyboardAwareScrollView>
           <View style={[styles.recruitSection]}>
@@ -224,15 +213,13 @@ const Signup = ({ navigation }) => {
                 </Pressable>
               </View>
             </View>
-            <View style={[styles.emptySpace,styles.rowView, styles.spacebetween]}>
+            <View style={[styles.rowView, styles.spacebetween]}>
                 <Pressable onPress={handleGuideButtonPress}>
                     <Text style={[styles.text11, styles.blueText, styles.underline]}>
                       학번 인증 가이드 
                     </Text>
                 </Pressable>
-                  {studentIdCheckError ? (
-                    <Text style={[styles.text11,styles.errorText]}>{studentIdCheckError}</Text>
-                  ) : null}
+                <ErrorText isError={studentIdCheckError} errorMessage={studentIdCheckError}/>
             </View>
             <View style={[styles.rowView, styles.margintop11]} >
               <View style = {styles.flex025}>
@@ -252,11 +239,9 @@ const Signup = ({ navigation }) => {
                 </Pressable>
               </View>
             </View>
-            <View style={[styles.emptySpace]}>
-                  {emailCheckError ? (
-                    <Text style={[styles.text11,styles.errorText]}>{emailCheckError}</Text>
-                  ) : null}
-              </View>
+           
+                <ErrorText isError={emailCheckError} errorMessage={emailCheckError}/>
+           
             <View style={[styles.rowView, styles.margintop11]} >
               <View style = {styles.flex025}>
                 <Text style={[styles.text12]}>닉네임</Text>
@@ -275,11 +260,9 @@ const Signup = ({ navigation }) => {
                 </Pressable>
               </View>
             </View>
-            <View style={[styles.emptySpace]}>
-                  {nickNameCheckError ? (
-                    <Text style={[styles.text11,styles.errorText]}>{nickNameCheckError}</Text>
-                  ) : null}
-              </View>
+            
+              <ErrorText isError={nickNameCheckError} errorMessage={nickNameCheckError}/>
+            
             <View style={[styles.rowView, styles.margintop11]} >
                 <Text style={[styles.text12, styles.flex025]}>비밀번호</Text>
                 <TextInput
@@ -289,11 +272,9 @@ const Signup = ({ navigation }) => {
                   secureTextEntry={true}
                 />
             </View>
-            <View style={[styles.emptySpace]}>
-              {passwordError ? (
-                <Text style={styles.errorText}>{passwordError}</Text>
-              ) : null}
-            </View>
+         
+              <ErrorText isError={passwordError} errorMessage={passwordError}/>
+   
             <View style={[styles.rowView, styles.margintop11]} >
                 <Text style={[styles.text12, styles.flex025]}>비밀번호 확인</Text>
                 <TextInput
@@ -303,21 +284,14 @@ const Signup = ({ navigation }) => {
                   secureTextEntry={true}
                 />
             </View>
+              <ErrorText isError={passwordConfirmationError} errorMessage={passwordConfirmationError}/>
           </View>
-          <View style={[styles.emptySpace]}>
-            {passwordConfirmationError ? (
-              <Text style={styles.errorText}>{passwordConfirmationError}</Text>
-            ) : null}
-            </View>
+          
             </KeyboardAwareScrollView>
-          <View style={[styles.bottomContainer]}>
-            {signupCheckError ? (
-              <Text style={[styles.text11,styles.errorText]}>{signupCheckError}</Text>
-            ) : null}
-            <Pressable style={styles.bottomButton} onPress={handleSignup}>
-              <Text style={[styles.text16, styles.whiteText]}>회원가입</Text>
-            </Pressable>
-          </View>
+        
+            <ErrorText style={styles.marginRight20} isError={signupCheckError} errorMessage={signupCheckError}/>   
+            <BottomButton title='회원가입' onPress={handleSignup}/>
+      
         </View>
     </View>
     <GuideModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />    

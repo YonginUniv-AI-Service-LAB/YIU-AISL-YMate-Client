@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import { symbol } from "prop-types";
+import { TopMenu } from "../../components";
 
 
 const Notification = ({navigation}) => {
@@ -23,7 +24,7 @@ const Notification = ({navigation}) => {
                 <Text style={styles.text16}>{studentId}</Text>
             </View>
             <View>
-            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={()=>Alert.alert("로그아웃")}>
+            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={()=>navigation.navigate('Login')}>
                 <Text style={styles.buttonText}>로그아웃</Text>
             </Pressable>
             </View>
@@ -34,17 +35,7 @@ const Notification = ({navigation}) => {
 		<>
     		<View style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
-					<View style={styles.uppermenu}>
-						<Pressable style={styles.locationButton} onPress={()=>Alert.alert("위치재설정버튼")}>
-							<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/location.png")}/>
-							<Text style={styles.locationText}>AI융합대학</Text>
-							<Image style={[styles.icon16, styles.marginLeft3]} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-						</Pressable>
-						<Pressable name="alramButton" onPress={()=>Alert.alert("알림버튼")}>
-							<Image style={styles.icon26} resizeMode="cover" source={require("../../assets/images/notification.png")}/>
-							<Image style={styles.activeAlramIcon} resizeMode="cover" source={require("../../assets/images/dot_red.png")}/>
-						</Pressable>
-					</View>
+                    <TopMenu/>
                     <View style={styles.myPageHeader}>
                         <View style={styles.icon26}></View>
                         <View style={styles.headerTitle}>

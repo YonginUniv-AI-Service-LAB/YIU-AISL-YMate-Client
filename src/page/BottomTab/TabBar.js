@@ -67,7 +67,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
               source={getIconSource()}
               style={[styles.icon30, { opacity: isFocused ? 1 : 0.7 }]}
             />
-            <Text style={[styles.centerText11, styles.margintop3]}>{label}</Text>
+            <Text style={[styles.centerText11, styles.margintop3, styles.whiteText]}>{label}</Text>
           </Pressable>
         );
       })}

@@ -4,24 +4,13 @@ import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/Globa
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import {styles} from "../Style"
+import {BottomButton, Header, ErrorText} from "../../components"
 
 const TaxiRecruit = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainScreen}>
-      <View style={styles.mainBackground}>
-          <View style={styles.uppermenu}>
-            <Pressable style={styles.locationButton} onPress={() => navigation.pop()}>
-                <Image
-                style={styles.icon20}
-                resizeMode="cover"
-                source={require("../../assets/images/left.png")}
-                />
-            </Pressable>
-            <Text style={[styles.text20]}>
-                택시 모집 글 작성
-            </Text>
-            <View style={[styles.icon20]} />
-          </View>
+      <View style={[styles.mainBackground, styles.backgroundWhite]}>
+          <Header title="택시 모집 글 작성" onPressBack={() => navigation.pop()}/>
 
           <View style={[styles.recruitSection]}>
             <View style={styles.rowView}>
@@ -75,16 +64,9 @@ const TaxiRecruit = ({navigation}) => {
                   </View>
                 </View>
             </View>
-            <View style={[styles.flexView]} />
-            <Text style={[styles.errorText]}>
-              입력되지 않은 정보가 있습니다.
-            </Text>
           </View>
-          <View style={[styles.bottomContainer]}>
-            <Pressable style={styles.bottomButton} onPress={() => navigation.navigate('Taxi')}>
-              <Text style={[styles.text16, styles.whiteText]}>모집 글 등록</Text>
-            </Pressable>
-          </View>
+          <ErrorText isError={true} style={styles.marginRight20}/>
+          <BottomButton title="모집 글 등록" onPress={() => navigation.navigate('Taxi')}/>
       </View>
     </SafeAreaView>
   );

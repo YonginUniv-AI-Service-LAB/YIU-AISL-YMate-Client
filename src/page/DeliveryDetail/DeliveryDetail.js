@@ -4,9 +4,11 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../../assets/GlobalStyles";
 import {styles} from "../Style"
 import moment from 'moment-timezone';
+import {Header} from "../../components"
 
 
 const DeliveryDetail = ({navigation}) => {
+
 	const [refreshing, setRefreshing] = React.useState(false)
     const [expanded, setExpanded] = React.useState([]);
     const toggleExpand = (noticeId) => {
@@ -184,23 +186,7 @@ const DeliveryDetail = ({navigation}) => {
 		<>
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
-                    <View style={styles.uppermenu}>
-						<Pressable onPress={() => navigation.pop()}>
-							<Image
-								source={require('./../../assets/images/left.png')}
-								style={[styles.icon20]} resizeMode="cover"
-							/>
-						</Pressable>
-					<View style={styles.headerTitle}>
-                    	<Text style={[styles.headerText]}>모집 글 상세</Text>
-					</View>
-                        <Pressable onPress={()=>Alert.alert("신고하기 버튼")}>
-							<Image
-								source={require('./../../assets/images/reportbutton.png')} 
-								style={[styles.icon20]} resizeMode="cover"
-							/>
-						</Pressable>
-                    </View>
+					<Header title="모집 글 상세" isReport={true} onPressBack={() => navigation.pop()} onPressReport={() => Alert.alert("신고하기긱")}/>
                     	<DeliveryDetailCard title={DeliveryData[0].title} nickname={DeliveryData[0].nickname} createAt={DeliveryData[0].createAt} due={DeliveryData[0].due} contents={DeliveryData[0].contents}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>

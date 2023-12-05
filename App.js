@@ -12,11 +12,14 @@ import DeliveryRequest from './src/page/Delivery/DeliveryRequest';
 import TaxiRecruit from './src/page/Taxi/TaxiRecruit';
 import TaxiRequest from './src/page/Taxi/TaxiRequest';
 import Password from './src/page/Password/Password';
+
 import DeliveryDetail from './src/page/DeliveryDetail/DeliveryDetail';
 import TaxiDetail from './src/page/TaxiDetail/TaxiDetail';
 import TabStackScreen from './src/page/BottomTab/TabStackScreen';
+import Alarm from './src/page/Alarm/Alarm';
 
 const Stack = createStackNavigator();
+
 
 
 const App = () => {
@@ -34,6 +37,7 @@ const App = () => {
           <Stack.Screen name="TaxiDetail" component={TaxiDetail} />
           <Stack.Screen name="TaxiRecruit" component={TaxiRecruit} />
           <Stack.Screen name="TaxiRequest" component={TaxiRequest} />
+          <Stack.Screen name="Alarm" component={Alarm} />
         </Stack.Navigator>
     </NavigationContainer>
   );
