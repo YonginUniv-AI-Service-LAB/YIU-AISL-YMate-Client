@@ -139,21 +139,33 @@ export const styles = StyleSheet.create({
         color: "#000",
         fontFamily: "ABeeZee-Regular",
         overflow: "hidden",
-        flex: 1,
+        // flex: 1,
         marginRight: 10
     },
     smallNoticeCard: {
             borderWidth: 1,
             padding: 10,
-            alignItems: "center",
-            flexDirection: "row",
-            overflow: "hidden",
             marginTop: 5,
             marginHorizontal: 5,
-            justifyContent: "space-between",
+            backgroundColor: "#fff",
             borderColor: "rgba(0, 0, 0, 0.1)",
             borderStyle: "solid",
             alignSelf: "stretch"
+    },
+    noticeCardTitle: {
+            alignItems: "center",
+            flexDirection: "row",
+            overflow: "hidden",
+            justifyContent: "space-between",
+            alignSelf: "stretch"
+    },
+    paddingHorizontal0: {
+            paddingHorizontal: 0,
+    },
+    noticeCardContents: {
+            marginTop: 11,
+            borderTopColor: "rgba(0, 0, 0, 0.1)",
+            borderStyle: "solid"
     },
     navigationButton: {
             marginHorizontal: 8,
@@ -345,6 +357,9 @@ export const styles = StyleSheet.create({
     },
     mainSectionList: {
             height: 170,
+            alignSelf: "stretch"
+    },
+    mainNoticeList: {
             alignSelf: "stretch"
     },
     notificationSectionList: {

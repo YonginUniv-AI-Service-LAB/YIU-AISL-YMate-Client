@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Ale
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
-import {TopMenu, WriteButton, DeliveryCard, TaxiCard} from "../../components"
+import {TopMenu, WriteButton, DeliveryCard, TaxiCard, NoticeCard} from "../../components"
 
 
 const Main = ({navigation}) => {
@@ -108,31 +108,35 @@ const Main = ({navigation}) => {
 	const NoticeData = [
 		{
 			noticeId: 123123123,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉"
+			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+			updatedAt: new Date('2023-12-04T17:55:00'),
 		},
 		{
 			noticeId: 123123124,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉"
+			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+			updatedAt: new Date('2023-12-14T17:55:00'),
 		},
 		{
 			noticeId: 123123125,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉"
+			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+			updatedAt: new Date('2023-12-04T17:55:00'),
 		},
 		{
 			noticeId: 123123126,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉"
+			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+			updatedAt: new Date('2023-12-04T17:55:00'),
 		},
 		{
 			noticeId: 123123127,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉"
+			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+			updatedAt: new Date('2023-12-04T17:55:00'),
 		}
 	]
-	const noticeCard = NoticeData.map((notice) => 
-		<Pressable key={notice.noticeId} style={styles.smallNoticeCard} onPress={()=>Alert.alert(`${notice.noticeId}`)}>
-				<Text style={styles.noticeTitle} numberOfLines={1}>{notice.title}</Text>
-				<Text style={styles.centerText10}>10.30</Text>
-		</Pressable>
-	)
 
   	return (
 		<>
@@ -194,8 +198,16 @@ const Main = ({navigation}) => {
 										<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/right_blue.png")}/>
 									</Pressable>
 								</View>
-								<View style={styles.mainSectionList}>
-									{noticeCard}
+								<View style={styles.mainNoticeList}>
+									{NoticeData.map((item) => (
+										<NoticeCard
+											key={item.noticeId}
+											noticeId={item.noticeId}
+											title={item.title}
+											updatedAt={item.updatedAt}
+											contents={item.contents}
+										/>
+									))}
 								</View>
 							</View>
 						</ScrollView>

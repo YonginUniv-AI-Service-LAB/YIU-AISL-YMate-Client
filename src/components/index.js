@@ -7,6 +7,7 @@ import LocationTag from './LocationTag'
 import DeliveryCard from './DeliveryCard'
 import TaxiCard from './TaxiCard'
 import MyPostCard from './MyPostCard'
+import NoticeCard from './NoticeCard'
 
 export {
     Header, 
@@ -17,5 +18,6 @@ export {
     LocationTag, 
     DeliveryCard, 
     TaxiCard,
-    MyPostCard
+    MyPostCard,
+    NoticeCard
 }
