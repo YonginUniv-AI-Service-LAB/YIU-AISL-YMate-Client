@@ -59,7 +59,7 @@ const Notification = ({navigation}) => {
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
                             </Pressable> 
-                            <Pressable style = {styles.myPageOption}>
+                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('TaxiDetail')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>닉네임 변경</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
@@ -71,7 +71,7 @@ const Notification = ({navigation}) => {
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
                             </Pressable> 
-                            <Pressable style = {styles.myPageOption}>
+                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('DeliveryDetail')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>서비스 정보</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>

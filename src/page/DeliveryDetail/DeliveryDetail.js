@@ -93,15 +93,14 @@ const DeliveryDetail = ({navigation}) => {
 
         return(
 			<View style={[styles.myPostContainer,styles.margintop6, styles.boxShadow]}>
-				
                 <View style={[styles.deliveryDetailheader, styles.margintop6]}>
-						<View style={styles.rowView}>
-							<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/restaurant.png")}/>
-							<Text style={[styles.centerText18, styles.marginLeft3]}>같이 배달</Text>
-						</View>
-						<Pressable style={styles.redContainer} onPress={()=>Alert.alert("마감하기")}>
-							<Text style={styles.redText}>마감하기</Text>
-						</Pressable>
+					<View style={styles.rowView}>
+						<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/restaurant.png")}/>
+						<Text style={[styles.centerText18, styles.marginLeft3]}>같이 배달</Text>
+					</View>
+					<Pressable style={styles.redContainer} onPress={()=>Alert.alert("마감하기")}>
+						<Text style={styles.redText}>마감하기</Text>
+					</Pressable>
 				</View>
 				<View style={[styles.bigCard, styles.padding10]}>
 				<View style={styles.tempViewToImage} />

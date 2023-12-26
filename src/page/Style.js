@@ -3,8 +3,8 @@ import { Color, Padding, FontSize, FontFamily, Border } from "../assets/GlobalSt
 
 export const styles = StyleSheet.create({
     smallCardScroll: {
-            paddingHorizontal: 5,
-            paddingVertical: 10
+        paddingHorizontal: 5,
+        paddingVertical: 10
     },
     bigCardScroll: {
         paddingHorizontal: 15,
@@ -16,24 +16,27 @@ export const styles = StyleSheet.create({
         backgroundColor: "#f2f2f2"
     },
     icon26: {
-            width: 26,
-            height: 26
+        width: 26,
+        height: 26
     },
     icon100: {
         width: 100,
         height: 100
     },
     icon21: {
-            width: 21,
-            height: 21
+        width: 21,
+        height: 21
+    },
+    backgroundBlack: {
+        backgroundColor: "#000"
     },
     smallCardContent: {
-            marginTop: 4,
-            paddingHorizontal: 5,
-            alignItems: "center",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignSelf: "stretch"
+        marginTop: 4,
+        paddingHorizontal: 5,
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignSelf: "stretch"
     },
     cardStatusContainer:{
         marginTop: 4,
@@ -54,31 +57,31 @@ export const styles = StyleSheet.create({
         backgroundColor: "#fff"
     },
     bigCardContent: {
-            marginVertical: 4,
-            paddingHorizontal: 5,
-            paddingBottom: 5,
-            alignItems: "center",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            flex: 1,
-            alignSelf: "stretch"
+        marginVertical: 4,
+        paddingHorizontal: 5,
+        paddingBottom: 5,
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        flex: 1,
+        alignSelf: "stretch"
     },
     locationTag: {
-            backgroundColor: "#86e08f",
-            borderRadius: 6,
-            height: 17,
-            paddingHorizontal: 4,
-            justifyContent: "center",
-            alignItems: "center",
-            overflow: "hidden"
+        backgroundColor: "#86e08f",
+        borderRadius: 6,
+        height: 17,
+        paddingHorizontal: 4,
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden"
     },
     cardTitle: {
-            flex: 1,
-            color: "#000",
-            fontFamily: "ABeeZee-Regular",
-            fontSize: 14,
-            alignItems: "center",
-            overflow: "hidden"
+        flex: 1,
+        color: "#000",
+        fontFamily: "ABeeZee-Regular",
+        fontSize: 14,
+        alignItems: "center",
+        overflow: "hidden"
     },
     text15: {
         fontSize: 15,
@@ -86,10 +89,10 @@ export const styles = StyleSheet.create({
         fontFamily: "ABeeZee-Regular"
     },
     centerText11: {
-            color: "#000",
-            textAlign: "center",
-            fontSize: 11,
-            fontFamily: "ABeeZee-Regular"
+        color: "#000",
+        textAlign: "center",
+        fontSize: 11,
+        fontFamily: "ABeeZee-Regular"
     },
     centerText20: {
         color: "#000",
@@ -98,10 +101,10 @@ export const styles = StyleSheet.create({
         fontFamily: "ABeeZee-Regular"
     },
     centerText9: {
-            fontSize: 9,
-            textAlign: "center",
-            color: "#000",
-            fontFamily: "ABeeZee-Regular"
+        fontSize: 9,
+        textAlign: "center",
+        color: "#000",
+        fontFamily: "ABeeZee-Regular"
     },
     centerText10: {
         fontSize: 10,
@@ -143,40 +146,41 @@ export const styles = StyleSheet.create({
         marginRight: 10
     },
     smallNoticeCard: {
-            borderWidth: 1,
-            padding: 10,
-            marginTop: 5,
-            marginHorizontal: 5,
-            backgroundColor: "#fff",
-            borderColor: "rgba(0, 0, 0, 0.1)",
-            borderStyle: "solid",
-            alignSelf: "stretch"
+        borderWidth: 1,
+        padding: 10,
+        marginTop: 5,
+        marginHorizontal: 5,
+        backgroundColor: "#fff",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        borderStyle: "solid",
+        alignSelf: "stretch"
     },
     noticeCardTitle: {
-            alignItems: "center",
-            flexDirection: "row",
-            overflow: "hidden",
-            justifyContent: "space-between",
-            alignSelf: "stretch"
+        alignItems: "center",
+        flexDirection: "row",
+        overflow: "hidden",
+        justifyContent: "space-between",
+        alignSelf: "stretch"
     },
     paddingHorizontal0: {
-            paddingHorizontal: 0,
+        paddingHorizontal: 0,
     },
     noticeCardContents: {
-            marginTop: 11,
-            borderTopColor: "rgba(0, 0, 0, 0.1)",
-            borderStyle: "solid"
+        marginTop: 11,
+        borderTopColor: "rgba(0, 0, 0, 0.1)",
+        borderWidth: 1,
+        borderStyle: "solid"
     },
     navigationButton: {
-            marginHorizontal: 8,
-            height: 47,
-            width: 45,
-            alignItems: "center",
-            overflow: "hidden"
+        marginHorizontal: 8,
+        height: 47,
+        width: 45,
+        alignItems: "center",
+        overflow: "hidden"
     },
     icon24: {
-            width: 24,
-            height: 24
+        width: 24,
+        height: 24
     },
     text20: {
         fontSize: 20,
@@ -225,19 +229,19 @@ export const styles = StyleSheet.create({
         marginTop: 4,
     },
     locationText: {
-            marginLeft: 3,
-            textAlign: "center",
-            fontFamily: "ABeeZee-RegularW",
-            fontSize: 14,
-            color: "#000"
+        marginLeft: 3,
+        textAlign: "center",
+        fontFamily: "ABeeZee-RegularW",
+        fontSize: 14,
+        color: "#000"
     },
     locationButton: {
-            flexDirection: "row",
-            alignItems: "center"
+        flexDirection: "row",
+        alignItems: "center"
     },
     rowView: {
-            flexDirection: "row",
-            alignItems: "center"
+        flexDirection: "row",
+        alignItems: "center"
     },
     spacebetween: {
         justifyContent: "space-between",
@@ -247,95 +251,95 @@ export const styles = StyleSheet.create({
         flexDirection:'column',
     },
     activeAlramIcon: {
-            top: 1,
-            left: 21,
-            width: 6,
-            height: 6,
-            position: "absolute"
+        top: 1,
+        left: 21,
+        width: 6,
+        height: 6,
+        position: "absolute"
     },
     alrambutton: {
-            overflow: "hidden"
+        overflow: "hidden"
     },
     uppermenu: {
-            backgroundColor: "#fff",
-            shadowColor: "rgba(0, 0, 0, 0.25)",
-            shadowOffset: {
-                width: 0,
-                height: 4
-            },
-            shadowRadius: 4,
-            elevation: 4,
-            shadowOpacity: 1,
-            borderBottomWidth: 1,
-            height: 51,
-            paddingHorizontal: 14,
-            justifyContent: "space-between",
-            paddingVertical: 8,
-            flexDirection: "row",
-            alignItems: "center",
-            borderColor: "rgba(0, 0, 0, 0.1)",
-            borderStyle: "solid",
-            overflow: "hidden",
-            alignSelf: "stretch"
+        backgroundColor: "#fff",
+        shadowColor: "rgba(0, 0, 0, 0.25)",
+        shadowOffset: {
+            width: 0,
+            height: 4
+        },
+        shadowRadius: 4,
+        elevation: 4,
+        shadowOpacity: 1,
+        borderBottomWidth: 1,
+        height: 51,
+        paddingHorizontal: 14,
+        justifyContent: "space-between",
+        paddingVertical: 8,
+        flexDirection: "row",
+        alignItems: "center",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        borderStyle: "solid",
+        overflow: "hidden",
+        alignSelf: "stretch"
     },
     advertiseImage: {
-            maxWidth: "100%",
-            height: 75,
-            overflow: "hidden",
-            alignSelf: "stretch",
-            width: "100%"
+        maxWidth: "100%",
+        height: 75,
+        overflow: "hidden",
+        alignSelf: "stretch",
+        width: "100%"
     },
     marginLeft3: {
-            marginLeft: 3
+        marginLeft: 3
     },
     marginLeft6: {
-         marginLeft: 6
+        marginLeft: 6
     },
     marginLeft12: {
         marginLeft: 12
     },
     marginRight12: {
-         marginRight: 12
+        marginRight: 12
     },
     marginRight20: {
-         marginRight: 20
+        marginRight: 20
     },
     marginHorizontal6:{
         marginHorizontal: 6,
     },  
     clickText13: {
-            fontSize: 13,
-            color: "#22a2f2",
-            textAlign: "center",
-            fontFamily: "ABeeZee-Regular"
+        fontSize: 13,
+        color: "#22a2f2",
+        textAlign: "center",
+        fontFamily: "ABeeZee-Regular"
     },
     icon11: {
-            width: 11,
-            height: 11
+        width: 11,
+        height: 11
     },
     icon20: {
         width: 20,
         height: 20
         },
     tempViewToImage: {
-            borderRadius: 11,
-            backgroundColor: "#F9E583",
-            width: 170,
-            height: 96,
-            alignSelf: "stretch"
+        borderRadius: 11,
+        backgroundColor: "#F9E583",
+        width: 170,
+        height: 96,
+        alignSelf: "stretch"
     },
     cardImage: {
-            borderRadius: 11,
-            backgroundColor: "#F9E583",
-            width: 170,
-            height: 96,
-            alignSelf: "stretch"
+        borderRadius: 11,
+        backgroundColor: "#F9E583",
+        width: 170,
+        height: 96,
+        alignSelf: "stretch"
     },
     smallCard: {
-            marginLeft: 10,
-            height: 150,
-            width: 170,
-            alignItems: "center"
+        marginLeft: 10,
+        height: 150,
+        width: 170,
+        alignItems: "center"
     },
     myPageCard: {
         flexDirection: "row",
@@ -346,21 +350,21 @@ export const styles = StyleSheet.create({
         borderBottomWidth:1,
     },
     bigCard: {
-            marginTop: 10,
-            flexDirection: "row",
-            height: 96,
-            alignSelf: "stretch",
-            alignItems: "center"
+        marginTop: 10,
+        flexDirection: "row",
+        height: 96,
+        alignSelf: "stretch",
+        alignItems: "center"
     },
     padding10: {
         paddingHorizontal: 10,
     },
     mainSectionList: {
-            height: 170,
-            alignSelf: "stretch"
+        height: 170,
+        alignSelf: "stretch"
     },
     mainNoticeList: {
-            alignSelf: "stretch"
+        alignSelf: "stretch"
     },
     notificationSectionList: {
         height: '100%',
@@ -370,32 +374,32 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 5,
     },
     mainSectionTitle: {
-            paddingHorizontal: 15,
-            paddingBottom: 6,
-            borderColor: "rgba(0, 0, 0, 0.3)",
-            borderBottomWidth: 1,
-            alignItems: "center",
-            alignSelf: "stretch",
-            justifyContent: "space-between",
-            flexDirection: "row",
-            overflow: "hidden"
+        paddingHorizontal: 15,
+        paddingBottom: 6,
+        borderColor: "rgba(0, 0, 0, 0.3)",
+        borderBottomWidth: 1,
+        alignItems: "center",
+        alignSelf: "stretch",
+        justifyContent: "space-between",
+        flexDirection: "row",
+        overflow: "hidden"
     },
     mainSection: {
-            marginTop: 7,
-            paddingTop: 10,
-            justifyContent: "center",
-            overflow: "hidden",
-            alignSelf: "stretch",
-            backgroundColor: "#fff",
-            flex: 1
+        marginTop: 7,
+        paddingTop: 10,
+        justifyContent: "center",
+        overflow: "hidden",
+        alignSelf: "stretch",
+        backgroundColor: "#fff",
+        flex: 1
     },
     recruitSection: {
-            paddingTop: 11,
-            paddingHorizontal: 15,
-            overflow: "hidden",
-            alignSelf: "stretch",
-            backgroundColor: "#fff",
-            flex: 1
+        paddingTop: 11,
+        paddingHorizontal: 15,
+        overflow: "hidden",
+        alignSelf: "stretch",
+        backgroundColor: "#fff",
+        flex: 1
     },
     loginSection: {
         width: '80%',
@@ -432,8 +436,8 @@ export const styles = StyleSheet.create({
         elevation: 4,
         shadowRadius: 4,
         shadowOffset: {
-          width: 0,
-          height: 4,
+            width: 0,
+            height: 4,
         },
         shadowColor: "rgba(0, 0, 0, 0.25)",
     },
@@ -498,26 +502,26 @@ export const styles = StyleSheet.create({
         backgroundColor: "#fff",
     },
     icon17: {
-            width: 17,
-            height: 17
+        width: 17,
+        height: 17
     },
     icon16: {
-            width: 16,
-            height: 16
+        width: 16,
+        height: 16
     },
     mainBody: {
-            backgroundColor: "#f2f2f2",
-            width: "100%",
-            alignSelf: "stretch",
-            flexDirection: "row",
-            flex: 1
+        backgroundColor: "#f2f2f2",
+        width: "100%",
+        alignSelf: "stretch",
+        flexDirection: "row",
+        flex: 1
     },
     icon30: {
-            width: 30,
-            height: 30
+        width: 30,
+        height: 30
     },
     margintop3: {
-            marginTop: 3
+        marginTop: 3
     },
     margintop6: {
         marginTop: 6
@@ -529,7 +533,7 @@ export const styles = StyleSheet.create({
         marginTop: 11
     },
     opacity70: {
-            opacity: 0.7
+        opacity: 0.7
     },
     boxShadow:{
         elevation: 4,
@@ -540,14 +544,14 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     navigationBar: {
-            backgroundColor: "#22a2f2",
-            paddingHorizontal: 10,
-            paddingVertical: 10,
-        //     paddingBottom: 23,
-            justifyContent: "center",
-            flexDirection: "row",
-            alignItems: "center",
-            alignSelf: "stretch"
+        backgroundColor: "#22a2f2",
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        // paddingBottom: 23,
+        justifyContent: "center",
+        flexDirection: "row",
+        alignItems: "center",
+        alignSelf: "stretch"
     },
     bottomContainer: {
         // height: 80,
@@ -567,40 +571,40 @@ export const styles = StyleSheet.create({
         elevation: 4,
         shadowRadius: 4,
         shadowOffset: {
-          width: 0,
-          height: 4,
+            width: 0,
+            height: 4,
         },
         shadowColor: "rgba(0, 0, 0, 0.25)",
     },
     mainBackground: {
-            flex: 1
+        flex: 1
     },
     icon50: {
-            width: 50,
-            height: 50
+        width: 50,
+        height: 50
     },
     writeButton: {
-            right: 15,
-            bottom: 15,
-            position: "absolute"
+        right: 15,
+        bottom: 15,
+        position: "absolute"
     },
     DeliveryWriteButton: {
-            right: 15,
-            bottom: 135,
-            position: "absolute"
+        right: 15,
+        bottom: 135,
+        position: "absolute"
     },
     TaxiWriteButton: {
-            right: 15,
-            bottom: 75,
-            position: "absolute"
+        right: 15,
+        bottom: 75,
+        position: "absolute"
     },
     backgroundWhite: {
-            backgroundColor: "#fff",
-            borderWidth: 0,
-            borderRadius: 25
+        backgroundColor: "#fff",
+        borderWidth: 0,
+        borderRadius: 25
     },
     mainScreen: {
-            flex: 1,
+        flex: 1,
     },
     notificationHeader: {
         flexDirection: "row",
@@ -863,4 +867,21 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: "#fff",
     },
-})
+    locationScroll: {
+        flex: 1,
+        paddingVertical: 0,
+        paddingHorizontal: 10,
+        alignSelf: 'stretch'
+    },
+    toggleButton: {
+        marginTop: 10,
+        paddingVertical: 5,
+        borderColor: "#22A2F2",
+        borderWidth: 1,
+        borderRadius: 6,
+        paddingHorizontal: 8,
+        borderStyle: "solid",
+        alignSelf: "stretch",
+        alignItems: 'flex-start',
+    },
+    })

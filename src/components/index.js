@@ -8,6 +8,8 @@ import DeliveryCard from './DeliveryCard'
 import TaxiCard from './TaxiCard'
 import MyPostCard from './MyPostCard'
 import NoticeCard from './NoticeCard'
+import ToggleButton from './ToggleButton'
+
 
 export {
     Header, 
@@ -19,5 +21,6 @@ export {
     DeliveryCard, 
     TaxiCard,
     MyPostCard,
-    NoticeCard
+    NoticeCard,
+    ToggleButton,
 }

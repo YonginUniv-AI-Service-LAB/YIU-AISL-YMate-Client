@@ -57,6 +57,7 @@ const TopMenu = () => {
         const newLocation = location + 1
         await AsyncStorage.setItem('location', newLocation.toString())
         setLocation(newLocation)
+        navigation.navigate('Location')
         } catch (error) {
         console.error('AsyncStorage에 location을 저장하는 중 오류 발생:', error)
         }
