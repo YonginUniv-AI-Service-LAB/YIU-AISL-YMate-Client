@@ -1,13 +1,17 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Text, StyleSheet, Image, Pressable, View, Alert } from "react-native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/GlobalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import {styles} from "../Style"
 import {BottomButton, Header, ErrorText} from "../../components"
-import Alarm from "../Alarm/Alarm";
+import ModalDropdown from "react-native-modal-dropdown";
+import { TextInput } from "react-native-gesture-handler";
+import foodTypeToNumber from '../../components/FoodTypeToNumber';
+import foods from '../../constant/FoodDatas';
 
 const DeliveryRecruit = ({navigation}) => {
+  const [selectedFood, setSelectedFood] = useState('');
   return (
     <SafeAreaView style={styles.mainScreen}>
       <View style={[styles.mainBackground, styles.backgroundWhite]}>
@@ -39,15 +43,15 @@ const DeliveryRecruit = ({navigation}) => {
 
             <View style={[styles.margintop9]}>
               <Text style={styles.text12}>제목</Text>
-              <View style={[styles.recruitInput]} />
+              <TextInput style={[styles.recruitInput]} />
             </View>
             <View style={[styles.margintop9]}>
               <Text style={styles.text12}>내용</Text>
-              <View style={[styles.recruitInput, styles.recruitContent]} />
+              <TextInput style={[styles.recruitInput, styles.recruitContent]} />
             </View>
             <View style={[styles.margintop9]}>
               <Text style={styles.text12}>음식</Text>
-                <View style={[styles.recruitInput, styles.rowView]}>
+              <View style={[styles.recruitInput, styles.rowView]}>
                     {/* inputbox */}
                   <View style={styles.flexView} />
                   <View style={[styles.recruitInputDropdown]}>

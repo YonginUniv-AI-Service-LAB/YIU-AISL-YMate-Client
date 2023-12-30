@@ -5,7 +5,7 @@ import Main from '../Main/Main';
 import Password from '../Password/Password';
 import axios from 'axios';
 import {styles} from "../Style"
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation, route }) => {
   const { onLogin } = route.params || {};
@@ -14,36 +14,34 @@ const Login = ({ navigation, route }) => {
 
   const handleLogin = async () => {
     if (!studentId || !pwd) {
-      await AsyncStorage.setItem('studentId', studentId);
-      navigation.navigate('Main');
-    }else{
-      const apiUrl = "http://localhost:8080/login";
-    try {
-      // Axios를 사용하여 POST 요청 보내기
-      const response = await axios.post(apiUrl, {
-        studentId,
-        Password: pwd,
-        fcm: 1234,
-      });
+      alert('아이디나 비밀번호를 입력해주세요');
+    } else {
+      try {
+        const response = await axios.post(
+          "http://172.30.1.67:8080/login",
+          {
+            studentId: studentId,
+            pwd: pwd,
+          },
+          {
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            withCredentials: true,
+          }
+        );
 
-      // 응답이 성공적인지 확인
-      if (response.status === 200) {
-        // 성공적인 로그인
-        alert('로그인 성공!');
-        // 부모 컴포넌트에 로그인 상태 전달
-        onLogin();
-      } else {
-        // 로그인 실패 처리
-        alert('로그인 실패. 올바른 학번과 비밀번호를 입력하세요.');
+        console.log('>>> [LOGIN] ✅ SUCCESS', response.data);
+
+        if (response.status === 200) {
+          // 로그인 성공 시 studentId와 accessToken을 AsyncStorage에 저장
+          await AsyncStorage.setItem('user', studentId);
+          await AsyncStorage.setItem('accessToken', response.data.token.accessToken);
+          navigation.navigate('Main');
+        }
+      } catch (error) {
+        console.log('>>> [LOGIN] 🤬 ERROR', error);
       }
-    } catch (error) {
-      console.error('로그인 중 오류 발생:', error);
-      alert('로그인 중 오류가 발생했습니다.');
     }
-  }
   };
-
-
 
   return (
     <SafeAreaView style={[styles.mainScreen]}>

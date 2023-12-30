@@ -32,54 +32,53 @@ const Signup = ({ navigation }) => {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [signupCheckError, setSignupCheckError] = useState('');
 
+  const [verificationCode, setVerificationCode] = useState('');
+
   const handleStudentId = async () => {
     const studentIdPattern = /^\d{9}$/;
+    setSignupCheckError('');
+    setIsEmailVerified(false);
+    setIsStudentIdValid(false);
+    setIsEmailNumberValid(false);
+    setEmailCheckError('');
+    setStudentIdCheckSuccess('');
+    setEmailCheckSuccess('');
     if (!studentIdPattern.test(studentId)) {
       setStudentIdCheckError('유효한 학번을 입력해주세요.');
-      setIsEmailVerified(false);
-      setIsStudentIdValid(false);
-      setEmailCheckError('');
-      setStudentIdCheckSuccess('');
     } else {
-      setIsEmailVerified(true);
-      setIsStudentIdValid(true);
-      setStudentIdCheckError('');
-      setStudentIdCheckSuccess('인증번호가 전송되었습니다.');
-    //  const apiUrl = 'https://192.168.0.3:8080/mail';
-    //   try {
-    //     // 학번을 백엔드로 전송
-    //     const response = await axios.post(apiUrl, {
-    //       studentId,
-    //     });
-  
-    //     if (response.status===200) {
-    //       // 성공적으로 이메일을 보낸 경우, 이메일 인증이 필요하다는 메시지를 표시할 수 있습니다.
-    //       setIsEmailVerified(true);
-    //       setIsStudentIdValid(true);
-    //       setStudentIdCheckError('');
-    //     } else {
-    //       // 백엔드에서 실패한 경우, 에러 메시지 표시 또는 적절한 조치 수행
-    //       setStudentIdCheckError(response.data.message || '이메일 전송에 실패했습니다.');
-    //       setIsEmailVerified(false);
-    //       setIsStudentIdValid(false);
-    //       setEmailCheckError('');
-    //       setEmailCheckSuccess('학번 인증이 완료되었습니다.');
-    //     }
-    //   } catch (error) {
-    //     console.error('이메일 전송 실패:', error);
-    //     setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
-    //     setIsEmailVerified(true);
-    //       setIsStudentIdValid(true);
-    //       setStudentIdCheckError('');
-    //   }
-    // }
+      const response = await axios.post("http://172.30.1.67:8080/mail",
+        { email: studentId },
+        {
+          headers: {"Content-Type": "application/x-www-form-urlencoded"},
+          withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+        }).then((res) => {
+        console.log('>>> [mail] ✅ SUCCESS', res.data);
+        if (res.status === 200) {
+          setIsEmailVerified(true);
+          setIsStudentIdValid(true);
+          setStudentIdCheckError('');
+          setStudentIdCheckSuccess('인증번호가 전송되었습니다.');
+          setVerificationCode(res.data);
+        }
+      }).catch((error) => {
+        console.log('>>> [mail] 🤬 ERROR', error);
+        if (error.response && error.response.status === 409) {
+          // 중복된 닉네임인 경우
+          setStudentIdCheckError('이미 존재하는 회원입니다.');
+        } 
+        else{
+          setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
+        }
+      });
     }
   };
+  
 
   const handleEmailCheck = async () => {
     setEmailCheckSuccess('');
+    setSignupCheckError('');
     if(isEmailVerified){
-      if(emailCheckNumber != 666){
+      if(emailCheckNumber != verificationCode){
         setEmailCheckError('인증번호가 일치하지 않습니다.');
         setIsEmailNumberValid(false);
       }
@@ -94,36 +93,36 @@ const Signup = ({ navigation }) => {
     }
     
   }
+
   const handleNickNameCheck = async() => {
-    
+    setSignupCheckError('');
+    setIsNickNameValid(false);
     if (nickname.length < 2) {
       setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
-      setIsNickNameValid(false);
       setNickNameCheckSuccess('');
     } else {
-      setIsNickNameValid(true);
-      setNickNameCheckError('');
-      setNickNameCheckSuccess('사용 가능한 닉네임입니다.');
-      // const apiUrl = 'https://192.168.0.3:8080/nickcheck';
-      // try {
-      //   // 학번을 백엔드로 전송
-      //   const response = await axios.post(apiUrl, {
-      //     nickname,
-      //   });
-      //   if (response.status===200) {
-      //     setNickNameCheckError('');
-      //     setIsNickNameValid(true);
-      //     setNickNameCheckSuccess('사용 가능한 닉네임입니다.');
-      //   }
-      //   else{
-      //     setNickNameCheckError('닉네임 중복');
-      //     setIsNickNameValid(flase);
-      //   }
-      // }catch(error){
-      //   console.error('닉네임 전송 실패:', error);
-      //   setNickNameCheckError('닉네임 전송에 실패했습니다. 다시 시도해주세요.');
-      //   setIsNickNameValid(flase);
-      // }
+      const response = await axios.post("http://172.30.1.67:8080/nickcheck",
+        { nickname: nickname },
+        {
+          headers: {"Content-Type": "application/x-www-form-urlencoded"},
+          withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+        }).then((res) => {
+        console.log('>>> [nickcheck] ✅ SUCCESS', res.data);
+        if (res.status===200) {
+          setNickNameCheckError('');
+          setIsNickNameValid(true);
+          setNickNameCheckSuccess('사용 가능한 닉네임입니다.');
+        }
+      }).catch((error) => {
+        if (error.response && error.response.status === 409) {
+          // 중복된 닉네임인 경우
+          setNickNameCheckError('중복된 닉네임입니다.');
+        } 
+        else{
+          console.error('닉네임 전송 실패:', error);
+          setNickNameCheckError('닉네임 전송에 실패했습니다. 다시 시도해주세요.');
+        }
+      });
 
     }
   };
@@ -181,17 +180,22 @@ const Signup = ({ navigation }) => {
         console.log("닉네임:", nickname);
         console.log("비번:", pwd);
           // 백엔드 API에 POST 요청 보내기
-          const response = await axios.post("http://192.168.0.3:8080/join", {
+          const response = await axios.post("http://172.30.1.67:8080/join",
+          {
             studentId: studentId,
             nickname: nickname,
             pwd: pwd,
+          }, {
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
           }).then((res) => {
-            console.log('>>> [LOGIN] ✅ SUCCESS', res.data);
+            console.log('>>> [signup] ✅ SUCCESS', res.data);
             if (res.status === 200) {
-                navigate('login');
+              alert('회원가입이 완료되었습니다.');
+              navigation.goBack();
             }
         }).catch((error) => {
-          console.log('>>> [LOGIN] 🤬 ERROR', error);
+          console.log('>>> [signup] 🤬 ERROR', error);
         });
       }   
     };

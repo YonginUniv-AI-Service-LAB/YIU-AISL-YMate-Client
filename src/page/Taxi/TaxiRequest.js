@@ -6,6 +6,8 @@ import {styles} from "../Style"
 import {BottomButton, Header, ErrorText} from "../../components"
 
 const TaxiRequest = ({navigation}) => {
+  const handleTaxiRequest = async () => {
+  }
   return (
     <SafeAreaView style={styles.mainScreen}>
       <View style={[styles.mainBackground, styles.backgroundWhite]}>
@@ -38,7 +40,7 @@ const TaxiRequest = ({navigation}) => {
           </View>
           {/* onPress 추가 필요 */}
           <ErrorText isError={true} style={styles.marginRight20}/>
-          <BottomButton title="신청 등록"/>
+          <BottomButton onPress={handleTaxiRequest} title="신청 등록"/>
       </View>
     </SafeAreaView>
   );

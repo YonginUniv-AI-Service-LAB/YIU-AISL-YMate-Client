@@ -6,13 +6,14 @@ import { useNavigation, useFocusEffect} from '@react-navigation/native'
 import LocationTag from './LocationTag'
 import moment from 'moment-timezone'
 
+
 //size: 0 -> smallCard 1 -> bigCard
-const DeliveryCard = ({size = 0, dId, title, due, food, location}) => {
+const DeliveryCard = ({size = 0, did, title, due, food, location, studentId}) => {
 	const navigation = useNavigation()
     const [now, setNow] = useState(moment.tz('Asia/Seoul').add(9,'hour'))
     useEffect(() => {
         const interval = setInterval(() => {
-            setNow(moment.tz('Asia/Seoul').add(9,'hour'))
+            setNow(prevNow => moment.tz('Asia/Seoul').add(9,'hour'))
         }, 60000)
         return () => clearInterval(interval)
     }, [])
@@ -33,9 +34,35 @@ const DeliveryCard = ({size = 0, dId, title, due, food, location}) => {
     }
     const dueStatusStyle = isPastDue ? { color: 'red' } : {};
 
+    const getUserInfo = async () => {
+        try {
+          const userString = await AsyncStorage.getItem('user');
+          if (userString !== null) {
+            const user = JSON.parse(userString);
+            console.log('User Info:', user);
+            // 여기서 user 변수에 로그인한 아이디가 들어있습니다.
+            return user;
+          } else {
+            console.log('User Info not found');
+          }
+        } catch (error) {
+          console.error('Error retrieving user info:', error);
+        }
+    };
+
+    const handleDeliveryCard = async () => {
+        const userInfo = await getUserInfo(); // 예시: getUserInfo가 Promise를 반환하는 경우
+        if (studentId === userInfo) {
+            navigation.navigate('DeliveryDetail');
+        }
+        else{
+            Alert.alert("다름");
+        }
+    }
+
     return (
         size?
-            <Pressable style={styles.bigCard} onPress={()=>Alert.alert(`${dId}`)}>
+            <Pressable style={styles.bigCard} onPress={handleDeliveryCard}>
                 <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
                 <View style={styles.flexView}>
                     <View style={styles.smallCardContent}>
@@ -48,7 +75,7 @@ const DeliveryCard = ({size = 0, dId, title, due, food, location}) => {
                 </View>
             </Pressable>
             :
-            <Pressable style={styles.smallCard} onPress={()=>Alert.alert(`${dId}`)}>
+            <Pressable style={styles.smallCard} onPress={handleDeliveryCard}>
                 <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
                 <View style={styles.smallCardContent}>
                     <LocationTag location={location}/>

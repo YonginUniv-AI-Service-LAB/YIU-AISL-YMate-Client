@@ -56,30 +56,15 @@ const MainStackScreen = () => {
       </Stack.Navigator>
     )
   };
-  const DeliveryDetailStackScreen = () => {
-    return(
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="DeliveryDetail" component={DeliveryDetail} />
-      </Stack.Navigator>
-    )
-  };
-
-  const TaxiDetailStackScreen = () => {
-    return(
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="TaxiDetail" component={TaxiDetail} />
-      </Stack.Navigator>
-    )
-  };
 
 const TabStackScreen = () => {
     return (
       <TabStack.Navigator initialRouteName="홈" tabBar={props => <TabBar {...props} />}>
-        <TabStack.Screen name="배달" component={DeliveryStackScreen}/>
-        <TabStack.Screen name="택시" component={TaxiStackScreen}/>
-        <TabStack.Screen name="홈" component={MainStackScreen}/>
-        <TabStack.Screen name="내가 쓴 글" component={MyPostStackScreen}/>
-        <TabStack.Screen name="내 정보" component={MyPageStackScreen}/>
+        <TabStack.Screen name="배달" component={DeliveryStackScreen} options={{ unmountOnBlur: true }}/>
+        <TabStack.Screen name="택시" component={TaxiStackScreen} options={{ unmountOnBlur: true }}/>
+        <TabStack.Screen name="홈" component={MainStackScreen} options={{ unmountOnBlur: true }}/>
+        <TabStack.Screen name="내가 쓴 글" component={MyPostStackScreen} options={{ unmountOnBlur: true }}/>
+        <TabStack.Screen name="내 정보" component={MyPageStackScreen} options={{ unmountOnBlur: true }}/>
     </TabStack.Navigator>
     );
 };

@@ -7,8 +7,8 @@ import LocationTag from './LocationTag'
 import moment from 'moment-timezone'
 
 //size: 0 -> smallCard 1 -> bigCard
-const TaxiCard = ({size = 0, tId, title, due, startCode, endCode, current, max}) => {
-   const navigation = useNavigation()
+const TaxiCard = ({size = 0, tid, title, due, startCode, endCode, current, max, studentId}) => {
+    const navigation = useNavigation()
     const [now, setNow] = useState(moment.tz('Asia/Seoul').add(9, 'hours'))
 
     useEffect(() => {
@@ -35,9 +35,34 @@ const TaxiCard = ({size = 0, tId, title, due, startCode, endCode, current, max})
     }
     const dueStatusStyle = isPastDue ? { color: 'red' } : {};
 
+    const getUserInfo = async () => {
+        try {
+          const userString = await AsyncStorage.getItem('user');
+          if (userString !== null) {
+            const user = JSON.parse(userString);
+            console.log('User Info:', user);
+            // 여기서 user 변수에 로그인한 아이디가 들어있습니다.
+            return user;
+          } else {
+            console.log('User Info not found');
+          }
+        } catch (error) {
+          console.error('Error retrieving user info:', error);
+        }
+    };
+
+    const handleTaxiCard = async () => {
+        const userInfo = await getUserInfo(); // 예시: getUserInfo가 Promise를 반환하는 경우
+        if (studentId === userInfo) {
+            navigation.navigate('TaxiDetail', { condition: 1 });
+        } else {
+            navigation.navigate('TaxiDetail', { condition: 2 });
+        }
+    }
+
     return (
         size?
-            <Pressable style={styles.bigCard} onPress={()=>Alert.alert(`${tId}`)}>
+            <Pressable style={styles.bigCard} onPress={handleTaxiCard}>
                 <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${startCode}`}}/>
                 <View style={styles.flexView}>
                     <View style={styles.smallCardContent}>
@@ -55,7 +80,7 @@ const TaxiCard = ({size = 0, tId, title, due, startCode, endCode, current, max})
                 </View>
             </Pressable>
             :
-            <Pressable style={styles.smallCard} onPress={()=>Alert.alert(`${tId}`)}>
+            <Pressable style={styles.smallCard} onPress={handleTaxiCard}>
                 <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${startCode}`}}/>
                 <View style={styles.smallCardContent}>
                     <View name="taxi location" flexDirection="row">
