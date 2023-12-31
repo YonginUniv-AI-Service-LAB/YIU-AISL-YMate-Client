@@ -44,7 +44,7 @@ const locationToNumber = (location) => {
     '신갈': 13000003,
   };
 
-  return locationMap[location] || -1;
+  return locationTypeMap[location] || -1;
 };
 
 export default locationToNumber;

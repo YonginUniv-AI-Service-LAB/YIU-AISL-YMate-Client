@@ -88,6 +88,10 @@ export const styles = StyleSheet.create({
         color: "#000",
         fontFamily: "ABeeZee-Regular"
     },
+    defaultText11: {
+        fontSize: FontSize.size_2xs,
+        color:'#a0a0a0',
+    },
     centerText11: {
         color: "#000",
         textAlign: "center",
@@ -120,6 +124,11 @@ export const styles = StyleSheet.create({
     },
     textAlignRight: {
         textAlign: "right",
+        // backgroundColor: "#000",
+        flex: 1,
+    },
+    textAlignLeft: {
+        textAlign: "left",
         // backgroundColor: "#000",
         flex: 1,
     },
