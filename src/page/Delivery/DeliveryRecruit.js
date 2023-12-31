@@ -1,11 +1,10 @@
 import React, { useState, useRef  } from "react";
-import { Text, StyleSheet, Image, Pressable, View, Alert, TouchableWithoutFeedback, Keyboard, AsyncStorage} from "react-native";
+import { Text, StyleSheet, Image,TextInput, Pressable, View, Alert, TouchableWithoutFeedback, Keyboard, AsyncStorage} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {styles} from "../Style"
 import {BottomButton, Header, ErrorText} from "../../components"
 import ModalDropdown from "react-native-modal-dropdown";
-import { TextInput } from "react-native-gesture-handler";
 import foodTypeToNumber from '../../components/TypeToNumber/FoodTypeToNumber';
 import locationTypeToNumber from '../../components/TypeToNumber/LocationTypeToNumber';
 import timeTypeToNumber from '../../components/TypeToNumber/TimeTypeToNumber';
@@ -115,6 +114,7 @@ const DeliveryRecruit = ({navigation}) => {
             }
         }).catch((error) => {
           console.log('>>> [deliveryRecruit] 🤬 ERROR', error);
+          setError("AccessToken만료");
         });
        
     }
@@ -136,7 +136,7 @@ const DeliveryRecruit = ({navigation}) => {
                       ref={timeDropDownRef}
                       options={times}
                       onSelect={(index, value) => setSelectedTime(timeTypeToNumber(value))}
-                      defaultValue={"선택"}
+                      defaultValue={"선택하세요"}
                       
                       style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
                       renderButtonText={(rowData) => (
@@ -156,7 +156,7 @@ const DeliveryRecruit = ({navigation}) => {
                       ref={locationDropdownRef}
                       options={locations}
                       onSelect={(index, value) => setSelectedLocation(locationTypeToNumber(value))}
-                      defaultValue={"선택"}
+                      defaultValue={"선택하세요"}
                       style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
                       renderButtonText={(rowData) => (
                         <Text style={styles.text11}>{rowData}</Text>
@@ -177,9 +177,10 @@ const DeliveryRecruit = ({navigation}) => {
                 value={title}
                   onChangeText={(text) => {
                     setTitle(text);
+                  }}
+                  onEndEditing={() => {
                     handleChange();
-                  }
-                }
+                  }}
               />
             </View>
             <View style={[styles.margintop9]}>
@@ -188,9 +189,10 @@ const DeliveryRecruit = ({navigation}) => {
                 value={contents}
                 onChangeText={(text) => {
                   setContents(text);
+                }}
+                onEndEditing={() => {
                   handleChange();
-                }
-              }
+                }}
               />
             </View>
             <View style={[styles.margintop9]}>
@@ -201,7 +203,7 @@ const DeliveryRecruit = ({navigation}) => {
                       ref={foodDropdownRef}
                       options={foods}
                       onSelect={(index, value) => setSelectedFood(foodTypeToNumber(value))}
-                      defaultValue={"선택"}
+                      defaultValue={"선택하세요"}
                       style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
                       renderButtonText={(rowData) => (
                         <Text style={styles.text11}>{rowData}</Text>
