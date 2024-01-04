@@ -18,7 +18,7 @@ const Delivery = ({navigation}) => {
 	
 	  const fetchData = async () => {
 		try {
-		  const response = await axios.get("http://172.30.1.67:8080/delivery", {
+		  const response = await axios.get("http://172.30.1.28:8080/delivery", {
 			headers: {
 			  "Content-Type": "application/x-www-form-urlencoded",
 			},

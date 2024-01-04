@@ -3,8 +3,10 @@ import {useState, useEffect} from 'react'
 import {Text, Pressable, View, Alert, Image, AsyncStorage} from 'react-native'
 import {styles} from '../page/Style'
 import { useNavigation, useFocusEffect} from '@react-navigation/native'
+import { getUserInfo, getAccessTokenInfo } from './utils'
 import LocationTag from './LocationTag'
 import moment from 'moment-timezone'
+import axios from 'axios';
 
 
 //size: 0 -> smallCard 1 -> bigCard
@@ -34,30 +36,32 @@ const DeliveryCard = ({size = 0, did, title, due, food, location, studentId}) =>
     }
     const dueStatusStyle = isPastDue ? { color: 'red' } : {};
 
-    const getUserInfo = async () => {
-        try {
-          const userString = await AsyncStorage.getItem('user');
-          if (userString !== null) {
-            const user = JSON.parse(userString);
-            console.log('User Info:', user);
-            // 여기서 user 변수에 로그인한 아이디가 들어있습니다.
-            return user;
-          } else {
-            console.log('User Info not found');
-          }
-        } catch (error) {
-          console.error('Error retrieving user info:', error);
-        }
-    };
-
     const handleDeliveryCard = async () => {
         const userInfo = await getUserInfo(); // 예시: getUserInfo가 Promise를 반환하는 경우
-        if (studentId === userInfo) {
-            navigation.navigate('DeliveryDetail');
-        }
-        else{
-            Alert.alert("다름");
-        }
+        const accessTokenInfo = await getAccessTokenInfo();
+        console.log(did);
+        const response = await axios.post("http://172.30.1.28:8080/delivery/detail",
+          {
+            dId : did,
+          }, {
+            headers: {"Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": `Bearer ${accessTokenInfo}`,
+          },
+            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+          }).then((res) => {
+            console.log('>>> [deliverydetail] ✅ SUCCESS', res.data);
+            if (res.status === 200) {
+                const deliveryDetailData = {
+                    deliveryData: res.data,
+                    type: userInfo === res.data.studentId ? 1 : 2,
+                  };
+                // deliverydetail로 데이터를 전달하며 이동
+                navigation.navigate('DeliveryDetail', { deliveryDetailData });
+              }
+        }).catch((error) => {
+          console.log('>>> [deliverydetail] 🤬 ERROR', error);
+          alert('삭제됐거나 존재하지 않는 글입니다.');
+        });
     }
 
     return (

@@ -12,6 +12,7 @@ import locations from '../../constant/LocationDatas'
 import maxPersons from '../../constant/MaxPersonDatas'
 import times from '../../constant/TimeDatas'
 import axios from 'axios';
+import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
 
 const TaxiRecruit = ({navigation}) => {
   const [startLocation, setStartLocation] = useState(null);
@@ -48,38 +49,7 @@ const TaxiRecruit = ({navigation}) => {
 
   const handleChange = () =>{
     setError('');
-    console.log('dd');
   }
-
-  const getUserInfo = async () => {
-    try {
-     const userString = await AsyncStorage.getItem('user');
-        if (userString !== null) {
-          const user = JSON.parse(userString);
-          console.log('User Info:', user);
-          // 여기서 user 변수에 로그인한 아이디가 들어있습니다.
-          return user;
-        } else {
-          console.log('User Info not found');
-        }
-        } catch (error) {
-          console.error('Error retrieving user info:', error);
-        }
-    };
-  const getAccessTokenInfo = async () => {
-      try {
-       const accessToken = await AsyncStorage.getItem('accessToken');
-          if (accessToken !== null) {
-            console.log('AccessToken Info:', accessToken);
-            // 여기서 user 변수에 로그인한 아이디가 들어있습니다.
-            return accessToken;
-          } else {
-            console.log('AccessToken Info not found');
-          }
-          } catch (error) {
-            console.error('Error retrieving AccessToken info:', error);
-          }
-  };
 
   const getDueDate = () =>{
     const currentDate = new Date();
@@ -98,7 +68,7 @@ const TaxiRecruit = ({navigation}) => {
       const userInfo = await getUserInfo(); 
       const accessTokenInfo = await getAccessTokenInfo();
       const dueDate = getDueDate();
-      const response = await axios.post("http://172.30.1.67:8080/taxi/create",
+      const response = await axios.post("http://172.30.1.28:8080/taxi/create",
           {
             student_id: userInfo,
             title: title,

@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {styles} from "../Style"
 import {BottomButton, Header, ErrorText} from "../../components"
+import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
 import ModalDropdown from "react-native-modal-dropdown";
 import foodTypeToNumber from '../../components/TypeToNumber/FoodTypeToNumber';
 import locationTypeToNumber from '../../components/TypeToNumber/LocationTypeToNumber';
@@ -45,36 +46,6 @@ const DeliveryRecruit = ({navigation}) => {
     setError('');
   }
 
-  const getUserInfo = async () => {
-    try {
-     const userString = await AsyncStorage.getItem('user');
-        if (userString !== null) {
-          const user = JSON.parse(userString);
-          console.log('User Info:', user);
-          // 여기서 user 변수에 로그인한 아이디가 들어있습니다.
-          return user;
-        } else {
-          console.log('User Info not found');
-        }
-        } catch (error) {
-          console.error('Error retrieving user info:', error);
-        }
-    };
-  const getAccessTokenInfo = async () => {
-      try {
-       const accessToken = await AsyncStorage.getItem('accessToken');
-          if (accessToken !== null) {
-            console.log('AccessToken Info:', accessToken);
-            // 여기서 user 변수에 로그인한 아이디가 들어있습니다.
-            return accessToken;
-          } else {
-            console.log('AccessToken Info not found');
-          }
-          } catch (error) {
-            console.error('Error retrieving AccessToken info:', error);
-          }
-  };
-
   const getDueDate = () =>{
     const currentDate = new Date();
     const nHoursLater = new Date(currentDate.getTime() + (selectedTime+9) * 60 * 60 * 1000);
@@ -92,7 +63,7 @@ const DeliveryRecruit = ({navigation}) => {
       const userInfo = await getUserInfo(); 
       const accessTokenInfo = await getAccessTokenInfo();
       const dueDate = getDueDate();
-      const response = await axios.post("http://172.30.1.67:8080/delivery/create",
+      const response = await axios.post("http://172.30.1.28:8080/delivery/create",
           {
             student_id: userInfo,
             title: title,
