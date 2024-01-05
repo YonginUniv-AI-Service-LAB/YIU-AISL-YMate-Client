@@ -13,7 +13,7 @@ const Main = ({navigation}) => {
 		{
 			dId: 123123123,
 			title: "장충동 왕족발보쌈",
-			due: new Date('2023-12-04T17:55:00'),
+			due: new Date('2023-12-27T17:55:00'),
 			food: 332211,
 			location: 10000001,
 			createAt: 3322111,
@@ -21,7 +21,7 @@ const Main = ({navigation}) => {
 		{
 			dId: 123123124,
 			title: "장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈",
-			due: new Date('2023-12-04T17:55:00'),
+			due: new Date('2023-12-27T10:55:00'),
 			food: 3321,
 			location: 10000009,
 			createAt: 3322111,

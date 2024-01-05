@@ -140,6 +140,7 @@ const DeliveryDetail = ({navigation}) => {
 		);
     }
 
+	// 후후 ~@~
     const commentCard = CommentData.map((comment) => 
 	<View>
     <View style={[styles.commentContainer, { borderColor: comment.state === 0 ? Color.colorGray_100 : '#22A2F2'}]}>

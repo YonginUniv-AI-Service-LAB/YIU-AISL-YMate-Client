@@ -168,7 +168,7 @@ export const styles = StyleSheet.create({
     noticeCardContents: {
         marginTop: 11,
         borderTopColor: "rgba(0, 0, 0, 0.1)",
-        borderWidth: 1,
+        // borderWidth: 1,
         borderStyle: "solid"
     },
     navigationButton: {
@@ -873,10 +873,21 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 10,
         alignSelf: 'stretch'
     },
-    toggleButton: {
+    toggleButtonActive: {
         marginTop: 10,
         paddingVertical: 5,
         borderColor: "#22A2F2",
+        borderWidth: 1,
+        borderRadius: 6,
+        paddingHorizontal: 8,
+        borderStyle: "solid",
+        alignSelf: "stretch",
+        alignItems: 'flex-start',
+    },
+    toggleButton: {
+        marginTop: 10,
+        paddingVertical: 5,
+        borderColor: "rgba(0, 0, 0, 0.4)",
         borderWidth: 1,
         borderRadius: 6,
         paddingHorizontal: 8,

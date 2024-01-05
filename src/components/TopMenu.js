@@ -26,6 +26,7 @@ const TopMenu = () => {
             loadActiveAlarm()
         }, [])
     )
+    
     const loadLocation = async () => {
         try {
             // AsyncStorage에서 location 값을 불러와서 state에 설정합니다.
