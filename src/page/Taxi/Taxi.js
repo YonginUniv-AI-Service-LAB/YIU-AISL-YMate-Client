@@ -1,107 +1,129 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import {WriteButton, TaxiCard, TopMenu} from '../../components'
+import axios from "axios";
 
 
 const Taxi = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
 
+	const [taxiData, setTaxiData] = useState([]);
+
+	useEffect(() => {
+		// 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
+		fetchData();
+	  }, []);
 	
-	const TaxiData = [
-		{
-			tId: 123123123,
-			title: "집 가고싶다",
-			due: new Date('2023-12-05T17:19:00'),
-			startCode: 10000001,
-			endCode: 10000003,
-			current: 3,
-			max: 4,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123124,
-			title: "집 가고싶다집 가고싶다집 가고싶다",
-			due: new Date('2023-12-04T17:55:00'),
-			startCode: 10000002,
-			endCode: 10000003,
-			current: 3,
-			max: 4,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123125,
-			title: "집 가고싶다",
-			due: new Date('2023-12-04T17:55:00'),
-			startCode: 10000003,
-			endCode: 10000003,
-			current: 3,
-			max: 4,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123126,
-			title: "집 가고싶다",
-			due: new Date('2023-12-05T11:55:00'),
-			startCode: 10000004,
-			endCode: 10000003,
-			current: 3,
-			max: 4,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123127,
-			title: "집 가고싶다",
-			due: new Date('2023-12-04T15:55:00'),
-			startCode: 10000005,
-			endCode: 10000003,
-			current: 2,
-			max: 7,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123128,
-			title: "집 가고싶다",
-			due: new Date('2023-12-04T15:55:00'),
-			startCode: 10000005,
-			endCode: 10000003,
-			current: 2,
-			max: 7,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123129,
-			title: "집 가고싶다",
-			due: new Date('2023-12-04T15:55:00'),
-			startCode: 10000005,
-			endCode: 10000003,
-			current: 2,
-			max: 7,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123130,
-			title: "집 가고싶다",
-			due: new Date('2023-12-04T15:55:00'),
-			startCode: 10000005,
-			endCode: 10000003,
-			current: 2,
-			max: 7,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123131,
-			title: "집 가고싶다",
-			due: new Date('2023-12-04T15:55:00'),
-			startCode: 10000005,
-			endCode: 10000003,
-			current: 2,
-			max: 7,
-			createAt: 3322111,
+	  const fetchData = async () => {
+		try {
+		  const response = await axios.get("http://172.30.1.28:8080/taxi", {
+			headers: {
+			  "Content-Type": "application/x-www-form-urlencoded",
+			},
+			withCredentials: true,
+		  });
+		  // 가져온 데이터를 state에 저장
+		  setTaxiData(response.data);
+		} catch (error) {
+		  console.error("데이터 가져오기 실패:", error);
 		}
-	]
+	  };
+	
+	// const TaxiData = [
+	// 	{
+	// 		tId: 123123123,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-05T17:19:00'),
+	// 		startCode: 10000001,
+	// 		endCode: 10000003,
+	// 		current: 3,
+	// 		max: 4,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123124,
+	// 		title: "집 가고싶다집 가고싶다집 가고싶다",
+	// 		due: new Date('2023-12-04T17:55:00'),
+	// 		startCode: 10000002,
+	// 		endCode: 10000003,
+	// 		current: 3,
+	// 		max: 4,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123125,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-04T17:55:00'),
+	// 		startCode: 10000003,
+	// 		endCode: 10000003,
+	// 		current: 3,
+	// 		max: 4,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123126,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-05T11:55:00'),
+	// 		startCode: 10000004,
+	// 		endCode: 10000003,
+	// 		current: 3,
+	// 		max: 4,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123127,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-04T15:55:00'),
+	// 		startCode: 10000005,
+	// 		endCode: 10000003,
+	// 		current: 2,
+	// 		max: 7,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123128,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-04T15:55:00'),
+	// 		startCode: 10000005,
+	// 		endCode: 10000003,
+	// 		current: 2,
+	// 		max: 7,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123129,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-04T15:55:00'),
+	// 		startCode: 10000005,
+	// 		endCode: 10000003,
+	// 		current: 2,
+	// 		max: 7,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123130,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-04T15:55:00'),
+	// 		startCode: 10000005,
+	// 		endCode: 10000003,
+	// 		current: 2,
+	// 		max: 7,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123131,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-04T15:55:00'),
+	// 		startCode: 10000005,
+	// 		endCode: 10000003,
+	// 		current: 2,
+	// 		max: 7,
+	// 		createAt: 3322111,
+	// 	}
+	// ]
 
   	return (
 		<>
@@ -123,9 +145,9 @@ const Taxi = ({navigation}) => {
 								<FlatList
 									contentContainerStyle={styles.bigCardScroll}
 									showsHorizontalScrollIndicator={false}
-									data={TaxiData}
-									renderItem={({item}) => <TaxiCard size={1} tId={item.tId} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max}/>}
-									keyExtractor={item => item.tId}
+									data={taxiData}
+									renderItem={({item}) => <TaxiCard size={1} tid={item.tid} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max} studentId={item.studentId}/>}
+									keyExtractor={item => item.tid}
 									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}
 								/>
 						</View>

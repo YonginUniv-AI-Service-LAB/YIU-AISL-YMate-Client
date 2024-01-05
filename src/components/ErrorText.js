@@ -17,7 +17,7 @@ const ErrorText = ({isError = false, errorMessage = "default error", isChecked =
 			//에러 아닐 경우
 			isChecked?
 				//확인 상태일 경우 -> 파란 텍스트
-				<Text style={[styles.errorText, style]}>
+				<Text style={[styles.errorText, styles.blueText]}>
 					{checkedMessage}
 				</Text>
 				:

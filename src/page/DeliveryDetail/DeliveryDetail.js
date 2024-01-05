@@ -7,7 +7,7 @@ import moment from 'moment-timezone';
 import {Header} from "../../components"
 
 
-const DeliveryDetail = ({navigation}) => {
+const DeliveryDetail = ({navigation, route}) => {
 
 	const [refreshing, setRefreshing] = React.useState(false)
     const [expanded, setExpanded] = React.useState([]);
@@ -23,19 +23,9 @@ const DeliveryDetail = ({navigation}) => {
         });
       };
 
-      const DeliveryData = [
-		{
-			tId: 123123123,
-            nickname: "두글자",
-			title: "같이 먹어용",
-			due: new Date('2023-11-28T21:55:00'),
-			contents: "오늘 저녁 같이 학교에서 시켜드실 분 제가 아주아주아주 많이 먹어서 많이 시켜서 나눠드실 분이면 더욱더욱 좋습니다!!",
-			food: 332211,
-			location: 332211,
-			createAt: new Date('2023-11-28T07:45:00'),
-            type: 1,
-		},
-	]
+	  const { deliveryDetailData } = route.params;
+
+	  const { deliveryData, type } = deliveryDetailData;
 
     const CommentData = [
 		{
@@ -61,8 +51,14 @@ const DeliveryDetail = ({navigation}) => {
 		},
 	]
 
+	const handleButtonPress  = async () => { 
+		if(type === 2){
+			navigation.navigate('DeliveryRequest');
+		}
+	}
 
-	const DeliveryDetailCard = ({title, nickname, createAt, due, contents}) => {
+
+	const DeliveryDetailCard = ({title, location, food, nickname, createAt, due, contents}) => {
         const [now, setNow] = React.useState(moment().tz('Asia/Seoul'));
 		const [writeType, setWriteType] = React.useState('');
         React.useEffect(() => {
@@ -98,9 +94,16 @@ const DeliveryDetail = ({navigation}) => {
 						<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/restaurant.png")}/>
 						<Text style={[styles.centerText18, styles.marginLeft3]}>같이 배달</Text>
 					</View>
-					<Pressable style={styles.redContainer} onPress={()=>Alert.alert("마감하기")}>
-						<Text style={styles.redText}>마감하기</Text>
-					</Pressable>
+					{type === 1 && ( //type이 1일 때만 마감하기 버튼 렌더링 type 1은 자기글
+					<View style={styles.rowView}>
+							<Pressable style={[styles.redContainer,styles.marginRight6]} onPress={() => Alert.alert("마감하기")}>
+								<Text style={styles.redText}>마감하기</Text>
+							</Pressable>
+							<Pressable style={styles.redContainer} onPress={() => Alert.alert("삭제하기")}>
+								<Text style={styles.redText}>삭제하기</Text>
+							</Pressable>
+					</View>
+						)}
 				</View>
 				<View style={[styles.bigCard, styles.padding10]}>
 				<View style={styles.tempViewToImage} />
@@ -120,8 +123,8 @@ const DeliveryDetail = ({navigation}) => {
 							<Text style={styles.text10}>작성 : {moment(createAt).format('YYYY년 MM월 DD일 HH:mm')}</Text>
 							<Text style={styles.text10}>마감 : {moment(due).format('YYYY년 MM월 DD일 HH:mm')}</Text>
 						</View>
-						<Pressable style={[styles.modifybuttonContainer,styles.marginRight12]} onPress={()=>Alert.alert("수정하기")}>
-							<Text style={styles.buttonText}>수정하기</Text>
+						<Pressable style={[styles.modifybuttonContainer,styles.marginRight12]} onPress={handleButtonPress}>
+							<Text style={styles.buttonText}>{type === 1 ? "수정하기" : "신청하기"}</Text>
 						</Pressable>
 					</View>
 				</View>
@@ -187,7 +190,7 @@ const DeliveryDetail = ({navigation}) => {
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
 					<Header title="모집 글 상세" isReport={true} onPressBack={() => navigation.pop()} onPressReport={() => Alert.alert("신고하기긱")}/>
-                    	<DeliveryDetailCard title={DeliveryData[0].title} nickname={DeliveryData[0].nickname} createAt={DeliveryData[0].createAt} due={DeliveryData[0].due} contents={DeliveryData[0].contents}/>
+                    	<DeliveryDetailCard title={deliveryData.title} nickname={type} food={deliveryData.food} location={deliveryData.location} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
 								<View style={styles.recruiterSectionList}>

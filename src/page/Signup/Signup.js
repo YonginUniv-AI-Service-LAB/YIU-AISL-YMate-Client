@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Pressable, SafeAreaView} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, Pressable, SafeAreaView, TouchableOpacity} from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
@@ -12,68 +12,80 @@ const Signup = ({ navigation }) => {
 
   const [studentId, setStudentId] = useState('');
   const [studentIdCheckError, setStudentIdCheckError] = useState('');
+  const [studentIdCheckSuccess, setStudentIdCheckSuccess] = useState('');
   const [isStudentIdValid,setIsStudentIdValid] = useState(false);
   const [emailCheckNumber, setemailCheckNumber] = useState('');
-  const [emailCheckError, setEmailCheckError] = useState(''); 
+  const [emailCheckError, setEmailCheckError] = useState('');
+  const [emailCheckSuccess, setEmailCheckSuccess] = useState(''); 
   const [isEmailNumberValid,setIsEmailNumberValid] = useState(false);
   const [nickname, setnickname] = useState('');
   const [nickNameCheckError,setNickNameCheckError] = useState('');
+  const [nickNameCheckSuccess,setNickNameCheckSuccess] = useState('');
   const [isNickNameValid,setIsNickNameValid] = useState(false);
   const [pwd, setpwd] = useState('');
   const [passwordError,setPasswordError] = useState('');
+  const [passwordSuccess,setPasswordSuccess] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [passwordConfirmationError, setPasswordConfirmationError] = useState('');
+  const [passwordConfirmationSuccess, setPasswordConfirmationSuccess] = useState('');
   const [isPasswordValid,setIsPasswordValid] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [signupCheckError, setSignupCheckError] = useState('');
 
+  const [verificationCode, setVerificationCode] = useState('');
+
   const handleStudentId = async () => {
     const studentIdPattern = /^\d{9}$/;
-  
+    setSignupCheckError('');
+    setIsEmailVerified(false);
+    setIsStudentIdValid(false);
+    setIsEmailNumberValid(false);
+    setEmailCheckError('');
+    setStudentIdCheckSuccess('');
+    setEmailCheckSuccess('');
     if (!studentIdPattern.test(studentId)) {
       setStudentIdCheckError('유효한 학번을 입력해주세요.');
-      setIsEmailVerified(false);
-      setIsStudentIdValid(false);
-      setEmailCheckError('');
     } else {
-      const apiUrl = 'https://192.168.0.3:8080/mail';
-      try {
-        // 학번을 백엔드로 전송
-        const response = await axios.post(apiUrl, {
-          studentId,
-        });
-  
-        if (response.status===200) {
-          // 성공적으로 이메일을 보낸 경우, 이메일 인증이 필요하다는 메시지를 표시할 수 있습니다.
+      const response = await axios.post("http://172.30.1.28:8080/mail",
+        { email: studentId },
+        {
+          headers: {"Content-Type": "application/x-www-form-urlencoded"},
+          withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+        }).then((res) => {
+        console.log('>>> [mail] ✅ SUCCESS', res.data);
+        if (res.status === 200) {
           setIsEmailVerified(true);
           setIsStudentIdValid(true);
           setStudentIdCheckError('');
-        } else {
-          // 백엔드에서 실패한 경우, 에러 메시지 표시 또는 적절한 조치 수행
-          setStudentIdCheckError(response.data.message || '이메일 전송에 실패했습니다.');
-          setIsEmailVerified(false);
-          setIsStudentIdValid(false);
-          setEmailCheckError('');
+          setStudentIdCheckSuccess('인증번호가 전송되었습니다.');
+          setVerificationCode(res.data);
         }
-      } catch (error) {
-        console.error('이메일 전송 실패:', error);
-        setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
-        setIsEmailVerified(true);
-          setIsStudentIdValid(true);
-          setStudentIdCheckError('');
-      }
+      }).catch((error) => {
+        console.log('>>> [mail] 🤬 ERROR', error);
+        if (error.response && error.response.status === 409) {
+          // 중복된 닉네임인 경우
+          setStudentIdCheckError('이미 존재하는 회원입니다.');
+        } 
+        else{
+          setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
+        }
+      });
     }
   };
+  
 
   const handleEmailCheck = async () => {
+    setEmailCheckSuccess('');
+    setSignupCheckError('');
     if(isEmailVerified){
-      if(emailCheckNumber != 666){
+      if(emailCheckNumber != verificationCode){
         setEmailCheckError('인증번호가 일치하지 않습니다.');
         setIsEmailNumberValid(false);
       }
       else{
         setEmailCheckError('')
         setIsEmailNumberValid(true);
+        setEmailCheckSuccess('인증번호가 일치합니다.');
       }
     }
     else {
@@ -81,55 +93,63 @@ const Signup = ({ navigation }) => {
     }
     
   }
+
   const handleNickNameCheck = async() => {
+    setSignupCheckError('');
+    setIsNickNameValid(false);
     if (nickname.length < 2) {
       setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
-      setIsNickNameValid(false);
+      setNickNameCheckSuccess('');
     } else {
-      setIsNickNameValid(true);
-      const apiUrl = 'https://192.168.0.3:8080/nickcheck';
-      try {
-        // 학번을 백엔드로 전송
-        const response = await axios.post(apiUrl, {
-          nickname,
-        });
-        if (response.status===200) {
+      const response = await axios.post("http://172.30.1.28:8080/nickcheck",
+        { nickname: nickname },
+        {
+          headers: {"Content-Type": "application/x-www-form-urlencoded"},
+          withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+        }).then((res) => {
+        console.log('>>> [nickcheck] ✅ SUCCESS', res.data);
+        if (res.status===200) {
           setNickNameCheckError('');
           setIsNickNameValid(true);
+          setNickNameCheckSuccess('사용 가능한 닉네임입니다.');
         }
+      }).catch((error) => {
+        if (error.response && error.response.status === 409) {
+          // 중복된 닉네임인 경우
+          setNickNameCheckError('중복된 닉네임입니다.');
+        } 
         else{
-          setNickNameCheckError('닉네임 중복');
-          setIsNickNameValid(flase);
+          console.error('닉네임 전송 실패:', error);
+          setNickNameCheckError('닉네임 전송에 실패했습니다. 다시 시도해주세요.');
         }
-      }catch(error){
-        console.error('닉네임 전송 실패:', error);
-        setNickNameCheckError('닉네임 전송에 실패했습니다. 다시 시도해주세요.');
-        setIsNickNameValid(flase);
-      }
+      });
 
     }
   };
 
   const handlePasswordChange = (text) => {
     const passwordPattern = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-z\d!@#$%^&*()_+]{8,}$/;
-
     if (!passwordPattern.test(text)) {
       setPasswordError('비밀번호는 영문, 숫자, 기호를 포함하고 8자리 이상이어야 합니다.');
+      setPasswordSuccess('');
     }
     else {
       setPasswordError('');
+      setPasswordSuccess('사용가능한 비밀번호입니다.');
     }
 
     setpwd(text);
   };
 
   const handlePasswordConfirmationChange = (text) => {
+    setPasswordConfirmationSuccess('');
     if (text !== pwd) {
       setPasswordConfirmationError('비밀번호가 일치하지 않습니다.');
       setIsPasswordValid(false);
     } else {
       setPasswordConfirmationError('');
       setIsPasswordValid(true);
+      setPasswordConfirmationSuccess('비밀번호가 일치합니다.');
     }
 
     setPasswordConfirmation(text);
@@ -160,17 +180,22 @@ const Signup = ({ navigation }) => {
         console.log("닉네임:", nickname);
         console.log("비번:", pwd);
           // 백엔드 API에 POST 요청 보내기
-          const response = await axios.post("http://192.168.0.3:8080/join", {
+          const response = await axios.post("http://172.30.1.28:8080/join",
+          {
             studentId: studentId,
             nickname: nickname,
             pwd: pwd,
+          }, {
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
           }).then((res) => {
-            console.log('>>> [LOGIN] ✅ SUCCESS', res.data);
+            console.log('>>> [signup] ✅ SUCCESS', res.data);
             if (res.status === 200) {
-                navigate('login');
+              alert('회원가입이 완료되었습니다.');
+              navigation.goBack();
             }
         }).catch((error) => {
-          console.log('>>> [LOGIN] 🤬 ERROR', error);
+          console.log('>>> [signup] 🤬 ERROR', error);
         });
       }   
     };
@@ -199,9 +224,9 @@ const Signup = ({ navigation }) => {
                     setIsEmailVerified(false);
                   }}
                 />
-                <Pressable style={[styles.checkBox,styles.marginLeft12]} onPress={handleStudentId}>
+                <TouchableOpacity style={[styles.checkBox,styles.marginLeft12]} onPress={handleStudentId} activeOpacity={0.7}>
                   <Text style={[styles.text11, styles.blueText]}>인증메일 발송</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </View>
             <View style={[styles.rowView, styles.spacebetween]}>
@@ -210,7 +235,7 @@ const Signup = ({ navigation }) => {
                       학번 인증 가이드 
                     </Text>
                 </Pressable>
-                <ErrorText isError={studentIdCheckError} errorMessage={studentIdCheckError}/>
+                <ErrorText isError={studentIdCheckError} errorMessage={studentIdCheckError} isChecked={isStudentIdValid} checkedMessage={studentIdCheckSuccess}/>
             </View>
             <View style={[styles.rowView, styles.margintop11]} >
               <View style = {styles.flex025}>
@@ -225,13 +250,13 @@ const Signup = ({ navigation }) => {
                     setIsEmailNumberValid(false);
                   }}
                 />
-                <Pressable style={[styles.checkBox,styles.marginLeft12]} onPress={handleEmailCheck} disabled={!isEmailVerified}>
+                <TouchableOpacity style={[styles.checkBox,styles.marginLeft12]} onPress={handleEmailCheck} disabled={!isEmailVerified} activeOpacity={0.7}>
                   <Text style={[styles.text11, styles.blueText]}>인증번호 발송</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </View>
            
-                <ErrorText isError={emailCheckError} errorMessage={emailCheckError}/>
+                <ErrorText isError={emailCheckError} errorMessage={emailCheckError} isChecked={isEmailNumberValid} checkedMessage={emailCheckSuccess}/>
            
             <View style={[styles.rowView, styles.margintop11]} >
               <View style = {styles.flex025}>
@@ -246,13 +271,13 @@ const Signup = ({ navigation }) => {
                     setIsNickNameValid(false);
                   }}
                 />
-                <Pressable style={[styles.checkBox,styles.marginLeft12]} onPress={handleNickNameCheck}>
+                <TouchableOpacity style={[styles.checkBox,styles.marginLeft12]} onPress={handleNickNameCheck} activeOpacity={0.7}>
                   <Text style={[styles.text11, styles.blueText]}>중복확인</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </View>
-            
-              <ErrorText isError={nickNameCheckError} errorMessage={nickNameCheckError}/>
+                  
+              <ErrorText isError={nickNameCheckError} errorMessage={nickNameCheckError} isChecked={isNickNameValid} checkedMessage={nickNameCheckSuccess}/>
             
             <View style={[styles.rowView, styles.margintop11]} >
                 <Text style={[styles.text12, styles.flex025]}>비밀번호</Text>
@@ -263,7 +288,7 @@ const Signup = ({ navigation }) => {
                   secureTextEntry={true}
                 />
             </View>
-              <ErrorText isError={passwordError} errorMessage={passwordError}/>
+              <ErrorText isError={passwordError} errorMessage={passwordError} isChecked={passwordSuccess} checkedMessage={passwordSuccess}/>
             <View style={[styles.rowView, styles.margintop11]} >
                 <Text style={[styles.text12, styles.flex025]}>비밀번호 확인</Text>
                 <TextInput
@@ -273,7 +298,7 @@ const Signup = ({ navigation }) => {
                   secureTextEntry={true}
                 />
             </View>
-              <ErrorText isError={passwordConfirmationError} errorMessage={passwordConfirmationError}/>
+              <ErrorText isError={passwordConfirmationError} errorMessage={passwordConfirmationError} isChecked={passwordConfirmation} checkedMessage={passwordConfirmationSuccess}/>
           </View>
             </KeyboardAwareScrollView>
             <ErrorText style={styles.marginRight20} isError={signupCheckError} errorMessage={signupCheckError}/>   

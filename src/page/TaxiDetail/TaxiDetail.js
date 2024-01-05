@@ -6,7 +6,8 @@ import {styles} from "../Style"
 import moment from 'moment-timezone';
 
 
-const DeliveryDetail = ({navigation}) => {
+const DeliveryDetail = ({navigation, route}) => {
+	const { condition } = route.params || {};
 	const [refreshing, setRefreshing] = React.useState(false)
     const [expanded, setExpanded] = React.useState([]);
     const toggleExpand = (noticeId) => {
@@ -20,6 +21,17 @@ const DeliveryDetail = ({navigation}) => {
           }
         });
       };
+
+	  const handleButtonPress = () => {
+		if (condition === 1) {
+		  // condition이 1일 때 수정하기 버튼을 눌렀을 때 수행할 동작
+		  Alert.alert("수정하기");
+		  
+		} else if (condition === 2) {
+		  // condition이 2일 때 신청하기 버튼을 눌렀을 때 수행할 동작
+		  navigation.navigate('TaxiRequest');
+		}
+	  };
 
       const TaxiData = [
 		{
@@ -98,9 +110,11 @@ const DeliveryDetail = ({navigation}) => {
 							<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/restaurant.png")}/>
 							<Text style={[styles.centerText18, styles.marginLeft3]}>같이 배달</Text>
 						</View>
-						<Pressable style={styles.redContainer} onPress={()=>Alert.alert("마감하기")}>
-							<Text style={styles.redText}>마감하기</Text>
-						</Pressable>
+						{condition === 1 && ( // condition이 1일 때만 마감하기 버튼 렌더링
+							<Pressable style={styles.redContainer} onPress={() => Alert.alert("마감하기")}>
+								<Text style={styles.redText}>마감하기</Text>
+							</Pressable>
+						)}
 				</View>
 				<View style={[styles.bigCard, styles.padding10]}>
 				<View style={styles.tempViewToImage} />
@@ -126,8 +140,8 @@ const DeliveryDetail = ({navigation}) => {
 							<Text style={styles.text10}>작성 : {moment(createAt).format('YYYY년 MM월 DD일 HH:mm')}</Text>
 							<Text style={styles.text10}>마감 : {moment(due).format('YYYY년 MM월 DD일 HH:mm')}</Text>
 						</View>
-						<Pressable style={[styles.modifybuttonContainer,styles.marginRight12]} onPress={()=>Alert.alert("수정하기")}>
-							<Text style={styles.buttonText}>수정하기</Text>
+						<Pressable style={[styles.modifybuttonContainer,styles.marginRight12]} onPress={handleButtonPress}>
+							<Text style={styles.buttonText}>{condition === 1 ? "수정하기" : "신청하기"}</Text>
 						</Pressable>
 					</View>
 				</View>
@@ -153,7 +167,7 @@ const DeliveryDetail = ({navigation}) => {
 			<Text style={styles.text16}>{comment.nickname}</Text>
 			<View style={styles.rowView}>
 				<Text style={styles.text16}>인원 : {comment.count} </Text>
-				{comment.state === 1 && (
+				{condition === 1  && comment.state === 1 && (
 				<>
 					<Pressable style={[styles.bluebuttonContainer]} onPress={() => Alert.alert("수락")}>
 					<Text style={styles.buttonText}>수락</Text>
@@ -179,7 +193,7 @@ const DeliveryDetail = ({navigation}) => {
 			<Text style={styles.text12}>{comment.title}</Text>
 		</View>
 	</View>
-		{comment.state === 2 && (
+		{condition === 1 && comment.state === 2 && (
 				<View style = {styles.commentDetails}>
 					<Text style = {styles.text12}>{comment.details}</Text>
 				</View>
