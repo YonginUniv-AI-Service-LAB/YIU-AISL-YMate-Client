@@ -5,20 +5,22 @@ import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import { WriteButton, DeliveryCard, TopMenu } from "../../components";
 import axios from "axios";
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Delivery = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
 	const [deliveryData, setDeliveryData] = useState([]);
 
-	useEffect(() => {
-		// 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
-		fetchData();
-	  }, []);
+	useFocusEffect(
+		React.useCallback(() => {
+		  fetchData(); // 화면이 focus되면 fetchData 함수 호출
+		}, [])
+	  );
 	
 	  const fetchData = async () => {
 		try {
-		  const response = await axios.get("http://172.30.1.28:8080/delivery", {
+		  const response = await axios.get("http://192.168.45.34:8080/delivery", {
 			headers: {
 			  "Content-Type": "application/x-www-form-urlencoded",
 			},
@@ -31,81 +33,6 @@ const Delivery = ({navigation}) => {
 		  console.error("데이터 가져오기 실패:", error);
 		}
 	  };
-
-	// const DeliveryData = [
-	// 	{
-	// 		dId: 123123123,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-05T17:55:00'),
-	// 		food: 332211,
-	// 		location: 10000001,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 123123124,
-	// 		title: "장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 3321,
-	// 		location: 10000009,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 123123125,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 341211,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 123123126,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 33123412211,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 123123127,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 31234211,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 12312124124126,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 331235678211,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 1212455233126,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 3367895678211,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 12543586226,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 33123123111,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 1123458673126,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 3376831,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	},
-	// ]
 
   	return (
 		<>
@@ -128,7 +55,7 @@ const Delivery = ({navigation}) => {
 									contentContainerStyle={styles.bigCardScroll}
 									showsHorizontalScrollIndicator={false}
 									data={deliveryData}
-									renderItem={({item}) => <DeliveryCard size={1} did={item.did} title={item.title} due={item.due} food={item.food} location={item.location} studentId={item.studentId}/>}
+									renderItem={({item}) => <DeliveryCard size={1} dId={item.did} state={item.state} title={item.title} due={item.due} food={item.food} location={item.location} studentId={item.studentId}/>}
 									keyExtractor={item => item.did}
 									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}
 								/>

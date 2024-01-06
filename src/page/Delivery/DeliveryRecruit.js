@@ -63,7 +63,7 @@ const DeliveryRecruit = ({navigation}) => {
       const userInfo = await getUserInfo(); 
       const accessTokenInfo = await getAccessTokenInfo();
       const dueDate = getDueDate();
-      const response = await axios.post("http://172.30.1.28:8080/delivery/create",
+      const response = await axios.post("http://192.168.45.34:8080/delivery/create",
           {
             student_id: userInfo,
             title: title,
@@ -95,7 +95,7 @@ const DeliveryRecruit = ({navigation}) => {
     <SafeAreaView style={styles.mainScreen}>
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={[styles.mainBackground, styles.backgroundWhite]}>
-          <Header title = "배달 모집 글 작성" onPressBack={() => navigation.pop()}/>
+          <Header title = "배달 모집 글 작성" onPressBack={() => navigation.goBack()}/>
           <KeyboardAwareScrollView>
           <View style={[styles.recruitSection]}>
             <View style={styles.rowView}>

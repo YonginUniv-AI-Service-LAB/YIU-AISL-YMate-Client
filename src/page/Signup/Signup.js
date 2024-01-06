@@ -46,7 +46,7 @@ const Signup = ({ navigation }) => {
     if (!studentIdPattern.test(studentId)) {
       setStudentIdCheckError('유효한 학번을 입력해주세요.');
     } else {
-      const response = await axios.post("http://172.30.1.28:8080/mail",
+      const response = await axios.post("http://192.168.45.34:8080/mail",
         { email: studentId },
         {
           headers: {"Content-Type": "application/x-www-form-urlencoded"},
@@ -101,7 +101,7 @@ const Signup = ({ navigation }) => {
       setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
       setNickNameCheckSuccess('');
     } else {
-      const response = await axios.post("http://172.30.1.28:8080/nickcheck",
+      const response = await axios.post("http://192.168.45.34:8080/nickcheck",
         { nickname: nickname },
         {
           headers: {"Content-Type": "application/x-www-form-urlencoded"},
@@ -180,7 +180,7 @@ const Signup = ({ navigation }) => {
         console.log("닉네임:", nickname);
         console.log("비번:", pwd);
           // 백엔드 API에 POST 요청 보내기
-          const response = await axios.post("http://172.30.1.28:8080/join",
+          const response = await axios.post("http://192.168.45.34:8080/join",
           {
             studentId: studentId,
             nickname: nickname,
