@@ -24,6 +24,7 @@
     "moment-timezone": "^0.5.43",
     "react": "17.0.2",
     "react-native": "0.68.2",
+    "react-native-dotenv": "^3.4.9",
     "react-native-gesture-handler": "^2.13.4",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modal-dropdown": "^1.0.2",

@@ -18,7 +18,7 @@ const Login = ({ navigation, route }) => {
     } else {
       try {
         const response = await axios.post(
-          "http://192.168.45.34:8080/login",
+          `${API_URL}/login`,
           {
             studentId: studentId,
             pwd: pwd,

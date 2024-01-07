@@ -141,7 +141,7 @@ const Password = ({ navigation }) => {
       else{
         setSignupCheckError('');
         navigation.navigate('Login');
-        const apiUrl = "http://192.168.0.3:8080/changepwd";
+        const apiUrl = `${API_URL}/changepwd`;
         try {
           // 백엔드 API에 POST 요청 보내기
           const response = await axios.post(apiUrl, {

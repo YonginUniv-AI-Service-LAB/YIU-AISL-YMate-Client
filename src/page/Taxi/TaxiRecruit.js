@@ -68,7 +68,7 @@ const TaxiRecruit = ({navigation}) => {
       const userInfo = await getUserInfo(); 
       const accessTokenInfo = await getAccessTokenInfo();
       const dueDate = getDueDate();
-      const response = await axios.post("http://172.30.1.28:8080/taxi/create",
+      const response = await axios.post(`${API_URL}/taxi/create`,
           {
             student_id: userInfo,
             title: title,

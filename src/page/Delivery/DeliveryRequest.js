@@ -26,7 +26,7 @@ const DeliveryRequest = ({navigation,route}) => {
     else{
       console.log(did);
       const accessTokenInfo = await getAccessTokenInfo();
-      const response = await axios.post("http://192.168.45.34:8080/delivery/apply",
+      const response = await axios.post(`${API_URL}/delivery/apply`,
           {
             dId: did,
             contents: contents,

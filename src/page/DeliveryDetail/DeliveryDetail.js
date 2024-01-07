@@ -53,7 +53,7 @@ const DeliveryDetail = ({navigation, route}) => {
 	const fetchDeliveryData = async () => {
         const userInfo = await getUserInfo(); // 예시: getUserInfo가 Promise를 반환하는 경우
         const accessTokenInfo = await getAccessTokenInfo();
-        const response = await axios.post("http://192.168.45.34:8080/delivery/detail",
+        const response = await axios.post(`${API_URL}/delivery/detail`,
           {
             dId : dId,
           }, {
@@ -86,7 +86,7 @@ const DeliveryDetail = ({navigation, route}) => {
 		else{
 		try {
 			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post("http://192.168.45.34:8080/delivery/accept", {
+			const response = await axios.post(`${API_URL}/delivery/accept`, {
 				dcId: dcId,
 			}, {
 				headers: {
@@ -120,7 +120,7 @@ const DeliveryDetail = ({navigation, route}) => {
 		else{
 		try {
 			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post("http://192.168.45.34:8080/delivery/reject",
+			const response = await axios.post(`${API_URL}/delivery/reject`,
 			{
 			  dcId: dcId,
 			}, {
@@ -149,7 +149,7 @@ const DeliveryDetail = ({navigation, route}) => {
 	const handleCancelRequest = async (dcId) => {
 		try {
 			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post("http://192.168.45.34:8080/delivery/cancel",
+			const response = await axios.post(`${API_URL}/delivery/cancel`,
 			{
 			  dcId: dcId,
 			}, {
@@ -177,7 +177,7 @@ const DeliveryDetail = ({navigation, route}) => {
 		else{
 		try {
 			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post("http://192.168.45.34:8080/delivery/finish",
+			const response = await axios.post(`${API_URL}/delivery/finish`,
 			{
 			  dId: dId,
 			}, {
@@ -205,7 +205,7 @@ const DeliveryDetail = ({navigation, route}) => {
 	const handleDeleteDetail = async() => {
 		try {
 			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post("http://192.168.45.34:8080/delivery/delete",
+			const response = await axios.post(`${API_URL}/delivery/delete`,
 			{
 			  dId: dId,
 			}, {

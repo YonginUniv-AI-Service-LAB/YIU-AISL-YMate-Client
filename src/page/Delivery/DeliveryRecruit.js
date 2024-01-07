@@ -63,7 +63,7 @@ const DeliveryRecruit = ({navigation}) => {
       const userInfo = await getUserInfo(); 
       const accessTokenInfo = await getAccessTokenInfo();
       const dueDate = getDueDate();
-      const response = await axios.post("http://192.168.45.34:8080/delivery/create",
+      const response = await axios.post(`${API_URL}/delivery/create`,
           {
             student_id: userInfo,
             title: title,
