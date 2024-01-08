@@ -3,21 +3,29 @@ import {useState, useEffect} from 'react'
 import {Text, Pressable, View, Alert, Image, AsyncStorage} from 'react-native'
 import {styles} from '../page/Style'
 import { useNavigation, useFocusEffect} from '@react-navigation/native'
+import locationData from '../constant/LocationDataTemp'
 
 
 //location: 위치 코드 -> int to string 구현해야함!
 //activeAlarm: 활성 알림 있는지 여부
 const TopMenu = () => {
 	const navigation = useNavigation()
-    const [location, setLocation] = useState(1)
+    const [location, setLocation] = useState(1000001)
     const [activeAlarm, setActiveAlarm] = useState(false)
+    const [locationText, setLocationText] = useState('대학본부')
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 AsyncStorage에서 location을 로드합니다.
         loadLocation()
         loadActiveAlarm()
-    }, [])
+        locationToText()
+    }, [location])
 
+    const locationToText = () => {
+        const index = locationData.findIndex((item) => item.code === location);
+        const newText = locationData[index]?.name
+        setLocationText(newText)
+    }
     // useFocusEffect를 사용하여 화면 포커스가 변경될 때마다 호출됩니다.
     useFocusEffect(
         React.useCallback(() => {
@@ -52,7 +60,7 @@ const TopMenu = () => {
     }
     
     //Location 변경용 임시 함수 (클릭할때마다 숫자 1씩 증가)
-    const incrementLocation = async () => {
+    const updateLocation = async () => {
         try {
         // location 값을 증가시키고 AsyncStorage에 저장합니다.
         const newLocation = location + 1
@@ -78,9 +86,9 @@ const TopMenu = () => {
     return (
         <View style={styles.uppermenu}>
             {/* Location페이지 추가 후 수정해야함 */}
-            <Pressable style={styles.locationButton} onPress={incrementLocation}>
+            <Pressable style={styles.locationButton} onPress={() => navigation.navigate('Location')}>
                 <Image style={styles.icon24} resizeMode="cover" source={require("../assets/images/location.png")}/>
-                <Text style={styles.locationText}>AI융합대학{location}</Text>
+                <Text style={styles.locationText}>{locationText} </Text>
                 <Image style={[styles.icon16, styles.marginLeft3]} resizeMode="cover" source={require("../assets/images/down_blue.png")}/>
             </Pressable>
             <Pressable name="alramButton" onPress={alarmTest}>
