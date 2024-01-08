@@ -14,7 +14,7 @@ import locations from '../../constant/LocationDatas'
 import times from '../../constant/TimeDatas'
 import axios from 'axios';
 
-const DeliveryRecruit = ({navigation}) => {
+const DeliveryRecruit = ({navigation, route}) => {
   const [selectedFood, setSelectedFood] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -25,6 +25,9 @@ const DeliveryRecruit = ({navigation}) => {
   const foodDropdownRef = useRef();
   const locationDropdownRef = useRef();
   const timeDropDownRef = useRef();
+  const [did, setDid] = useState(route.params?.did || null);
+  const headerTitle = did ? "배달 모집 글 수정" : "배달 모집 글 작성";
+  const buttonTitle = did ? "모집 글 수정" : "모집 글 작성";
 
   const toggleFoodDropdown = () => {
     foodDropdownRef.current.show();
@@ -63,8 +66,10 @@ const DeliveryRecruit = ({navigation}) => {
       const userInfo = await getUserInfo(); 
       const accessTokenInfo = await getAccessTokenInfo();
       const dueDate = getDueDate();
-      const response = await axios.post(`${API_URL}/delivery/create`,
+      const apiEndpoint = did ? `${API_URL}/delivery/update` : `${API_URL}/delivery/create`;
+      const response = await axios.post(apiEndpoint,
           {
+            dId: did,
             student_id: userInfo,
             title: title,
             contents: contents,
@@ -95,7 +100,7 @@ const DeliveryRecruit = ({navigation}) => {
     <SafeAreaView style={styles.mainScreen}>
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={[styles.mainBackground, styles.backgroundWhite]}>
-          <Header title = "배달 모집 글 작성" onPressBack={() => navigation.goBack()}/>
+          <Header title = {headerTitle} onPressBack={() => navigation.goBack()}/>
           <KeyboardAwareScrollView>
             <View style={[styles.recruitSection]}>
               <View style={styles.rowView}>
@@ -202,7 +207,7 @@ const DeliveryRecruit = ({navigation}) => {
             </View>
           </KeyboardAwareScrollView>
           <ErrorText isError={error} errorMessage={error} style={[styles.marginRight20]}/>
-          <BottomButton title="모집 글 등록" onPress={handletDeliveryRecruit}/>
+          <BottomButton title={buttonTitle} onPress={handletDeliveryRecruit}/>
       </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>

@@ -1,109 +1,135 @@
-import * as React from "react";
+import React, { useState} from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import {TopMenu, WriteButton, DeliveryCard, TaxiCard, NoticeCard} from "../../components"
+import axios from 'axios';
+import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Main = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
+	const [deliveryData, setDeliveryData] = useState([]);
+  const [taxiData, setTaxiData] = useState([]);
 
-	const DeliveryData = [
-		{
-			dId: 123123123,
-			title: "장충동 왕족발보쌈",
-			due: new Date('2023-12-27T17:55:00'),
-			food: 332211,
-			location: 10000001,
-			createAt: 3322111,
-		},
-		{
-			dId: 123123124,
-			title: "장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈",
-			due: new Date('2023-12-27T10:55:00'),
-			food: 3321,
-			location: 10000009,
-			createAt: 3322111,
-		},
-		{
-			dId: 123123125,
-			title: "장충동 왕족발보쌈",
-			due: new Date('2023-12-04T17:55:00'),
-			food: 341211,
-			location: 10000002,
-			createAt: 3322111,
-		},
-		{
-			dId: 123123126,
-			title: "장충동 왕족발보쌈",
-			due: new Date('2023-12-04T17:55:00'),
-			food: 33123412211,
-			location: 10000002,
-			createAt: 3322111,
-		},
-		{
-			dId: 123123127,
-			title: "장충동 왕족발보쌈",
-			due: new Date('2023-12-04T17:55:00'),
-			food: 31234211,
-			location: 10000002,
-			createAt: 3322111,
+	useFocusEffect(
+		React.useCallback(() => {
+		  fetchData(); // 화면이 focus되면 fetchData 함수 호출
+		}, [])
+	  );
+	
+	  const fetchData = async () => {
+		try {
+		  const response = await axios.get(`${API_URL}/main`, {
+			headers: {
+			  "Content-Type": "application/x-www-form-urlencoded",
+			},
+			withCredentials: true,
+		  });
+		  setDeliveryData(response.data.delivery);
+		  setTaxiData(response.data.taxi);
+		} catch (error) {
+		  console.error("데이터 가져오기 실패:", error);
 		}
-	]
+	  };
 
-	const TaxiData = [
-		{
-			tId: 123123123,
-			title: "집 가고싶다",
-			due: new Date('2023-12-04T17:55:00'),
-			startCode: 10000001,
-			endCode: 10000003,
-			current: 3,
-			max: 4,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123124,
-			title: "집 가고싶다집 가고싶다집 가고싶다",
-			due: new Date('2023-12-04T17:55:00'),
-			startCode: 10000002,
-			endCode: 10000003,
-			current: 3,
-			max: 4,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123125,
-			title: "집 가고싶다",
-			due: new Date('2023-12-04T17:55:00'),
-			startCode: 10000003,
-			endCode: 10000003,
-			current: 3,
-			max: 4,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123126,
-			title: "집 가고싶다",
-			due: new Date('2023-12-05T11:55:00'),
-			startCode: 10000004,
-			endCode: 10000003,
-			current: 3,
-			max: 4,
-			createAt: 3322111,
-		},
-		{
-			tId: 123123127,
-			title: "집 가고싶다",
-			due: new Date('2023-12-04T15:55:00'),
-			startCode: 10000005,
-			endCode: 10000003,
-			current: 2,
-			max: 7,
-			createAt: 3322111,
-		}
-	]
+	// const DeliveryData = [
+	// 	{
+	// 		dId: 123123123,
+	// 		title: "장충동 왕족발보쌈",
+	// 		due: new Date('2023-12-27T17:55:00'),
+	// 		food: 332211,
+	// 		location: 10000001,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		dId: 123123124,
+	// 		title: "장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈",
+	// 		due: new Date('2023-12-27T10:55:00'),
+	// 		food: 3321,
+	// 		location: 10000009,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		dId: 123123125,
+	// 		title: "장충동 왕족발보쌈",
+	// 		due: new Date('2023-12-04T17:55:00'),
+	// 		food: 341211,
+	// 		location: 10000002,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		dId: 123123126,
+	// 		title: "장충동 왕족발보쌈",
+	// 		due: new Date('2023-12-04T17:55:00'),
+	// 		food: 33123412211,
+	// 		location: 10000002,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		dId: 123123127,
+	// 		title: "장충동 왕족발보쌈",
+	// 		due: new Date('2023-12-04T17:55:00'),
+	// 		food: 31234211,
+	// 		location: 10000002,
+	// 		createAt: 3322111,
+	// 	}
+	// ]
+
+	// const TaxiData = [
+	// 	{
+	// 		tId: 123123123,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-04T17:55:00'),
+	// 		startCode: 10000001,
+	// 		endCode: 10000003,
+	// 		current: 3,
+	// 		max: 4,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123124,
+	// 		title: "집 가고싶다집 가고싶다집 가고싶다",
+	// 		due: new Date('2023-12-04T17:55:00'),
+	// 		startCode: 10000002,
+	// 		endCode: 10000003,
+	// 		current: 3,
+	// 		max: 4,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123125,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-04T17:55:00'),
+	// 		startCode: 10000003,
+	// 		endCode: 10000003,
+	// 		current: 3,
+	// 		max: 4,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123126,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-05T11:55:00'),
+	// 		startCode: 10000004,
+	// 		endCode: 10000003,
+	// 		current: 3,
+	// 		max: 4,
+	// 		createAt: 3322111,
+	// 	},
+	// 	{
+	// 		tId: 123123127,
+	// 		title: "집 가고싶다",
+	// 		due: new Date('2023-12-04T15:55:00'),
+	// 		startCode: 10000005,
+	// 		endCode: 10000003,
+	// 		current: 2,
+	// 		max: 7,
+	// 		createAt: 3322111,
+	// 	}
+	// ]
 
 	const NoticeData = [
 		{
@@ -162,9 +188,9 @@ const Main = ({navigation}) => {
 										contentContainerStyle={styles.smallCardScroll}
 										horizontal
 										showsHorizontalScrollIndicator={false}
-										data={DeliveryData}
-										renderItem={({item}) => <DeliveryCard dId={item.dId} title={item.title} due={item.due} food={item.food} location={item.location}/>}
-										keyExtractor={item => item.dId}
+										data={deliveryData}
+										renderItem={({item}) => <DeliveryCard dId={item.did} state={item.state} title={item.title} due={item.due} food={item.food} location={item.location} studentId={item.studentId}/>}
+										keyExtractor={item => item.did}
 									/>
 								</View>
 							</View>
@@ -184,9 +210,9 @@ const Main = ({navigation}) => {
 										contentContainerStyle={styles.smallCardScroll}
 										horizontal
 										showsHorizontalScrollIndicator={false}
-										data={TaxiData}
-										renderItem={({item}) => <TaxiCard tId={item.tId} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max}/>}
-										keyExtractor={item => item.tId}
+										data={taxiData}
+										renderItem={({item}) => <TaxiCard tid={item.tid} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max} studentId={item.studentId}/>}
+										keyExtractor={item => item.tid}
 									/>
 								</View>
 							</View>

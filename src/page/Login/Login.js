@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, Image, SafeAreaView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Signup from '../Signup/Signup';
 import Main from '../Main/Main';
 import Password from '../Password/Password';
@@ -11,6 +11,9 @@ const Login = ({ navigation, route }) => {
   const { onLogin } = route.params || {};
   const [studentId, setStudentId] = useState('');
   const [pwd, setpwd] = useState('');
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
 
   const handleLogin = async () => {
     if (!studentId || !pwd) {
@@ -42,9 +45,11 @@ const Login = ({ navigation, route }) => {
       }
     }
   };
+  
 
   return (
     <SafeAreaView style={[styles.mainScreen]}>
+      <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={[styles.mainBackground,styles.backgroundWhite,styles.center]}>
         <View style= {[styles.columnView]}>
           <View style={styles.flex025}></View>
@@ -78,9 +83,12 @@ const Login = ({ navigation, route }) => {
               />
             </View>
             <View style={[styles.flexView,styles.margintop3]}>
+              <View style = {[styles.spacebetween,styles.rowView]}>
+                <View></View>
               <Pressable onPress={() => {navigation.navigate(Password)}}>
                 <Text style={[styles.text11,styles.errorText]}>비밀번호를 잊으셨나요?</Text>
               </Pressable>
+              </View>
             <View style={styles.center}>
               <Pressable style = {styles.loginButton} onPress={handleLogin}>
                   <Text style={[styles.text16, styles.whiteText]}>로그인</Text>
@@ -96,6 +104,7 @@ const Login = ({ navigation, route }) => {
           </View>
         </View>
       </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
