@@ -9,6 +9,7 @@ import axios from 'axios';
 import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
 import LocationTag from '../../components/LocationTag';
 import { useFocusEffect } from '@react-navigation/native';
+import DeliveryRecruit from "../Delivery/DeliveryRecruit";
 
 
 const DeliveryDetail = ({navigation, route}) => {
@@ -33,11 +34,11 @@ const DeliveryDetail = ({navigation, route}) => {
       };
 
 	const handleButtonPress  = async () => { 
-		if(type === 1){
-			alert('수정하기');
-		}
-		else if(isPastDue || deliveryData.state ==='FINISHED'){
+		if(isPastDue || deliveryData.state ==='FINISHED'){
 			alert('이미 마감된 글입니다.');
+		}
+		else if(type === 1){
+			navigation.navigate('DeliveryRecruit', {did: deliveryData.did});
 		}
 		else{
 			navigation.navigate('DeliveryRequest', {did: deliveryData.did});
@@ -402,7 +403,7 @@ const DeliveryDetail = ({navigation, route}) => {
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
 					<Header title="모집 글 상세" isReport={true} onPressBack={() => navigation.pop()} onPressReport={() => Alert.alert("신고하기긱")}/>
-                    	<DeliveryDetailCard title={deliveryData.title} nickname={type} state={deliveryData.state} food={deliveryData.food} location={deliveryData.location} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents}/>
+                    	<DeliveryDetailCard title={deliveryData.title} nickname={deliveryData.ninkname} state={deliveryData.state} food={deliveryData.food} location={deliveryData.location} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
 								<View style={styles.recruiterSectionList}>
