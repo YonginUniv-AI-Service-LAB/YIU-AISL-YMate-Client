@@ -22,7 +22,9 @@ const ErrorText = ({isError = false, errorMessage = "default error", isChecked =
 				</Text>
 				:
 				//확인 상태 아닐 경우 -> 빈칸(상하 크기 있음)
-				<View style={styles.errorBox}/>
+				// 2024-01-09 null로 수정했는데 문제 발생시 아래 주석해제
+				// <View style={styles.errorBox}/>
+				null
 	)
 }
 

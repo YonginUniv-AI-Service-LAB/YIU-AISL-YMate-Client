@@ -58,7 +58,7 @@ const Location = ({navigation}) => {
   // 컴포넌트가 마운트될 때 AsyncStorage에서 location을 로드합니다.
   useEffect(() => {
     
-  }, [locationCategory, selectedLocationData, locationData])
+  }, [locationCategory, selectedLocationData])
   
   // 카테고리 토글버튼 액션: 하나의 카테고리만 선택하도록 함
   const locationCategoryHandler = (code) => {
@@ -99,7 +99,6 @@ const Location = ({navigation}) => {
     setSelectedLocationData(filteredLocationData);
   }
   // 세부위치 토글버튼 액션: 하나의 위치만 선택하도록 함
-  // 같은 버튼 두번 눌렀을 경우 해결해야함
   const locationHandler = (code) => {
     const newLocation = code;
     const prevIndex = selectedLocationData.findIndex((item) => item.state === 1);

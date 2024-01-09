@@ -1,4 +1,4 @@
-import React, { useState, useRef  } from "react";
+import React, { useState, useRef, useEffect  } from "react";
 import { Text, StyleSheet, Image,TextInput, Pressable, View, Alert, TouchableWithoutFeedback, Keyboard, AsyncStorage} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -13,6 +13,8 @@ import foods from '../../constant/FoodDatas';
 import locations from '../../constant/LocationDatas'
 import times from '../../constant/TimeDatas'
 import axios from 'axios';
+import LocationModal from "../Modal/LocationModal";
+import locationData from '../../constant/LocationDataTemp'
 
 const DeliveryRecruit = ({navigation, route}) => {
   const [selectedFood, setSelectedFood] = useState(null);
@@ -23,11 +25,42 @@ const DeliveryRecruit = ({navigation, route}) => {
   const [link, setLink] = useState('');
   const [error, setError] = useState('');
   const foodDropdownRef = useRef();
-  const locationDropdownRef = useRef();
+  // const locationDropdownRef = useRef();
   const timeDropDownRef = useRef();
   const [did, setDid] = useState(route.params?.did || null);
   const headerTitle = did ? "배달 모집 글 수정" : "배달 모집 글 작성";
   const buttonTitle = did ? "모집 글 수정" : "모집 글 작성";
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [locationText, setLocationText] = useState('');
+
+  useEffect(() => {
+    locationToText()
+    console.log('locationText: ', locationText)
+    console.log('location: ', selectedLocation)
+  }, [locationText, selectedLocation])
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = (modalValue1, modalValue2) => {
+    setModalVisible(false);
+    if (modalValue1 !== undefined && modalValue2 !== undefined) {
+      // 모달에서 전달받은 두 값 처리
+      setSelectedLocation(modalValue1);
+      setLocationText(modalValue2);
+      console.log('Modal Value 1:', modalValue1);
+      console.log('Modal Value 2:', modalValue2);
+    }
+  };
+
+  const locationToText = () => {
+    if(selectedLocation !== 0){
+      const index = locationData.findIndex((item) => item.code === selectedLocation);
+      const newText = locationData[index]?.name
+      setLocationText(newText)
+    }
+  }
 
   const toggleFoodDropdown = () => {
     foodDropdownRef.current.show();
@@ -59,7 +92,7 @@ const DeliveryRecruit = ({navigation, route}) => {
   }
   
   const handletDeliveryRecruit = async () => {
-    if (!title || !contents || !selectedFood || !selectedLocation || !selectedTime) {
+    if (!title || !contents || !selectedFood || !locationText || !selectedTime) {
       setError("모든 값을 입력해주세요.");
     }
     else{
@@ -126,8 +159,17 @@ const DeliveryRecruit = ({navigation, route}) => {
                 </View>
                 <View style={[styles.flexView, styles.marginLeft6]}>
                   <Text style={styles.text12}>수령위치</Text>
-                  <View style={[styles.recruitInput, styles.rowView]}>
-                      {/* inputbox */}
+                  <Pressable style={[styles.recruitInput, styles.rowView]} onPress={openModal}>
+                    {locationText?
+                      <Text style={[styles.textAlignLeft,styles.marginLeft6,styles.text11]}>
+                        {locationText}
+                      </Text>
+                      :
+                      <Text style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}>
+                        선택하세요
+                      </Text>
+                    }
+                      {/* inputbox
                       <ModalDropdown
                         ref={locationDropdownRef}
                         options={locations}
@@ -137,11 +179,11 @@ const DeliveryRecruit = ({navigation, route}) => {
                         renderButtonText={(rowData) => (
                           <Text style={styles.text11}>{rowData}</Text>
                         )}
-                      />
+                      /> */}
                     <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleLocationDropdown}>
                       <Image style={styles.icon16} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
                     </View>
-                  </View>
+                  </Pressable>
                 </View>
               </View>
 
@@ -210,6 +252,7 @@ const DeliveryRecruit = ({navigation, route}) => {
           <BottomButton title={buttonTitle} onPress={handletDeliveryRecruit}/>
       </View>
       </TouchableWithoutFeedback>
+      <LocationModal isVisible={isModalVisible} onClose={closeModal} />    
     </SafeAreaView>
   );
 };

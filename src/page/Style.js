@@ -493,6 +493,23 @@ export const styles = StyleSheet.create({
     recruitContent: {
         height: 66
     },
+    locationTextInputView: {
+        flex: 1,
+        paddingHorizontal: 10,
+        alignSelf: "stretch",
+    },
+    locationTextInput: {
+        marginTop: 10,
+        paddingVertical: 1,
+        borderColor: "#22A2F2",
+        borderWidth: 1,
+        borderRadius: 6,
+        paddingHorizontal: 8,
+        borderStyle: "solid",
+        alignSelf: 'stretch',
+        alignItems: "flex-start",
+        fontSize: 13,
+    },
     recruitInputDropdown: {
         borderLeftWidth: 1,
         paddingHorizontal: 7,

@@ -78,9 +78,9 @@ const TopMenu = () => {
             await AsyncStorage.setItem('activeAlarm', newActiveAlarm.toString())
             setActiveAlarm(newActiveAlarm)
             navigation.navigate('Alarm')
-            } catch (error) {
-            console.error('AsyncStorage에 activeAlarm을 저장하는 중 오류 발생:', error)
-            }
+        } catch (error) {
+        console.error('AsyncStorage에 activeAlarm을 저장하는 중 오류 발생:', error)
+        }
     }
 
     return (
