@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 import {Text, Pressable, View, Alert, Image, AsyncStorage} from 'react-native'
 import {styles} from '../page/Style'
 import { useNavigation, useFocusEffect} from '@react-navigation/native'
-import locationData from '../constant/LocationDataTemp'
+import locationData from '../constant/LocationData'
 
 
 //location: 위치 코드 -> int to string 구현해야함!

@@ -4,7 +4,7 @@ import { Text, StyleSheet, Image, Pressable, View, Alert, ScrollView, AsyncStora
 import { Modal } from 'react-native'
 import { styles } from "../Style"
 import {BottomButton, Header, ErrorText, ToggleButton} from "../../components"
-import locationData from '../../constant/LocationDataTemp'
+import locationData from '../../constant/LocationData'
 
 
 const LocationModal = ({ isVisible, onClose }) => {

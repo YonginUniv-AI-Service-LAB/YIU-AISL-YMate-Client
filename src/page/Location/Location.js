@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { styles } from "../Style"
 import {BottomButton, Header, ErrorText, ToggleButton} from "../../components"
 import Alarm from "../Alarm/Alarm";
-import locationData from '../../constant/LocationDataTemp'
+import locationData from '../../constant/LocationData'
  
 const Location = ({navigation}) => {
   const [location, setLocation] = useState(10000001) // 최종 선택된 위치 값(int)
