@@ -14,7 +14,9 @@ import locations from '../../constant/LocationDatas'
 import times from '../../constant/TimeDatas'
 import axios from 'axios';
 import LocationModal from "../Modal/LocationModal";
-import locationData from '../../constant/LocationDataTemp'
+// import FoodModal from "../Modal/FoodModal";
+// import foodData from "../../constant/FoodData";
+import locationData from '../../constant/LocationData'
 
 const DeliveryRecruit = ({navigation, route}) => {
   const [selectedFood, setSelectedFood] = useState(null);
@@ -25,7 +27,6 @@ const DeliveryRecruit = ({navigation, route}) => {
   const [link, setLink] = useState('');
   const [error, setError] = useState('');
   const foodDropdownRef = useRef();
-  // const locationDropdownRef = useRef();
   const timeDropDownRef = useRef();
   const [did, setDid] = useState(route.params?.did || null);
   const headerTitle = did ? "배달 모집 글 수정" : "배달 모집 글 작성";
@@ -35,6 +36,7 @@ const DeliveryRecruit = ({navigation, route}) => {
 
   useEffect(() => {
     locationToText()
+    // foodToText()
     console.log('locationText: ', locationText)
     console.log('location: ', selectedLocation)
   }, [locationText, selectedLocation])
@@ -61,6 +63,14 @@ const DeliveryRecruit = ({navigation, route}) => {
       setLocationText(newText)
     }
   }
+
+  // const foodToText = () => {
+  //   if(selectedLocation !== 0){
+  //     const index = foodData.findIndex((item) => item.code === selectedLocation);
+  //     const newText = foodData[index]?.name
+  //     setLocationText(newText)
+  //   }
+  // }
 
   const toggleFoodDropdown = () => {
     foodDropdownRef.current.show();
