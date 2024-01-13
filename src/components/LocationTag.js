@@ -10,12 +10,15 @@ import locationData from '../constant/LocationData'
 const LocationTag = ({location = null}) => {
     
     // location과 code가 일치하는 객체를 찾음
-    const matchingLocation = locationData.find((loc) => loc.code === location);
+    const index = locationData.findIndex((loc) => loc.code === location);
+    const bgColor = locationData[index]?.bgColor
+    const fontColor = locationData[index]?.fontColor
+    const short = locationData[index]?.short
 
     return (
         location?
-            <View style={[styles.locationTag, { backgroundColor: matchingLocation.bgColor}]}>
-                <Text style={[styles.centerText9, { color: matchingLocation.fontColor }]}>{matchingLocation.short}</Text>
+            <View style={[styles.locationTag, { backgroundColor: bgColor}]}>
+                <Text style={[styles.centerText9, { color: fontColor }]}>{short}</Text>
             </View>
             :
             null

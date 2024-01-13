@@ -6,16 +6,16 @@ import {styles} from "../Style"
 import {BottomButton, Header, ErrorText} from "../../components"
 import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
 import ModalDropdown from "react-native-modal-dropdown";
-import foodTypeToNumber from '../../components/TypeToNumber/FoodTypeToNumber';
-import locationTypeToNumber from '../../components/TypeToNumber/LocationTypeToNumber';
+// import foodTypeToNumber from '../../components/TypeToNumber/FoodTypeToNumber';
+// import locationTypeToNumber from '../../components/TypeToNumber/LocationTypeToNumber';
 import timeTypeToNumber from '../../components/TypeToNumber/TimeTypeToNumber';
-import foods from '../../constant/FoodDatas';
-import locations from '../../constant/LocationDatas'
+// import foods from '../../constant/FoodDatas';
+// import locations from '../../constant/LocationDatas'
 import times from '../../constant/TimeDatas'
 import axios from 'axios';
 import LocationModal from "../Modal/LocationModal";
-// import FoodModal from "../Modal/FoodModal";
-// import foodData from "../../constant/FoodData";
+import FoodModal from "../Modal/FoodModal";
+import foodData from "../../constant/FoodData";
 import locationData from '../../constant/LocationData'
 
 const DeliveryRecruit = ({navigation, route}) => {
@@ -26,33 +26,33 @@ const DeliveryRecruit = ({navigation, route}) => {
   const [contents, setContents] = useState('');
   const [link, setLink] = useState('');
   const [error, setError] = useState('');
-  const foodDropdownRef = useRef();
+  // const foodDropdownRef = useRef();
   const timeDropDownRef = useRef();
   const [did, setDid] = useState(route.params?.did || null);
   const headerTitle = did ? "배달 모집 글 수정" : "배달 모집 글 작성";
   const buttonTitle = did ? "모집 글 수정" : "모집 글 작성";
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible1, setModalVisible1] = useState(false);
+  const [isModalVisible2, setModalVisible2] = useState(false);
   const [locationText, setLocationText] = useState('');
+  const [foodText, setFoodText] = useState('');
 
   useEffect(() => {
     locationToText()
-    // foodToText()
-    console.log('locationText: ', locationText)
-    console.log('location: ', selectedLocation)
-  }, [locationText, selectedLocation])
+    foodToText()
+  }, [locationText, selectedLocation, foodText, selectedFood])
 
-  const openModal = () => {
-    setModalVisible(true);
+  const openModal1 = () => {
+    setModalVisible1(true);
   };
 
-  const closeModal = (modalValue1, modalValue2) => {
-    setModalVisible(false);
+  const closeModal1 = (modalValue1, modalValue2) => {
+    setModalVisible1(false);
     if (modalValue1 !== undefined && modalValue2 !== undefined) {
       // 모달에서 전달받은 두 값 처리
       setSelectedLocation(modalValue1);
       setLocationText(modalValue2);
-      console.log('Modal Value 1:', modalValue1);
-      console.log('Modal Value 2:', modalValue2);
+      // console.log('Location Modal Value 1:', modalValue1);
+      // console.log('Location Modal Value 2:', modalValue2);
     }
   };
 
@@ -63,23 +63,36 @@ const DeliveryRecruit = ({navigation, route}) => {
       setLocationText(newText)
     }
   }
-
-  // const foodToText = () => {
-  //   if(selectedLocation !== 0){
-  //     const index = foodData.findIndex((item) => item.code === selectedLocation);
-  //     const newText = foodData[index]?.name
-  //     setLocationText(newText)
-  //   }
-  // }
-
-  const toggleFoodDropdown = () => {
-    foodDropdownRef.current.show();
-    handleChange();
+  const openModal2 = () => {
+    setModalVisible2(true);
   };
-  const toggleLocationDropdown = () => {
-    locationDropdownRef.current.show();
-    handleChange();
+
+  const closeModal2 = (modalValue1, modalValue2) => {
+    setModalVisible2(false);
+    if (modalValue1 !== undefined && modalValue2 !== undefined) {
+      // 모달에서 전달받은 두 값 처리
+      setSelectedFood(modalValue1);
+      setFoodText(modalValue2);
+      // console.log('Food Modal Value 1:', modalValue1);
+      // console.log('Food Modal Value 2:', modalValue2);
+    }
   };
+  const foodToText = () => {
+    if(selectedFood !== 0){
+      const index = foodData.findIndex((item) => item.code === selectedFood);
+      const newText = foodData[index]?.name
+      setFoodText(newText)
+    }
+  }
+
+  // const toggleFoodDropdown = () => {
+  //   foodDropdownRef.current.show();
+  //   handleChange();
+  // };
+  // const toggleLocationDropdown = () => {
+  //   locationDropdownRef.current.show();
+  //   handleChange();
+  // };
   const toggleTimeDropdown = () => {
     timeDropDownRef.current.show();
     handleChange();
@@ -102,7 +115,7 @@ const DeliveryRecruit = ({navigation, route}) => {
   }
   
   const handletDeliveryRecruit = async () => {
-    if (!title || !contents || !selectedFood || !locationText || !selectedTime) {
+    if (!title || !contents || !foodText || !locationText || !selectedTime) {
       setError("모든 값을 입력해주세요.");
     }
     else{
@@ -169,7 +182,7 @@ const DeliveryRecruit = ({navigation, route}) => {
                 </View>
                 <View style={[styles.flexView, styles.marginLeft6]}>
                   <Text style={styles.text12}>수령위치</Text>
-                  <Pressable style={[styles.recruitInput, styles.rowView]} onPress={openModal}>
+                  <Pressable style={[styles.recruitInput, styles.rowView]} onPress={openModal1}>
                     {locationText?
                       <Text style={[styles.textAlignLeft,styles.marginLeft6,styles.text11]}>
                         {locationText}
@@ -190,7 +203,8 @@ const DeliveryRecruit = ({navigation, route}) => {
                           <Text style={styles.text11}>{rowData}</Text>
                         )}
                       /> */}
-                    <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleLocationDropdown}>
+                    {/* <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleLocationDropdown}> */}
+                    <View style={[styles.recruitInputDropdown]} >
                       <Image style={styles.icon16} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
                     </View>
                   </Pressable>
@@ -225,9 +239,18 @@ const DeliveryRecruit = ({navigation, route}) => {
               </View>
               <View style={[styles.margintop9]}>
                 <Text style={styles.text12}>음식</Text>
-                <View style={[styles.recruitInput, styles.rowView]}>
+                <Pressable style={[styles.recruitInput, styles.rowView]} onPress={openModal2}>
+                    {foodText?
+                      <Text style={[styles.textAlignLeft,styles.marginLeft6,styles.text11]}>
+                        {foodText}
+                      </Text>
+                      :
+                      <Text style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}>
+                        선택하세요
+                      </Text>
+                    }
                       {/* inputbox */}
-                      <ModalDropdown
+                      {/* <ModalDropdown
                         ref={foodDropdownRef}
                         options={foods}
                         onSelect={(index, value) => setSelectedFood(foodTypeToNumber(value))}
@@ -236,11 +259,12 @@ const DeliveryRecruit = ({navigation, route}) => {
                         renderButtonText={(rowData) => (
                           <Text style={styles.text11}>{rowData}</Text>
                         )}
-                      />
-                    <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleFoodDropdown}>
+                      /> */}
+                    {/* <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleFoodDropdown}> */}
+                    <View style={[styles.recruitInputDropdown]}>
                       <Image style={styles.icon16} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
                     </View>
-                  </View>
+                </Pressable>
               </View>
               <View style={[styles.margintop9]}>
                 <Text style={styles.text12}>배달 링크 (선택)</Text>
@@ -262,7 +286,8 @@ const DeliveryRecruit = ({navigation, route}) => {
           <BottomButton title={buttonTitle} onPress={handletDeliveryRecruit}/>
       </View>
       </TouchableWithoutFeedback>
-      <LocationModal isVisible={isModalVisible} onClose={closeModal} />    
+      <LocationModal isVisible={isModalVisible1} onClose={closeModal1} />    
+      <FoodModal isVisible={isModalVisible2} onClose={closeModal2} />    
     </SafeAreaView>
   );
 };

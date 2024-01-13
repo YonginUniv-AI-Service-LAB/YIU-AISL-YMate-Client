@@ -8,8 +8,8 @@ import foodData from '../../constant/FoodData'
 
 
 const FoodModal = ({ isVisible, onClose }) => {
-    const [food, setFood] = useState(10000001) // 최종 선택된 위치 값(int)
-    const [foodCategory, setFoodCategory] = useState(10) // 위치 카테고리 값 10 ~ 13, 0
+    const [food, setFood] = useState(10000001) // 최종 선택된 음식 값(int)
+    const [foodCategory, setFoodCategory] = useState(10) // 음식 카테고리 값 10 ~ 13, 0
     const [categoryData, setCategoryData] = useState(
     [
         {
@@ -185,7 +185,7 @@ const FoodModal = ({ isVisible, onClose }) => {
 
     return (
         <Modal animationType='slide' visible={isVisible} onRequestClose={() => {onClose()}}>
-            <Header title = "음식 선택" onPressBack={() => navigation.pop()}/>
+            <Header title = "음식 선택" onPressBack={() => onClose(undefined, undefined)}/>
             <View style={[styles.flexView, styles.rowView]}>
                 <ScrollView style={styles.locationScroll}>
                     {categoryData.map((item) => (

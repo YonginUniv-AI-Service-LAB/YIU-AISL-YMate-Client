@@ -154,7 +154,7 @@ const LocationModal = ({ isVisible, onClose }) => {
 
     return (
         <Modal animationType='slide' visible={isVisible} onRequestClose={() => {onClose()}}>
-            <Header title = "위치 설정" onPressBack={() => navigation.pop()}/>
+            <Header title = "위치 설정" onPressBack={() => onClose(undefined, undefined)}/>
             <View style={[styles.flexView, styles.rowView]}>
                 <ScrollView style={styles.locationScroll}>
                     {categoryData.map((item) => (
