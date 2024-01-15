@@ -130,8 +130,8 @@ const DeliveryRecruit = ({navigation, route}) => {
             title: title,
             contents: contents,
             due: dueDate,
-            food: selectedFood,
-            location: selectedLocation,
+            food_code: selectedFood,
+            location_code: selectedLocation,
             link: link,
           }, {
             headers: {"Content-Type": "application/x-www-form-urlencoded",
@@ -141,7 +141,13 @@ const DeliveryRecruit = ({navigation, route}) => {
           }).then((res) => {
             console.log('>>> [deliveryRecruit] ✅ SUCCESS', res.data);
             if (res.status === 200) {
-              alert('배달 글 작성 완료');
+              if (did) {
+                // did가 존재하는 경우 (수정 완료)
+                alert('배달 글 수정 완료');
+              } else {
+                // did가 존재하지 않는 경우 (작성 완료)
+                alert('배달 글 작성 완료');
+              }
               navigation.goBack();
             }
         }).catch((error) => {

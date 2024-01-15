@@ -14,7 +14,7 @@ import times from '../../constant/TimeDatas'
 import axios from 'axios';
 import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
 
-const TaxiRecruit = ({navigation}) => {
+const TaxiRecruit = ({navigation, route}) => {
   const [startLocation, setStartLocation] = useState(null);
   const [endLocation, setEndLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -22,6 +22,9 @@ const TaxiRecruit = ({navigation}) => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [error, setError] = useState('');
+  const [tid, setDid] = useState(route.params?.tid || null);
+  const headerTitle = tid ? "배달 모집 글 수정" : "배달 모집 글 작성";
+  const buttonTitle = tid ? "모집 글 수정" : "모집 글 작성";
   const startLocationDropdownRef = useRef();
   const endLocationDropdownRef = useRef();
   const maxPersonDropdownRef = useRef();
@@ -68,16 +71,20 @@ const TaxiRecruit = ({navigation}) => {
       const userInfo = await getUserInfo(); 
       const accessTokenInfo = await getAccessTokenInfo();
       const dueDate = getDueDate();
-      const response = await axios.post(`${API_URL}/taxi/create`,
+      const apiEndpoint = tid ? `${API_URL}/taxi/update` : `${API_URL}/taxi/create`;
+      const response = await axios.post(apiEndpoint,
           {
+            tId : tid,
             student_id: userInfo,
             title: title,
             contents: contents,
             due: dueDate,
-            startCode: startLocation,
-            endCode: endLocation,
-            current: 4-maxPerson,
-            max: 4,
+            start: startLocation,
+            startCode: locationTypeToNumber(startLocation),
+            end: endLocation,
+            endCode: locationTypeToNumber(endLocation),
+            current: 0,
+            max: maxPerson,
           }, {
             headers: {"Content-Type": "application/x-www-form-urlencoded",
             "Authorization": `Bearer ${accessTokenInfo}`,
@@ -86,7 +93,11 @@ const TaxiRecruit = ({navigation}) => {
           }).then((res) => {
             console.log('>>> [taxiRecruit] ✅ SUCCESS', res.data);
             if (res.status === 200) {
-              alert('택시 글 작성 완료');
+              if (tid) {
+                alert('택시 글 수정 완료');
+              } else {
+                alert('택시 글 작성 완료');
+              }
               navigation.goBack();
             }
         }).catch((error) => {
@@ -101,7 +112,7 @@ const TaxiRecruit = ({navigation}) => {
     <SafeAreaView style={styles.mainScreen}>
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={[styles.mainBackground, styles.backgroundWhite]}>
-          <Header title="택시 모집 글 작성" onPressBack={() => navigation.pop()}/>
+          <Header title={headerTitle} onPressBack={() => navigation.pop()}/>
           <KeyboardAwareScrollView>
           <View style={[styles.recruitSection]}>
             <View style={styles.rowView}>
@@ -178,7 +189,7 @@ const TaxiRecruit = ({navigation}) => {
                     <ModalDropdown
                       ref={startLocationDropdownRef}
                       options={locations}
-                      onSelect={(index, value) => setStartLocation(locationTypeToNumber(value))}
+                      onSelect={(index, value) => setStartLocation((value))}
                       defaultValue={"선택하세요"}
                       style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
                       renderButtonText={(rowData) => (
@@ -197,7 +208,7 @@ const TaxiRecruit = ({navigation}) => {
                     <ModalDropdown
                       ref={endLocationDropdownRef}
                       options={locations}
-                      onSelect={(index, value) => setEndLocation(locationTypeToNumber(value))}
+                      onSelect={(index, value) => setEndLocation((value))}
                       defaultValue={"선택하세요"}
                       style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
                       renderButtonText={(rowData) => (
@@ -212,7 +223,7 @@ const TaxiRecruit = ({navigation}) => {
           </View>
           </KeyboardAwareScrollView>
           <ErrorText isError={error} errorMessage={error} style={[styles.marginRight20]}/>
-          <BottomButton title="모집 글 등록" onPress={handletTaxiRecruit}/>
+          <BottomButton title={buttonTitle} onPress={handletTaxiRecruit}/>
       </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>

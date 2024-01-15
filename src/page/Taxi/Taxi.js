@@ -5,6 +5,7 @@ import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import {WriteButton, TaxiCard, TopMenu} from '../../components'
 import axios from "axios";
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Taxi = ({navigation}) => {
@@ -12,10 +13,11 @@ const Taxi = ({navigation}) => {
 
 	const [taxiData, setTaxiData] = useState([]);
 
-	useEffect(() => {
-		// 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
-		fetchData();
-	  }, []);
+	useFocusEffect(
+		React.useCallback(() => {
+		  fetchData(); // 화면이 focus되면 fetchData 함수 호출
+		}, [])
+	  );
 	
 	  const fetchData = async () => {
 		try {
@@ -146,7 +148,7 @@ const Taxi = ({navigation}) => {
 									contentContainerStyle={styles.bigCardScroll}
 									showsHorizontalScrollIndicator={false}
 									data={taxiData}
-									renderItem={({item}) => <TaxiCard size={1} tid={item.tid} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max} studentId={item.studentId}/>}
+									renderItem={({item}) => <TaxiCard size={1} tId={item.tid} state={item.state} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max} studentId={item.studentId}/>}
 									keyExtractor={item => item.tid}
 									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}
 								/>

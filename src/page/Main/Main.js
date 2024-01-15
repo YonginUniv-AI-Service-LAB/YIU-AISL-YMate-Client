@@ -211,7 +211,7 @@ const Main = ({navigation}) => {
 										horizontal
 										showsHorizontalScrollIndicator={false}
 										data={taxiData}
-										renderItem={({item}) => <TaxiCard tid={item.tid} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max} studentId={item.studentId}/>}
+										renderItem={({item}) => <TaxiCard tId={item.tid} state={item.state} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max} studentId={item.studentId}/>}
 										keyExtractor={item => item.tid}
 									/>
 								</View>
