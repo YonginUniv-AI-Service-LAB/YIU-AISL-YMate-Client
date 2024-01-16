@@ -1,4 +1,4 @@
-import React, { useState, useRef  } from "react";
+import React, { useState, useRef, useEffect  } from "react";
 import { Text, StyleSheet, Image,TextInput, Pressable, View, TouchableWithoutFeedback, Keyboard, AsyncStorage } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -8,10 +8,12 @@ import ModalDropdown from "react-native-modal-dropdown";
 import locationTypeToNumber from '../../components/TypeToNumber/LocationTypeToNumber';
 import timeTypeToNumber from '../../components/TypeToNumber/TimeTypeToNumber';
 import maxPersonTypeToNumber from '../../components/TypeToNumber/MaxPersonTypeToNumber';
-import locations from '../../constant/LocationDatas'
+// import locations from '../../constant/LocationDatas'
+import locationData from '../../constant/LocationData'
 import maxPersons from '../../constant/MaxPersonDatas'
 import times from '../../constant/TimeDatas'
 import axios from 'axios';
+import LocationModal from "../Modal/LocationModal";
 import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
 
 const TaxiRecruit = ({navigation, route}) => {
@@ -29,15 +31,24 @@ const TaxiRecruit = ({navigation, route}) => {
   const endLocationDropdownRef = useRef();
   const maxPersonDropdownRef = useRef();
   const timeDropDownRef = useRef();
+  const [isModalVisible1, setModalVisible1] = useState(false);
+  const [isModalVisible2, setModalVisible2] = useState(false);
+  const [startLocationText, setStartLocationText] = useState('');
+  const [endLocationText, setEndLocationText] = useState('');
 
-  const toggleEndLocationDropdown = () => {
-    endLocationDropdownRef.current.show();
-    handleChange();
-  };
-  const toggleStartLocationDropdown = () => {
-    startLocationDropdownRef.current.show();
-    handleChange();
-  };
+  // const toggleEndLocationDropdown = () => {
+  //   endLocationDropdownRef.current.show();
+  //   handleChange();
+  // };
+  // const toggleStartLocationDropdown = () => {
+  //   startLocationDropdownRef.current.show();
+  //   handleChange();
+  // };
+  useEffect(() => {
+    startLocationToText()
+    endLocationToText()
+  }, [startLocationText, startLocation, endLocationText, endLocation])
+
   const maxPersonDropdown = () => {
     maxPersonDropdownRef.current.show();
     handleChange();
@@ -52,6 +63,50 @@ const TaxiRecruit = ({navigation, route}) => {
 
   const handleChange = () =>{
     setError('');
+  }
+
+  const openModal1 = () => {
+    setModalVisible1(true);
+  };
+
+  const closeModal1 = (modalValue1, modalValue2) => {
+    setModalVisible1(false);
+    if (modalValue1 !== undefined && modalValue2 !== undefined) {
+      // 모달에서 전달받은 두 값 처리
+      setStartLocation(modalValue1);
+      setStartLocationText(modalValue2);
+       console.log('Location Modal Value 1:', modalValue1);
+       console.log('Location Modal Value 2:', modalValue2);
+    }
+  };
+
+  const openModal2 = () => {
+    setModalVisible2(true);
+  };
+
+  const closeModal2 = (modalValue1, modalValue2) => {
+    setModalVisible2(false);
+    if (modalValue1 !== undefined && modalValue2 !== undefined) {
+      // 모달에서 전달받은 두 값 처리
+      setEndLocation(modalValue1);
+      setEndLocationText(modalValue2);
+       console.log('Location Modal Value 1:', modalValue1);
+       console.log('Location Modal Value 2:', modalValue2);
+    }
+  };
+  const startLocationToText = () => {
+    if(startLocation !== 0){
+      const index = locationData.findIndex((item) => item.code === startLocation);
+      const newText = locationData[index]?.name
+      setStartLocationText(newText)
+    }
+  }
+  const endLocationToText = () => {
+    if(endLocation !== 0){
+      const index = locationData.findIndex((item) => item.code === endLocation);
+      const newText = locationData[index]?.name
+      setEndLocationText(newText)
+    }
   }
 
   const getDueDate = () =>{
@@ -79,10 +134,10 @@ const TaxiRecruit = ({navigation, route}) => {
             title: title,
             contents: contents,
             due: dueDate,
-            start: startLocation,
-            startCode: locationTypeToNumber(startLocation),
-            end: endLocation,
-            endCode: locationTypeToNumber(endLocation),
+            start: startLocationText,
+            startCode: startLocation,
+            end: endLocationText,
+            endCode: endLocation,
             current: 0,
             max: maxPerson,
           }, {
@@ -184,41 +239,61 @@ const TaxiRecruit = ({navigation, route}) => {
             </View>
             <View style={[styles.margintop9]}>
               <Text style={styles.text12}>출발지</Text>
-                <View style={[styles.recruitInput, styles.rowView]}>
-                    {/* inputbox */}
-                    <ModalDropdown
-                      ref={startLocationDropdownRef}
-                      options={locations}
-                      onSelect={(index, value) => setStartLocation((value))}
-                      defaultValue={"선택하세요"}
-                      style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
-                      renderButtonText={(rowData) => (
-                        <Text style={styles.text11}>{rowData}</Text>
-                      )}
-                    />
-                  <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleStartLocationDropdown}>
-                    <Image style={styles.icon16} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-                  </View>
-                </View>
+              <Pressable style={[styles.recruitInput, styles.rowView]} onPress={openModal1}>
+                    {startLocationText?
+                      <Text style={[styles.textAlignLeft,styles.marginLeft6,styles.text11]}>
+                        {startLocationText}
+                      </Text>
+                      :
+                      <Text style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}>
+                        선택하세요
+                      </Text>
+                    }
+                      {/* inputbox
+                      <ModalDropdown
+                        ref={locationDropdownRef}
+                        options={locations}
+                        onSelect={(index, value) => setSelectedLocation(locationTypeToNumber(value))}
+                        defaultValue={"선택하세요"}
+                        style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
+                        renderButtonText={(rowData) => (
+                          <Text style={styles.text11}>{rowData}</Text>
+                        )}
+                      /> */}
+                    {/* <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleLocationDropdown}> */}
+                    <View style={[styles.recruitInputDropdown]} >
+                      <Image style={styles.icon16} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
+                    </View>
+                  </Pressable>
             </View>
             <View style={[styles.margintop9]}>
               <Text style={styles.text12}>도착지</Text>
-                <View style={[styles.recruitInput, styles.rowView]}>
-                    {/* inputbox */}
-                    <ModalDropdown
-                      ref={endLocationDropdownRef}
-                      options={locations}
-                      onSelect={(index, value) => setEndLocation((value))}
-                      defaultValue={"선택하세요"}
-                      style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
-                      renderButtonText={(rowData) => (
-                        <Text style={styles.text11}>{rowData}</Text>
-                      )}
-                    />
-                  <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleEndLocationDropdown}>
-                    <Image style={styles.icon16} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-                  </View>
-                </View>
+              <Pressable style={[styles.recruitInput, styles.rowView]} onPress={openModal2}>
+                    {endLocationText?
+                      <Text style={[styles.textAlignLeft,styles.marginLeft6,styles.text11]}>
+                        {endLocationText}
+                      </Text>
+                      :
+                      <Text style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}>
+                        선택하세요
+                      </Text>
+                    }
+                      {/* inputbox
+                      <ModalDropdown
+                        ref={locationDropdownRef}
+                        options={locations}
+                        onSelect={(index, value) => setSelectedLocation(locationTypeToNumber(value))}
+                        defaultValue={"선택하세요"}
+                        style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
+                        renderButtonText={(rowData) => (
+                          <Text style={styles.text11}>{rowData}</Text>
+                        )}
+                      /> */}
+                    {/* <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleLocationDropdown}> */}
+                    <View style={[styles.recruitInputDropdown]} >
+                      <Image style={styles.icon16} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
+                    </View>
+                  </Pressable>
             </View>
           </View>
           </KeyboardAwareScrollView>
@@ -226,6 +301,8 @@ const TaxiRecruit = ({navigation, route}) => {
           <BottomButton title={buttonTitle} onPress={handletTaxiRecruit}/>
       </View>
       </TouchableWithoutFeedback>
+      <LocationModal isVisible={isModalVisible1} onClose={closeModal1} />  
+      <LocationModal isVisible={isModalVisible2} onClose={closeModal2} />  
     </SafeAreaView>
   );
 };

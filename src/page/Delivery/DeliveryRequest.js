@@ -20,7 +20,7 @@ const DeliveryRequest = ({navigation,route}) => {
   };
 
   const handletDeliveryRequest = async() => {
-    if (!contents || !contents) {
+    if (!contents || !details) {
       setError("모든 값을 입력해주세요.");
     }
     else{

@@ -130,7 +130,9 @@ const DeliveryRecruit = ({navigation, route}) => {
             title: title,
             contents: contents,
             due: dueDate,
+            food: foodText,
             food_code: selectedFood,
+            location: locationText,
             location_code: selectedLocation,
             link: link,
           }, {

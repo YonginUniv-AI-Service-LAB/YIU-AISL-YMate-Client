@@ -10,7 +10,7 @@ import LocationTag from '../../components/LocationTag'
 import moment from 'moment-timezone';
 
 
-const DeliveryDetail = ({navigation, route}) => {
+const TaxiDetail = ({navigation, route}) => {
 	const { tId } = route.params;
 	const [refreshing, setRefreshing] = React.useState(false)
 	const [CommentData, setCommentData] = useState([]);
@@ -33,11 +33,11 @@ const DeliveryDetail = ({navigation, route}) => {
 	useFocusEffect(
 		React.useCallback(() => {
 		  // 화면이 포커스를 얻었을 때 데이터를 가져오도록 설정
-		  fetchDeliveryData();
+		  fetchTaxiData();
 		}, [refreshing])
 	);
 
-	const fetchDeliveryData = async () => {
+	const fetchTaxiData = async () => {
         const userInfo = await getUserInfo(); // 예시: getUserInfo가 Promise를 반환하는 경우
         const accessTokenInfo = await getAccessTokenInfo();
         const response = await axios.post(`${API_URL}/taxi/detail`,
@@ -72,8 +72,99 @@ const DeliveryDetail = ({navigation, route}) => {
 			navigation.navigate('TaxiRecruit', {tid: taxiData.tid});
 		}
 		else{
-			navigation.navigate('TaxiRequest', {tid: taxiData.tid});
+			navigation.navigate('TaxiRequest', {tid: taxiData.tid, max: taxiData.max});
 		}
+	}
+
+	const handleAcceptRequest = async (tcId) => {
+		if(isPastDue|| taxiData.state === 'FINISHED'){
+			alert('이미 마감된 글입니다.');
+		}
+		else{
+		try {
+			const accessTokenInfo = await getAccessTokenInfo();
+			const response = await axios.post(`${API_URL}/taxi/accept`, {
+				tcId: tcId,
+			}, {
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+					"Authorization": `Bearer ${accessTokenInfo}`,
+				},
+				withCredentials: true
+			});
+			
+			setRefreshing(false);
+			if (response.status === 200) {
+				Alert.alert("수락 완료");
+				fetchTaxiData();
+			}
+		} catch (error) {
+				if (error.response && error.response.status === 409) {
+					Alert.alert('이미 마감된 글입니다.');
+				}
+				else{ 
+					Alert.alert('삭제 되었거나 없는 신청글입니다.');
+			
+				}
+		}
+	}
+	};
+
+	const handleRejectRequest = async (tcId) => {
+		if(isPastDue|| taxiData.state === 'FINISHED'){
+			alert('이미 마감된 글입니다.');
+		}
+		else{
+		try {
+			const accessTokenInfo = await getAccessTokenInfo();
+			const response = await axios.post(`${API_URL}/taxi/reject`,
+			{
+				tcId: tcId,
+			}, {
+			  headers: {"Content-Type": "application/x-www-form-urlencoded",
+			  "Authorization": `Bearer ${accessTokenInfo}`,
+			},
+			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+			});
+			setRefreshing(false);
+			if (response.status === 200) {
+				Alert.alert("거절 완료");
+				fetchTaxiData();
+			}
+		  } catch (error) {
+				if (error.response && error.response.status === 409) {
+					Alert.alert('이미 마감된 글입니다.');
+				}
+				else{ 
+					Alert.alert('삭제 되었거나 없는 신청글입니다.');
+			
+				}
+		  }
+		}
+	};
+
+	const handleCancelRequest = async (tcId) => {
+		try {
+			const accessTokenInfo = await getAccessTokenInfo();
+			const response = await axios.post(`${API_URL}/taxi/cancel`,
+			{
+			  tcId: tcId,
+			}, {
+			  headers: {"Content-Type": "application/x-www-form-urlencoded",
+			  "Authorization": `Bearer ${accessTokenInfo}`,
+			},
+			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+			});
+			setRefreshing(false);
+			if (response.status === 200) {
+				Alert.alert("취소 완료");
+				fetchTaxiData();
+			}
+		  } catch (error) {
+			console.error("데이터 가져오기 실패:", error);
+			Alert.alert('삭제 되었거나 없는 신청글입니다.');
+		  }
+		
 	}
 
 	const handleFinishDetail = async() => {
@@ -211,8 +302,8 @@ const DeliveryDetail = ({navigation, route}) => {
 				
                 <View style={[styles.deliveryDetailheader, styles.margintop6]}>
 						<View style={styles.rowView}>
-							<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/restaurant.png")}/>
-							<Text style={[styles.centerText18, styles.marginLeft3]}>같이 배달</Text>
+							<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/taxi.png")}/>
+							<Text style={[styles.centerText18, styles.marginLeft3]}>같이 택시</Text>
 						</View>
 						<View>
 						{type === 1 && ( //type이 1일 때만 마감하기 버튼 렌더링 type 1은 자기글
@@ -309,19 +400,20 @@ const DeliveryDetail = ({navigation, route}) => {
         <View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
 			<Text style={styles.text16}>{comment.nickname}</Text>
 			<View style={styles.rowView}>
+				<Text style={styles.text16}>인원 : {comment.number} </Text>
 				{comment.state === 'WAITING' && type === 1 &&(
 				<>
-					<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleAcceptRequest(comment.dcId)}>
+					<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleAcceptRequest(comment.tcId)}>
 					<Text style={styles.buttonText}>수락</Text>
 					</Pressable>
-					<Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={async () => handleRejectRequest(comment.dcId)}>
+					<Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={async () => handleRejectRequest(comment.tcId)}>
 					<Text style={[styles.redText,styles.text13]}>거절</Text>
 					</Pressable>
 				</>
 				)}
 				{comment.state === 'WAITING' && comment.studentId === userInfo &&(
 				<>
-					<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleCancelRequest(comment.dcId)}>
+					<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleCancelRequest(comment.tcId)}>
 						<Text style={styles.buttonText}>취소</Text>
 					</Pressable>
 				</>
@@ -387,4 +479,4 @@ const DeliveryDetail = ({navigation, route}) => {
 
 
 
-export default DeliveryDetail;
+export default TaxiDetail;
