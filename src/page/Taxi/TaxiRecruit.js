@@ -25,7 +25,7 @@ const TaxiRecruit = ({navigation, route}) => {
   const [contents, setContents] = useState('');
   const [error, setError] = useState('');
   const [tid, setDid] = useState(route.params?.tid || null);
-  const headerTitle = tid ? "배달 모집 글 수정" : "배달 모집 글 작성";
+  const headerTitle = tid ? "택시 모집 글 수정" : "택시 모집 글 작성";
   const buttonTitle = tid ? "모집 글 수정" : "모집 글 작성";
   const startLocationDropdownRef = useRef();
   const endLocationDropdownRef = useRef();

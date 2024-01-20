@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet, Image, SafeAreaView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, Image, SafeAreaView, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import Signup from '../Signup/Signup';
 import Main from '../Main/Main';
 import Password from '../Password/Password';
@@ -41,6 +41,9 @@ const Login = ({ navigation, route }) => {
           navigation.navigate('Main');
         }
       } catch (error) {
+        if (error.response && error.response.status === 401) {
+          Alert.alert('존재하지 않는 아이디거나 틀린 비밀번호입니다.');
+        } 
         console.log('>>> [LOGIN] 🤬 ERROR', error);
       }
     }

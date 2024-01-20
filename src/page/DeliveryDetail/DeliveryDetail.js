@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
+import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, ActivityIndicator} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../../assets/GlobalStyles";
 import {styles} from "../Style"
@@ -16,7 +16,7 @@ const DeliveryDetail = ({navigation, route}) => {
 	const { dId } = route.params;
 	const [refreshing, setRefreshing] = React.useState(false)
 	const [CommentData, setCommentData] = useState([]);
-	const [deliveryData, setDeliveryData] = useState([]);
+	const [deliveryData, setDeliveryData] = useState(null);
 	const [type, setType] = useState('');
 	const [isPastDue, setIsPastDue] = useState('');
 	const [userInfo, setUserInfo] = useState('');
@@ -79,6 +79,13 @@ const DeliveryDetail = ({navigation, route}) => {
 		  navigation.goBack();
         });
     }
+	if (deliveryData === null) {
+        return (
+			<View style={styles.loadingContainer}>
+			  <ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		  );
+      }
 
 	const handleAcceptRequest = async (dcId) => {
 		if(isPastDue|| deliveryData.state === 'FINISHED'){

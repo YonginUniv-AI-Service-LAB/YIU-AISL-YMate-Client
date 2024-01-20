@@ -924,4 +924,9 @@ export const styles = StyleSheet.create({
         alignSelf: "stretch",
         alignItems: 'flex-start',
     },
+    loadingContainer: {
+        flex: 1,
+        alignItems:'center',
+        justifyContent:'center',
+    }
     })

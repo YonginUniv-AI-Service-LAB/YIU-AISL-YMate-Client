@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
+import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, ActivityIndicator} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../../assets/GlobalStyles";
 import {styles} from "../Style"
@@ -14,7 +14,7 @@ const TaxiDetail = ({navigation, route}) => {
 	const { tId } = route.params;
 	const [refreshing, setRefreshing] = React.useState(false)
 	const [CommentData, setCommentData] = useState([]);
-	const [taxiData, setTaxiData] = useState([]);
+	const [taxiData, setTaxiData] = useState(null);
 	const [type, setType] = useState('');
 	const [isPastDue, setIsPastDue] = useState('');
 	const [userInfo, setUserInfo] = useState('');
@@ -63,6 +63,13 @@ const TaxiDetail = ({navigation, route}) => {
 		  navigation.goBack();
         });
     }
+	if (taxiData === null) {
+        return (
+			<View style={styles.loadingContainer}>
+			  <ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		  );
+      }
 
 	const handleButtonPress  = async () => { 
 		if(isPastDue || taxiData.state ==='FINISHED'){

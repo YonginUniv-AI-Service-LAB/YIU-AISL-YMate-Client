@@ -1,21 +1,49 @@
-import * as React from "react";
-import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, SectionList, FlatList} from "react-native";
+import React, { useState, useEffect } from "react";
+import { Image, StyleSheet, Text, View, Pressable, ActivityIndicator} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import { symbol } from "prop-types";
 import { TopMenu } from "../../components";
+import { useIsFocused } from '@react-navigation/native';
+import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import axios from 'axios';
 
 
-const Notification = ({navigation}) => {
-	const [refreshing, setRefreshing] = React.useState(false)
+const MyPage = ({navigation}) => {
+  const [myData, setMyData] = useState(null);
 
-    const MyData = [
-		{
-			studentId: '201933008',
-            nickname: '두글자',
-		},
-	]
+  useEffect(() => {
+    if(myData === null){
+      fetchData();
+    }
+  }, [myData]);
+	
+	  const fetchData = async () => {
+        const accessTokenInfo = await getAccessTokenInfo();
+		const response = await axios.post(`${API_URL}/user/mypage`,
+        {},
+          {
+            headers: {"Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": `Bearer ${accessTokenInfo}`,
+          },
+            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+          }).then((res) => {
+            console.log('>>> [mypage] ✅ SUCCESS', res.data);
+            if (res.status === 200) {
+                setMyData(res.data);
+            }
+        }).catch((error) => {
+          console.log('>>> [mypage] 🤬 ERROR', error);
+        });
+	  };
+      if (myData === null) {
+        return (
+			<View style={styles.loadingContainer}>
+			  <ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		  );
+      }
 
     const MyPageCard = ({studentId, nickname}) => (
 		<View style= {styles.myPageCard}>
@@ -47,11 +75,7 @@ const Notification = ({navigation}) => {
                     <View style={styles.myPageBody}>
                         <View style={styles.myPageSection}>
                             <View>
-                            <FlatList
-                                data={MyData}
-                                renderItem={({ item }) => <MyPageCard studentId={item.studentId} nickname={item.nickname}/>}
-                                keyExtractor={item => item.tId}
-                            />
+                                <MyPageCard studentId={myData.studentId} nickname={myData.nickname} />
                             </View>
                             <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('MyPost')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
@@ -86,4 +110,4 @@ const Notification = ({navigation}) => {
 
 
 
-export default Notification;
+export default MyPage;
