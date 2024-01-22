@@ -19,8 +19,8 @@ const MainStackScreen = () => {
     return(
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Main" component={Main} />
-      <Stack.Screen name="Notification" component={Notification} />
       <Stack.Screen name="Alarm" component={Alarm} />
+      <Stack.Screen name="Notification" component={Notification} />
     </Stack.Navigator>
     )
  };
@@ -65,8 +65,8 @@ const TabStackScreen = () => {
         <TabStack.Screen name="홈" component={MainStackScreen} options={{ unmountOnBlur: true }}/>
         <TabStack.Screen name="내가 쓴 글" component={MyPostStackScreen} options={{ unmountOnBlur: true }}/>
         <TabStack.Screen name="내 정보" component={MyPageStackScreen} options={{ unmountOnBlur: true }}/>
-    </TabStack.Navigator>
-    );
+      </TabStack.Navigator>
+  );
 };
 
 export default TabStackScreen;

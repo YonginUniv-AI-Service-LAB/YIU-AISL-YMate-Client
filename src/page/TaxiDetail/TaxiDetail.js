@@ -288,7 +288,7 @@ const TaxiDetail = ({navigation, route}) => {
 
         let dueDate = moment(due);
         setIsPastDue(now.isAfter(dueDate));
-        let minutesDiff = Math.abs(moment.utc(dueDate).diff(moment.utc(now), 'minutes'))-540; 
+        let minutesDiff = Math.abs(moment.utc(dueDate).diff(moment.utc(now), 'minutes')); 
         let dueStatusText;
         if (isPastDue || state === 'FINISHED') {
             dueStatusText = "마감";

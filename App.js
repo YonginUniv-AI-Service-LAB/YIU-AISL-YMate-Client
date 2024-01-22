@@ -16,9 +16,8 @@ import Password from './src/page/Password/Password';
 import DeliveryDetail from './src/page/DeliveryDetail/DeliveryDetail';
 import TaxiDetail from './src/page/TaxiDetail/TaxiDetail';
 import TabStackScreen from './src/page/BottomTab/TabStackScreen';
-import Alarm from './src/page/Alarm/Alarm';
 import Location from './src/page/Location/Location';
-
+import NoticeCreate from './src/page/Notification/NoticeCreate';
 const Stack = createStackNavigator();
 
 
@@ -38,8 +37,8 @@ const App = () => {
           <Stack.Screen name="TaxiDetail" component={TaxiDetail} />
           <Stack.Screen name="TaxiRecruit" component={TaxiRecruit} />
           <Stack.Screen name="TaxiRequest" component={TaxiRequest} />
-          <Stack.Screen name="Alarm" component={Alarm} />
           <Stack.Screen name="Location" component={Location} />
+          <Stack.Screen name="NoticeCreate" component={NoticeCreate} />
         </Stack.Navigator>
     </NavigationContainer>
   );

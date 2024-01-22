@@ -95,12 +95,20 @@ const MyPage = ({navigation}) => {
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
                             </Pressable> 
-                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('DeliveryDetail')}>
+                            <Pressable style = {styles.myPageOption} onPress={() => alert('서비스 정보')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>서비스 정보</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
-                            </Pressable>     
+                            </Pressable>
+                            {myData.studentId === 201933008 || myData.studentId === 201933023 || myData.studentId === 202033013 ? (
+                              <Pressable style={styles.myPageOption} onPress={() => navigation.navigate('NoticeCreate')}>
+                                  <View style={[styles.rowView, styles.spacebetween]}>
+                                      <Text style={styles.text16}>공지사항 작성하기</Text>
+                                      <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")} />
+                                  </View>
+                              </Pressable>
+                            ) : null}
                         </View>
                     </View>
       			</View>

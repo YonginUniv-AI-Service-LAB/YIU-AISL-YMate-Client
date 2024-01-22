@@ -101,7 +101,7 @@ const Signup = ({ navigation }) => {
       setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
       setNickNameCheckSuccess('');
     } else {
-      const response = await axios.post(`${API_URL}/nickcheck`,
+      const response = await axios.post(`http://192.168.0.24:8080/nickcheck`,
         { nickname: nickname },
         {
           headers: {"Content-Type": "application/x-www-form-urlencoded"},
