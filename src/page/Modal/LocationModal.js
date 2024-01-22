@@ -107,6 +107,7 @@ const LocationModal = ({ isVisible, onClose }) => {
                 ...filteredLocationData[0],
                 state: 1
             }
+            setLocation(filteredLocationData[0].code)
             setSelectedLocationData(filteredLocationData);
         }
     }

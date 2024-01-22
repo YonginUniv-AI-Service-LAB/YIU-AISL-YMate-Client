@@ -55,7 +55,7 @@ const Delivery = ({navigation}) => {
 									contentContainerStyle={styles.bigCardScroll}
 									showsHorizontalScrollIndicator={false}
 									data={deliveryData}
-									renderItem={({item}) => <DeliveryCard size={1} dId={item.did} state={item.state} title={item.title} due={item.due} food={item.food} location={item.location} studentId={item.studentId}/>}
+									renderItem={({item}) => <DeliveryCard size={1} dId={item.did} state={item.state} title={item.title} due={item.due} food={item.foodCode} location={item.locationCode} studentId={item.studentId}/>}
 									keyExtractor={item => item.did}
 									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}
 								/>

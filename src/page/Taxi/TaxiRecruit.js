@@ -90,8 +90,8 @@ const TaxiRecruit = ({navigation, route}) => {
       // 모달에서 전달받은 두 값 처리
       setEndLocation(modalValue1);
       setEndLocationText(modalValue2);
-       console.log('Location Modal Value 1:', modalValue1);
-       console.log('Location Modal Value 2:', modalValue2);
+      //  console.log('Location Modal Value 1:', modalValue1);
+      //  console.log('Location Modal Value 2:', modalValue2);
     }
   };
   const startLocationToText = () => {
@@ -119,7 +119,7 @@ const TaxiRecruit = ({navigation, route}) => {
   }
 
   const handletTaxiRecruit = async () => {
-    if (!title || !contents || !maxPerson || !startLocation || !endLocation || !selectedTime) {
+    if (!title || !contents || !maxPerson || !startLocationText || !endLocationText || !selectedTime) {
       setError("모든 값을 입력해주세요.");
     }
     else{

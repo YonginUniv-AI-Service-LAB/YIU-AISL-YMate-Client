@@ -131,9 +131,9 @@ const DeliveryRecruit = ({navigation, route}) => {
             contents: contents,
             due: dueDate,
             food: foodText,
-            food_code: selectedFood,
+            foodCode: selectedFood,
             location: locationText,
-            location_code: selectedLocation,
+            locationCode: selectedLocation,
             link: link,
           }, {
             headers: {"Content-Type": "application/x-www-form-urlencoded",
@@ -156,7 +156,9 @@ const DeliveryRecruit = ({navigation, route}) => {
           console.log('>>> [deliveryRecruit] 🤬 ERROR', error);
           setError("AccessToken만료");
         });
-       
+        
+      console.log('selectedFood :', selectedFood);
+      console.log('selectedLocation:', selectedLocation);
     }
   }
 

@@ -189,7 +189,7 @@ const Main = ({navigation}) => {
 										horizontal
 										showsHorizontalScrollIndicator={false}
 										data={deliveryData}
-										renderItem={({item}) => <DeliveryCard dId={item.did} state={item.state} title={item.title} due={item.due} food={item.food} location={item.location} studentId={item.studentId}/>}
+										renderItem={({item}) => <DeliveryCard dId={item.did} state={item.state} title={item.title} due={item.due} food={item.foodCode} location={item.locationCode} studentId={item.studentId}/>}
 										keyExtractor={item => item.did}
 									/>
 								</View>

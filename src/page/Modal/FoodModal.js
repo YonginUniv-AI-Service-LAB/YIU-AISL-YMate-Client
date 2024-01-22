@@ -138,6 +138,7 @@ const FoodModal = ({ isVisible, onClose }) => {
                 ...filteredFoodData[0],
                 state: 1
             }
+            setFood(filteredFoodData[0].code)
             setSelectedFoodData(filteredFoodData);
         }
     }

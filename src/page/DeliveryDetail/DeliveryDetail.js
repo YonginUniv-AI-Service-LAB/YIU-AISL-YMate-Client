@@ -321,11 +321,11 @@ const DeliveryDetail = ({navigation, route}) => {
 						)}
 				</View>
 				<View style={[styles.bigCard, styles.padding10]}>
-				<View style={styles.tempViewToImage} />
+                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
 				<View style={styles.flexView}>
 					<View style={styles.smallCardContent}>
 						<LocationTag location={location}/>
-						<Text style={[styles.centerText10, dueStatusStyle]}>{dueStatusText}</Text>
+						<Text style={[styles.centerText10, styles.textAlignRight,  dueStatusStyle]}>{dueStatusText}</Text>
 					</View>
 					<View style={styles.cardStatusContainer}>
 						<View style={[styles.infoContainer, styles.rowView, styles.spacebetween]}>
@@ -359,43 +359,43 @@ const DeliveryDetail = ({navigation, route}) => {
     const commentCard = CommentData.map((comment) => 
 	comment.state !== 'CANCELED' && (
 	<View>
-    <View style={[styles.commentContainer, { borderColor: comment.state === 'REJECTED' ? Color.colorGray_100 : '#22A2F2'}]}>
-        <View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
-			<Text style={styles.text16}>{comment.nickname}</Text>
-			<View style={styles.rowView}>
-				{comment.state === 'WAITING' && type === 1 &&(
-				<>
-					<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleAcceptRequest(comment.dcId)}>
-					<Text style={styles.buttonText}>수락</Text>
-					</Pressable>
-					<Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={async () => handleRejectRequest(comment.dcId)}>
-					<Text style={[styles.redText,styles.text13]}>거절</Text>
-					</Pressable>
-				</>
-				)}
-				{comment.state === 'WAITING' && comment.studentId === userInfo &&(
-				<>
-					<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleCancelRequest(comment.dcId)}>
-						<Text style={styles.buttonText}>취소</Text>
-					</Pressable>
-				</>
-				)}
-				{comment.state === 'ACCEPTED' && (
-				<View style={[styles.realbluebuttonContainer, styles.shadow]}>
-					<Text style={styles.realblueText}>수락됨</Text>
+		<View style={[styles.commentContainer, { borderColor: comment.state === 'REJECTED' ? Color.colorGray_100 : '#22A2F2'}]}>
+			<View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
+				<Text style={styles.text16}>{comment.nickname}</Text>
+				<View style={styles.rowView}>
+					{comment.state === 'WAITING' && type === 1 &&(
+					<>
+						<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleAcceptRequest(comment.dcId)}>
+						<Text style={styles.buttonText}>수락</Text>
+						</Pressable>
+						<Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={async () => handleRejectRequest(comment.dcId)}>
+						<Text style={[styles.redText,styles.text13]}>거절</Text>
+						</Pressable>
+					</>
+					)}
+					{comment.state === 'WAITING' && comment.studentId === userInfo &&(
+					<>
+						<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleCancelRequest(comment.dcId)}>
+							<Text style={styles.buttonText}>취소</Text>
+						</Pressable>
+					</>
+					)}
+					{comment.state === 'ACCEPTED' && (
+					<View style={[styles.realbluebuttonContainer, styles.shadow]}>
+						<Text style={styles.realblueText}>수락됨</Text>
+					</View>
+					)}
+					{comment.state ===  'REJECTED'&& (
+					<View style={[styles.redbuttonContainer,styles.shadow]}>
+						<Text style={[styles.redText,styles.text13]}>거절됨</Text>
+					</View>
+					)}
 				</View>
-				)}
-				{comment.state ===  'REJECTED'&& (
-				<View style={[styles.redbuttonContainer,styles.shadow]}>
-					<Text style={[styles.redText,styles.text13]}>거절됨</Text>
-				</View>
-				)}
+			</View>
+			<View style={styles.commentheader}>
+				<Text style={styles.text12}>{comment.title}</Text>
 			</View>
 		</View>
-		<View style={styles.commentheader}>
-			<Text style={styles.text12}>{comment.title}</Text>
-		</View>
-	</View>
 		{comment.state === 'ACCEPTED'  && (
 				<View style = {styles.commentDetails}>
 					<Text style = {styles.text12}>{comment.details}</Text>
@@ -410,7 +410,7 @@ const DeliveryDetail = ({navigation, route}) => {
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
 					<Header title="모집 글 상세" isReport={true} onPressBack={() => navigation.pop()} onPressReport={() => Alert.alert("신고하기긱")}/>
-                    	<DeliveryDetailCard title={deliveryData.title} nickname={deliveryData.ninkname} state={deliveryData.state} food={deliveryData.food} location={deliveryData.location} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents}/>
+                    	<DeliveryDetailCard title={deliveryData.title} nickname={deliveryData.nickname} state={deliveryData.state} food={deliveryData.foodCode} location={deliveryData.locationCode} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
 								<View style={styles.recruiterSectionList}>
