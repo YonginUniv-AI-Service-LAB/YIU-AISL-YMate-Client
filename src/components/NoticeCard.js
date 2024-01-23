@@ -47,7 +47,6 @@ const NoticeCard = ({noticeId, title, contents, updatedAt}) => {
 			});
 			if (response.status === 200) {
 				Alert.alert("삭제 완료");
-                navigation.pop();
 			}
 		  } catch (error) {
 			if (error.response && error.response.status === 404) {

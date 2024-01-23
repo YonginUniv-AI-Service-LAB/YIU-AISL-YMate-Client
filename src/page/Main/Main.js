@@ -12,6 +12,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const Main = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
 	const [deliveryData, setDeliveryData] = useState([]);
+
   const [taxiData, setTaxiData] = useState([]);
   const[noticeData, setNoticeData] = useState([]);
 
@@ -192,7 +193,7 @@ const Main = ({navigation}) => {
 										horizontal
 										showsHorizontalScrollIndicator={false}
 										data={deliveryData}
-										renderItem={({item}) => <DeliveryCard dId={item.did} state={item.state} title={item.title} due={item.due} food={item.food} location={item.location} studentId={item.studentId}/>}
+										renderItem={({item}) => <DeliveryCard dId={item.did} state={item.state} title={item.title} due={item.due} food={item.foodCode} location={item.locationCode} studentId={item.studentId}/>}
 										keyExtractor={item => item.did}
 									/>
 								</View>

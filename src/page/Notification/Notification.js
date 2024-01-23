@@ -3,37 +3,14 @@ import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Ale
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
-import { Header, NoticeCard, TopMenu} from "../../components";
 import axios from "axios";
+import { Header, NoticeCard, TopMenu} from "../../components";
 import { useFocusEffect } from '@react-navigation/native';
 
 
 const Notification = ({navigation}) => {
-	const [refreshing, setRefreshing] = React.useState(false)
-
-	const [noticeData, setNoticeData] = useState([]);
-
-	useFocusEffect(
-		React.useCallback(() => {
-		  fetchData(); // 화면이 focus되면 fetchData 함수 호출
-		}, [])
-	  );
-	
-	  const fetchData = async () => {
-		try {
-		  const response = await axios.get(`${API_URL}/notice`, {
-			headers: {
-			  "Content-Type": "application/x-www-form-urlencoded",
-			},
-			withCredentials: true,
-		  });
-		  // 가져온 데이터를 state에 저장
-		  setNoticeData(response.data);
-		  console.log(noticeData);
-		} catch (error) {
-		  console.error("데이터 가져오기 실패:", error);
-		}
-	  };
+	const [refreshing, setRefreshing] = useState(false)
+	const [noticeData, setNoticeData] = useState([])
 
 	// const NoticeData = [
 	// 	{
@@ -121,8 +98,29 @@ const Notification = ({navigation}) => {
 	// 		updatedAt: new Date('2023-12-04T17:55:00'),
 	// 	},
 	// ]
+	useFocusEffect(
+		React.useCallback(() => {
+			fetchData(); // 화면이 focus되면 fetchData 함수 호출
+		}, [])
+	);
+			
+	const fetchData = async () => {
+		try {
+			const response = await axios.get(`${API_URL}/notice`, {
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+				},
+				withCredentials: true,
+			});
 
-  	return (
+			// 가져온 데이터를 state에 저장
+			setNoticeData(response.data);
+		} catch (error) {
+			console.error("데이터 가져오기 실패:", error);
+		}
+	};
+
+	return (
 		<SafeAreaView style={styles.mainScreen}>
 			<View style={styles.mainBackground}>
 				<Header title="공지사항" onPressBack={() => navigation.pop()}/>

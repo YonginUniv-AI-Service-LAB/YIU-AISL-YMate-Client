@@ -12,6 +12,7 @@ import DeliveryRequest from './src/page/Delivery/DeliveryRequest';
 import TaxiRecruit from './src/page/Taxi/TaxiRecruit';
 import TaxiRequest from './src/page/Taxi/TaxiRequest';
 import Password from './src/page/Password/Password';
+import Notification from './src/page/Notification/Notification';
 
 import DeliveryDetail from './src/page/DeliveryDetail/DeliveryDetail';
 import TaxiDetail from './src/page/TaxiDetail/TaxiDetail';

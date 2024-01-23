@@ -360,7 +360,7 @@ const TaxiDetail = ({navigation, route}) => {
 						</View>
 				</View>
 				<View style={[styles.bigCard, styles.padding10]}>
-				<View style={styles.tempViewToImage} />
+                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${startCode}`}}/>
 				<View style={styles.flexView}>
 					<View style={styles.smallCardContent}>
         
@@ -369,7 +369,7 @@ const TaxiDetail = ({navigation, route}) => {
                         <Image style={styles.icon17} resizeMode="cover" source={require("../../assets/images/arrowRight.png")}/>
                         <LocationTag location={endCode}/>
                     </View>
-						<Text style={[styles.centerText10, dueStatusStyle]}>{dueStatusText}</Text>
+						<Text style={[styles.centerText10, styles.textAlignRight,  dueStatusStyle]}>{dueStatusText}</Text>
 					</View>
 					<View style={styles.cardStatusContainer}>
 						<View style={[styles.infoContainer, styles.rowView, styles.spacebetween]}>
@@ -438,7 +438,7 @@ const TaxiDetail = ({navigation, route}) => {
 			</View>
 		</View>
 		<View style={styles.commentheader}>
-			<Text style={styles.text12}>{comment.title}</Text>
+			<Text style={styles.text12}>{comment.contents}</Text>
 		</View>
 	</View>
 		{comment.state === 'ACCEPTED'  && (
