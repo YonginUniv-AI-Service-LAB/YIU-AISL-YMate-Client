@@ -38,6 +38,7 @@ const Login = ({ navigation, route }) => {
           // 로그인 성공 시 studentId와 accessToken을 AsyncStorage에 저장
           await AsyncStorage.setItem('user', studentId);
           await AsyncStorage.setItem('accessToken', response.data.token.accessToken);
+          await AsyncStorage.setItem('refreshToken', response.data.token.refreshToken);
           navigation.navigate('Main');
         }
       } catch (error) {

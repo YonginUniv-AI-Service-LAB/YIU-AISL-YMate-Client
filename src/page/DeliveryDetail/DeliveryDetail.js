@@ -409,7 +409,7 @@ const DeliveryDetail = ({navigation, route}) => {
 		<>
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
-					<Header title="모집 글 상세" isReport={true} onPressBack={() => navigation.pop()} onPressReport={() => Alert.alert("신고하기긱")}/>
+					<Header title="모집 글 상세" isReport={type !== 1} toId={deliveryData.studentId} postId={dId} postType={1} onPressBack={() => navigation.pop()}/>
                     	<DeliveryDetailCard title={deliveryData.title} nickname={deliveryData.nickname} state={deliveryData.state} food={deliveryData.foodCode} location={deliveryData.locationCode} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>

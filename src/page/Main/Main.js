@@ -19,7 +19,6 @@ const Main = ({navigation}) => {
 	useFocusEffect(
 		React.useCallback(() => {
 		  fetchData(); // 화면이 focus되면 fetchData 함수 호출
-		  console.log(noticeData);
 		}, [])
 	  );
 	
