@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import LocationTag from '../../components/LocationTag'
 import moment from 'moment-timezone';
+import {Header} from "../../components"
 
 
 const TaxiDetail = ({navigation, route}) => {
@@ -454,23 +455,7 @@ const TaxiDetail = ({navigation, route}) => {
 		<>
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
-                    <View style={styles.uppermenu}>
-						<Pressable onPress={() => navigation.pop()}>
-							<Image
-								source={require('./../../assets/images/left.png')}
-								style={[styles.icon20]} resizeMode="cover"
-							/>
-						</Pressable>
-					<View style={styles.headerTitle}>
-                    	<Text style={[styles.headerText]}>모집 글 상세</Text>
-					</View>
-                        <Pressable onPress={()=>Alert.alert("신고하기 버튼")}>
-							<Image
-								source={require('./../../assets/images/reportbutton.png')} 
-								style={[styles.icon20]} resizeMode="cover"
-							/>
-						</Pressable>
-                    </View>
+				  <Header title="모집 글 상세" isReport={type !== 1} toId={taxiData.studentId} postId={tId} postType={1} onPressBack={() => navigation.pop()}/>
                     	<TaxiDetailCard title={taxiData.title} state={taxiData.state} nickname={taxiData.nickname} createAt={taxiData.createAt} due={taxiData.due} current={taxiData.current} max={taxiData.max} startCode={taxiData.startCode} endCode={taxiData.endCode} contents={taxiData.contents}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>

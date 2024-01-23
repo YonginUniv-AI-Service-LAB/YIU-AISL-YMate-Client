@@ -930,5 +930,35 @@ export const styles = StyleSheet.create({
         flex: 1,
         alignItems:'center',
         justifyContent:'center',
-    }
-    })
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+      },
+      modalTitle: {
+        fontSize: 20,
+        marginBottom: 15,
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
+      marginTop6:{
+        marginTop: 6,
+      },
+  });
+  

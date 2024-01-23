@@ -102,12 +102,20 @@ const MyPage = ({navigation}) => {
                                 </View>
                             </Pressable>
                             {myData.studentId === 201933008 || myData.studentId === 201933023 || myData.studentId === 202033013 ? (
+                              <View>
                               <Pressable style={styles.myPageOption} onPress={() => navigation.navigate('NoticeCreate')}>
                                   <View style={[styles.rowView, styles.spacebetween]}>
                                       <Text style={styles.text16}>공지사항 작성하기</Text>
                                       <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")} />
                                   </View>
                               </Pressable>
+                              <Pressable style={styles.myPageOption} onPress={() => alert('신고 글')}>
+                                <View style={[styles.rowView, styles.spacebetween]}>
+                                    <Text style={styles.text16}>신고 글 조회</Text>
+                                    <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")} />
+                                </View>
+                              </Pressable>
+                              </View>
                             ) : null}
                         </View>
                     </View>
