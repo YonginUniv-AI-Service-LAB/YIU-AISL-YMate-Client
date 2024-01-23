@@ -12,7 +12,8 @@ import { useFocusEffect } from '@react-navigation/native';
 const Main = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
 	const [deliveryData, setDeliveryData] = useState([]);
-  const [taxiData, setTaxiData] = useState([]);
+	const [taxiData, setTaxiData] = useState([]);
+	const [noticeData, setNoticeData] = useState([]);
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -30,6 +31,7 @@ const Main = ({navigation}) => {
 		  });
 		  setDeliveryData(response.data.delivery);
 		  setTaxiData(response.data.taxi);
+		  setNoticeData(response.data.notice);
 		} catch (error) {
 		  console.error("데이터 가져오기 실패:", error);
 		}
@@ -131,38 +133,38 @@ const Main = ({navigation}) => {
 	// 	}
 	// ]
 
-	const NoticeData = [
-		{
-			noticeId: 123123123,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-			updatedAt: new Date('2023-12-04T17:55:00'),
-		},
-		{
-			noticeId: 123123124,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-			updatedAt: new Date('2023-12-14T17:55:00'),
-		},
-		{
-			noticeId: 123123125,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-			updatedAt: new Date('2023-12-04T17:55:00'),
-		},
-		{
-			noticeId: 123123126,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-			updatedAt: new Date('2023-12-04T17:55:00'),
-		},
-		{
-			noticeId: 123123127,
-			title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-			contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-			updatedAt: new Date('2023-12-04T17:55:00'),
-		}
-	]
+	// const NoticeData = [
+	// 	{
+	// 		noticeId: 123123123,
+	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+	// 		updatedAt: new Date('2023-12-04T17:55:00'),
+	// 	},
+	// 	{
+	// 		noticeId: 123123124,
+	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+	// 		updatedAt: new Date('2023-12-14T17:55:00'),
+	// 	},
+	// 	{
+	// 		noticeId: 123123125,
+	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+	// 		updatedAt: new Date('2023-12-04T17:55:00'),
+	// 	},
+	// 	{
+	// 		noticeId: 123123126,
+	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+	// 		updatedAt: new Date('2023-12-04T17:55:00'),
+	// 	},
+	// 	{
+	// 		noticeId: 123123127,
+	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
+	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
+	// 		updatedAt: new Date('2023-12-04T17:55:00'),
+	// 	}
+	// ]
 
   	return (
 		<>
@@ -225,7 +227,7 @@ const Main = ({navigation}) => {
 									</Pressable>
 								</View>
 								<View style={styles.mainNoticeList}>
-									{NoticeData.map((item) => (
+									{noticeData.map((item) => (
 										<NoticeCard
 											key={item.noticeId}
 											noticeId={item.noticeId}

@@ -438,7 +438,7 @@ const TaxiDetail = ({navigation, route}) => {
 			</View>
 		</View>
 		<View style={styles.commentheader}>
-			<Text style={styles.text12}>{comment.title}</Text>
+			<Text style={styles.text12}>{comment.contents}</Text>
 		</View>
 	</View>
 		{comment.state === 'ACCEPTED'  && (

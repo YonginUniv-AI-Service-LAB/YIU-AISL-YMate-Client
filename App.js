@@ -12,6 +12,7 @@ import DeliveryRequest from './src/page/Delivery/DeliveryRequest';
 import TaxiRecruit from './src/page/Taxi/TaxiRecruit';
 import TaxiRequest from './src/page/Taxi/TaxiRequest';
 import Password from './src/page/Password/Password';
+import Notification from './src/page/Notification/Notification';
 
 import DeliveryDetail from './src/page/DeliveryDetail/DeliveryDetail';
 import TaxiDetail from './src/page/TaxiDetail/TaxiDetail';
@@ -39,6 +40,7 @@ const App = () => {
           <Stack.Screen name="TaxiRecruit" component={TaxiRecruit} />
           <Stack.Screen name="TaxiRequest" component={TaxiRequest} />
           <Stack.Screen name="Alarm" component={Alarm} />
+          <Stack.Screen name="Notification" component={Notification} />
           <Stack.Screen name="Location" component={Location} />
         </Stack.Navigator>
     </NavigationContainer>

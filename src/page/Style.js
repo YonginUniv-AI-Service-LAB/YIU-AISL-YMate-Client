@@ -376,7 +376,8 @@ export const styles = StyleSheet.create({
         alignSelf: "stretch"
     },
     mainNoticeList: {
-        alignSelf: "stretch"
+        alignSelf: "stretch",
+        marginBottom: 5,
     },
     notificationSectionList: {
         height: '100%',
@@ -852,6 +853,7 @@ export const styles = StyleSheet.create({
     commentDetails: {
         backgroundColor:'#fff',
         borderColor:'#22A2F2',
+        paddingVertical: 5,
         borderRadius:6,
         borderWidth:0.5,
         justifyContent: 'center',

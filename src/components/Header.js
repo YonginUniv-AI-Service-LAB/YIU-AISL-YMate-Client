@@ -12,16 +12,16 @@ const Header = ({title="default", isReport=false, postId, postType, onPressBack 
 
     return (
         <View style={styles.uppermenu}>
-          <Pressable style={styles.locationButton} onPress={onPressBack}>
-              <Image style={styles.icon20} resizeMode="cover" source={require("../assets/images/left.png")}/>
-          </Pressable>
-          <Text style={[styles.text20]}>{title}</Text>
-          {isReport?
-            <Pressable style={styles.locationButton} onPress={() => Alert.alert(`Id: ${postId}, Type: ${postType}`)}>
-                <Image source={require('../assets/images/reportbutton.png')}  style={[styles.icon20]} resizeMode="cover"/>
+            <Pressable style={styles.locationButton} onPress={onPressBack}>
+                <Image style={styles.icon20} resizeMode="cover" source={require("../assets/images/left.png")}/>
             </Pressable>
+            <Text style={[styles.text20]}>{title}</Text>
+            {isReport?
+                <Pressable style={styles.locationButton} onPress={() => Alert.alert(`Id: ${postId}, Type: ${postType}`)}>
+                    <Image source={require('../assets/images/reportbutton.png')}  style={[styles.icon20]} resizeMode="cover"/>
+                </Pressable>
             :
-            <View style={[styles.icon20]}/>}
+                <View style={[styles.icon20]}/>}
         </View>
     )
 }
