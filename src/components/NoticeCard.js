@@ -16,7 +16,6 @@ const NoticeCard = ({noticeId, title, contents, updatedAt}) => {
     const [userId, setUserId] = useState(null);
     
     const toggleExpand = async expandState => {
-        console.log(noticeId);
 		setExpandState(expandState ? 0 : 1)
         if (userId === null) {
             const userInfo = await getUserInfo();
@@ -32,6 +31,10 @@ const NoticeCard = ({noticeId, title, contents, updatedAt}) => {
     );
     
     const upadatedText = moment(updatedAt).format('MM.DD')
+
+    const handleModifyNotice = async () => {
+        navigation.navigate('NoticeCreate', { noticeId: noticeId });
+    }
 
     const handleDeleteNotice = async() => {
 		try {
@@ -56,6 +59,7 @@ const NoticeCard = ({noticeId, title, contents, updatedAt}) => {
 		  
 		}
 	}
+   
 
     return (
         expandState?
@@ -70,7 +74,7 @@ const NoticeCard = ({noticeId, title, contents, updatedAt}) => {
                 {userId === 201933008 || userId === 201933023 || userId === 202033013 ? (
                     <>
                     <View style = {[styles.rowView, { justifyContent: 'flex-end' }]}>
-                        <Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleModifyNotice}>
+                        <Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleModifyNotice(noticeId)}>
                             <Text style={styles.buttonText}>수정</Text>
                         </Pressable>
                         <Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={() => {

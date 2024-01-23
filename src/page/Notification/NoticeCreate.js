@@ -7,10 +7,14 @@ import {Header, BottomButton, ErrorText} from "../../components"
 import { getAccessTokenInfo } from '../../components/utils'
 import axios from 'axios';
 
-const NoticeCreate = ({navigation}) => {
+const NoticeCreate = ({navigation, route}) => {
   const [contents, setContents] = useState('');
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
+  const [noticeId, setNoticeid] = useState(route.params?.noticeId || null);
+  const headerTitle = noticeId ? "공지사항 글 수정" : "공지사항 글 작성";
+  const buttonTitle = noticeId ? "공지사항 글 수정" : "공지사항 글 작성";
+  const correctMessage = noticeId ? "공지사항 글 수정 완료" : "공지사항 글 작성 완료";
   const handleChange = () =>{
     setError('');
   }
@@ -23,8 +27,10 @@ const NoticeCreate = ({navigation}) => {
     }
     else{
       const accessTokenInfo = await getAccessTokenInfo();
-      const response = await axios.post(`${API_URL}/notice/create`,
+      const apiEndpoint = noticeId ? `${API_URL}/notice/update` : `${API_URL}/notice/create`;
+      const response = await axios.post(apiEndpoint,
           {
+            noticeId: noticeId,
             contents: contents,
             title: title,
           }, {
@@ -35,7 +41,7 @@ const NoticeCreate = ({navigation}) => {
           }).then((res) => {
             console.log('>>> [NoticeCreate] ✅ SUCCESS', res.data);
             if (res.status === 200) {
-              Alert.alert('공지사항 글 작성 완료');
+              Alert.alert(correctMessage);
               navigation.goBack();
             }
         }).catch((error) => {
@@ -47,7 +53,7 @@ const NoticeCreate = ({navigation}) => {
     <SafeAreaView style={styles.mainScreen}>
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={[styles.mainBackground, styles.backgroundWhite]}>
-          <Header title="공지사항 작성" onPressBack={() => navigation.pop()}/>
+          <Header title={headerTitle} onPressBack={() => navigation.pop()}/>
 
           <View style={[styles.recruitSection]}>
             <View style={[styles.margintop9]}>
@@ -77,7 +83,7 @@ const NoticeCreate = ({navigation}) => {
           </View>
           {/* onPress 추가 필요 */}
           <ErrorText isError={error} errorMessage={error} style={[styles.marginRight20]}/>
-          <BottomButton onPress={handleNoticeCreate} title="공지사항 작성"/>
+          <BottomButton onPress={handleNoticeCreate} title={buttonTitle}/>
       </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>
