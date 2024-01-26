@@ -21,8 +21,8 @@ const MyPage = ({navigation}) => {
 	
 	  const fetchData = async () => {
         const accessTokenInfo = await getAccessTokenInfo();
-		const response = await axios.post(`${API_URL}/user/mypage`,
-        {},
+		const response = await axios.get(`${API_URL}/user/mypage`,
+        
           {
             headers: {"Content-Type": "application/x-www-form-urlencoded",
             "Authorization": `Bearer ${accessTokenInfo}`,
@@ -109,7 +109,7 @@ const MyPage = ({navigation}) => {
                                       <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")} />
                                   </View>
                               </Pressable>
-                              <Pressable style={styles.myPageOption} onPress={() => alert('신고 글')}>
+                              <Pressable style={styles.myPageOption} onPress={() => navigation.navigate('Report')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>신고 글 조회</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")} />

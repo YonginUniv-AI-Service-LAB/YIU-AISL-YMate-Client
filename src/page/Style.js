@@ -937,9 +937,10 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
       },
       modalView: {
-        margin: 20,
+        width:'90%',
+        
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 30,
         padding: 35,
         alignItems: 'center',
         shadowColor: '#000',
