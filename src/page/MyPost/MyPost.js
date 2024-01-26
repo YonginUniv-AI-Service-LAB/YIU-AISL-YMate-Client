@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
@@ -210,6 +210,11 @@ const MyPost = ({navigation}) => {
 		}
 	]
 
+	const onRefresh = useCallback(() => {
+		setRefreshing(true)
+		setRefreshing(false)
+	})
+
   	return (
 		<>
     		<SafeAreaView style={styles.mainScreen}>
@@ -247,7 +252,7 @@ const MyPost = ({navigation}) => {
 									/>
 								)}
 								keyExtractor={item => item.type?item.tId : item.dId}
-								refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => Alert.alert("새로고침")} />}
+								refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 							/>
 						</View>
 					</View>
