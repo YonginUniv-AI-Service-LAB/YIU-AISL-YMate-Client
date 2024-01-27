@@ -7,7 +7,6 @@ import axios from "axios";
 import { Header, TopMenu } from "../../components";
 import { getAccessTokenInfo } from "../../components/utils";
 import { useFocusEffect } from "@react-navigation/native";
-import ReportCard from "../../components/ReportCard";
 import moment from 'moment';
 
 const Report = ({ navigation }) => {
