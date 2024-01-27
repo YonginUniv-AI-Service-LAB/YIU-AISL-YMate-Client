@@ -111,7 +111,8 @@ const TaxiRecruit = ({navigation, route}) => {
 
   const getDueDate = () =>{
     const currentDate = new Date();
-    const nHoursLater = new Date(currentDate.getTime() + (selectedTime+9) * 60 * 60 * 1000);
+    // selectedTime 뒤에 인수는 + 9, 나는 그냥 사용
+    const nHoursLater = new Date(currentDate.getTime() + (selectedTime) * 60 * 1000);
 
     const formattedDate = nHoursLater.toISOString().slice(0, 19).replace("T", " ");
     console.log(formattedDate);
@@ -180,9 +181,10 @@ const TaxiRecruit = ({navigation, route}) => {
                       options={times}
                       onSelect={(index, value) => setSelectedTime(timeTypeToNumber(value))}
                       defaultValue={"선택하세요"}
+                      isFullWidth={true}
                       style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
                       renderButtonText={(rowData) => (
-                        <Text style={styles.text11}>{rowData}</Text>
+                        <Text style={[styles.text11]}>{rowData}</Text>
                       )}
                     />
                   <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleTimeDropdown}>
@@ -191,17 +193,18 @@ const TaxiRecruit = ({navigation, route}) => {
                 </View>
               </View>
               <View style={[styles.flexView, styles.marginLeft6]}>
-                <Text style={styles.text12}>최대인원</Text>
+                <Text style={styles.text12}>모집인원</Text>
                 <View style={[styles.recruitInput, styles.rowView]}>
                     {/* inputbox */}
                     <ModalDropdown
                       ref={maxPersonDropdownRef}
+                      isFullWidth={true}
                       options={maxPersons}
                       onSelect={(index, value) => setMaxPerson(maxPersonTypeToNumber(value))}
-                      defaultValue={"모집할 인원을 선택해주세요"}
-                      style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11, { width: 50}]}
+                      defaultValue={"모집인원을 선택하세요"}
+                      style={[styles.textAlignLeft, styles.marginLeft6, styles.defaultText11, {width: 140}]}
                       renderButtonText={(rowData) => (
-                        <Text style={styles.text11}>{rowData}</Text>
+                        <Text style={[styles.text11]}>{rowData}</Text>
                       )}
                     />
                   <View style={[styles.recruitInputDropdown]} onTouchEnd={maxPersonDropdown}>

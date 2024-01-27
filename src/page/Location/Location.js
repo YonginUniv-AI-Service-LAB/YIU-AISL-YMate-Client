@@ -96,6 +96,8 @@ const Location = ({navigation}) => {
       ...filteredLocationData[0],
       state: 1
     }
+    
+    setLocation(filteredLocationData[0].code)
     setSelectedLocationData(filteredLocationData);
   }
   // 세부위치 토글버튼 액션: 하나의 위치만 선택하도록 함
