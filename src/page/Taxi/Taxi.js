@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
@@ -10,7 +10,6 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const Taxi = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
-
 	const [taxiData, setTaxiData] = useState([]);
 
 	useFocusEffect(
@@ -33,6 +32,12 @@ const Taxi = ({navigation}) => {
 		  console.error("데이터 가져오기 실패:", error);
 		}
 	  };
+
+	const onRefresh = useCallback(() => {
+		setRefreshing(true)
+		fetchData()
+		setRefreshing(false)
+	})
 	
 	// const TaxiData = [
 	// 	{
@@ -150,7 +155,7 @@ const Taxi = ({navigation}) => {
 									data={taxiData}
 									renderItem={({item}) => <TaxiCard size={1} tId={item.tid} state={item.state} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max} studentId={item.studentId}/>}
 									keyExtractor={item => item.tid}
-									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}
+									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
 								/>
 						</View>
 					</View>
