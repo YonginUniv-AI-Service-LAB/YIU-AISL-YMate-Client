@@ -8,10 +8,13 @@ import { TopMenu } from "../../components";
 import { useIsFocused } from '@react-navigation/native';
 import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
 import axios from 'axios';
+import NicknameModal from "../Modal/NicknameModal";
 
 
 const MyPage = ({navigation}) => {
   const [myData, setMyData] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+
 
   useEffect(() => {
     if(myData === null){
@@ -83,7 +86,7 @@ const MyPage = ({navigation}) => {
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
                             </Pressable> 
-                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('TaxiDetail')}>
+                            <Pressable style = {styles.myPageOption} onPress={()=> setModalVisible(true)}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>닉네임 변경</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
@@ -119,6 +122,15 @@ const MyPage = ({navigation}) => {
                             ) : null}
                         </View>
                     </View>
+                    <NicknameModal 
+                      isVisible={isModalVisible} 
+                      onClose={() => setModalVisible(false)} 
+                      onSave={(newNickname) => {
+                          // 이 부분에 닉네임을 저장하는 로직을 추가하세요.
+                          console.log(newNickname);
+                          setModalVisible(false);
+                      }} 
+                  />
       			</View>
     		</View>
 		</>);
