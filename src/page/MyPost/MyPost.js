@@ -266,23 +266,81 @@ const MyPost = ({navigation}) => {
 									<MyPostCard
 										type={
 											item.did ? 1 :
-											item.dcid ? 2 :
+											item.dcId ? 2 :
 											item.tid ? 3 :
-											item.tcid ? 4 :
+											item.tcId ? 4 :
 											-1 // 예외 처리
 										}
-										Id={item.type ? item.tId : item.dId}
-										title={item.title}
-										due={item.due}
-										startCode={item.type ? item.startCode : undefined}
-										endCode={item.type ? item.endCode : undefined}
-										current={item.type ? item.current : undefined}
-										max={item.type ? item.max : undefined}
-										food={item.type ? undefined : item.food}
-										location={item.type ? undefined : item.location}
+										Id={item.did ? item.did :
+											item.dcId ? item.delivery.did :
+											item.tid ? item.tid :
+											item.tcId ? item.taxi.tid :
+											undefined 
+										}
+										title={
+											item.did ? item.title :
+											item.dcId ? item.delivery.title :
+											item.tid ? item.title :
+											item.tcId ? item.taxi.title :
+											undefined // 예외 처리
+										}
+										due={
+											item.did ? item.due :
+											item.dcId ? item.delivery.due :
+											item.tid ? item.due :
+											item.tcId ? item.taxi.due :
+											undefined
+										}
+										startCode={
+											item.did ? undefined :
+											item.dcId ? undefined :
+											item.tid ? item.startCode :
+											item.tcId ? item.taxi.startCode :
+											undefined 
+										}
+										endCode={item.did ? undefined :
+											item.dcId ? undefined :
+											item.tid ? item.endCode :
+											item.tcId ? item.taxi.endCode :
+											undefined 
+										}
+										current={item.did ? undefined :
+											item.dcId ? undefined :
+											item.tid ? item.current :
+											item.tcId ? item.taxi.current :
+											undefined 
+										}
+										max={item.did ? undefined :
+											item.dcId ? undefined :
+											item.tid ? item.max :
+											item.tcId ? item.taxi.max :
+											undefined 
+										}
+										food={item.did ? item.food :
+											item.dcId ? item.delivery.food :
+											item.tid ? undefined :
+											item.tcId ? undefined :
+											undefined
+										}
+										locationCode={
+											item.did ? item.locationCode :
+											item.dcId ? item.delivery.locationCode :
+											item.tid ? undefined :
+											item.tcId ? undefined :
+											undefined
+										}
+										createdAt={
+											item.did ? item.createdAt :
+											item.dcId ? item.createdAt :
+											item.tid ? item.createdAt :
+											item.tcId ? item.createdAt :
+											undefined
+										}
 									/>
 								)}
-								keyExtractor={item => item.type?item.tId : item.dId}
+								keyExtractor={
+									undefined 
+								}
 								refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 							/>
 						</View>

@@ -276,7 +276,7 @@ const TaxiDetail = ({navigation, route}) => {
 	// ]
 
 
-	const TaxiDetailCard = ({title, state, nickname, createAt, due, current, max, startCode, endCode, contents}) => {
+	const TaxiDetailCard = ({title, state, nickname, createdAt, due, current, max, startCode, endCode, contents}) => {
         const [now, setNow] = React.useState(moment().tz('Asia/Seoul'));
         const [writeType, setWriteType] = React.useState('');
         React.useEffect(() => {
@@ -378,7 +378,7 @@ const TaxiDetail = ({navigation, route}) => {
 							<Text style={styles.text12}>{current}/{max}</Text>
 						</View>
 						<View style={styles.infoContainer}>
-							<Text style={styles.text10}>작성 : {moment(createAt).format('YYYY년 MM월 DD일 HH:mm')}</Text>
+							<Text style={styles.text10}>작성 : {moment(createdAt).format('YYYY년 MM월 DD일 HH:mm')}</Text>
 							<Text style={styles.text10}>마감 : {moment(due).format('YYYY년 MM월 DD일 HH:mm')}</Text>
 						</View>
 						<Pressable style={[styles.modifybuttonContainer,styles.marginRight12]} onPress={handleButtonPress}>
@@ -456,7 +456,7 @@ const TaxiDetail = ({navigation, route}) => {
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
 				  <Header title="모집 글 상세" isReport={type !== 1} toId={taxiData.studentId} postId={tId} postType={3} onPressBack={() => navigation.pop()}/>
-                    	<TaxiDetailCard title={taxiData.title} state={taxiData.state} nickname={taxiData.nickname} createAt={taxiData.createAt} due={taxiData.due} current={taxiData.current} max={taxiData.max} startCode={taxiData.startCode} endCode={taxiData.endCode} contents={taxiData.contents}/>
+                    	<TaxiDetailCard title={taxiData.title} state={taxiData.state} nickname={taxiData.nickname} createdAt={taxiData.createdAt} due={taxiData.due} current={taxiData.current} max={taxiData.max} startCode={taxiData.startCode} endCode={taxiData.endCode} contents={taxiData.contents}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
 								<View style={styles.recruiterSectionList}>
