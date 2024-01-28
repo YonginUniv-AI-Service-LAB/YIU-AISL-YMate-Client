@@ -107,7 +107,8 @@ const DeliveryRecruit = ({navigation, route}) => {
 
   const getDueDate = () =>{
     const currentDate = new Date();
-    const nHoursLater = new Date(currentDate.getTime() + (selectedTime+9) * 60 * 60 * 1000);
+    // selectedTime 뒤에 인수는 + 9, 나는 그냥 사용
+    const nHoursLater = new Date(currentDate.getTime() + (selectedTime) * 60 * 1000);
 
     const formattedDate = nHoursLater.toISOString().slice(0, 19).replace("T", " ");
     console.log(formattedDate);
@@ -179,10 +180,10 @@ const DeliveryRecruit = ({navigation, route}) => {
                         options={times}
                         onSelect={(index, value) => setSelectedTime(timeTypeToNumber(value))}
                         defaultValue={"선택하세요"}
-                        
+                        isFullWidth={true}
                         style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
                         renderButtonText={(rowData) => (
-                          <Text style={styles.text11}>{rowData}</Text>
+                          <Text style={[styles.text11]}>{rowData}</Text>
                         )}
                       />
                     <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleTimeDropdown}>
