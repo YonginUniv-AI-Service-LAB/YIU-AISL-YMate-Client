@@ -107,8 +107,9 @@ const DeliveryRecruit = ({navigation, route}) => {
 
   const getDueDate = () =>{
     const currentDate = new Date();
-    // selectedTime 뒤에 인수는 + 9, 나는 그냥 사용
-    const nHoursLater = new Date(currentDate.getTime() + (selectedTime) * 60 * 1000);
+    // 승목햄은 밑에꺼 주석
+    currentDate.setHours(currentDate.getHours() + 9);
+    const nHoursLater = new Date(currentDate.getTime() + selectedTime * 60 * 1000);
 
     const formattedDate = nHoursLater.toISOString().slice(0, 19).replace("T", " ");
     console.log(formattedDate);
