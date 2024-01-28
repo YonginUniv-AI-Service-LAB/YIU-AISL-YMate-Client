@@ -37,7 +37,7 @@ const NicknameModal = ({ isVisible, onClose, onSave }) => {
             console.log('>>> [nickchange] ✅ SUCCESS', res.data);
             if (res.status === 200) {
                 Alert.alert('닉네임이 변경되었습니다.');
-                onClose();
+                onSave();
             }
         }).catch((error) => {
             console.log('>>> [nickchange] 🤬 ERROR', error);

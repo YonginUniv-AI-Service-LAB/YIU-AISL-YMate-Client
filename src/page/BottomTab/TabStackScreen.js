@@ -12,7 +12,6 @@ import MyPage from '../MyPage/MyPage';
 import TabBar from './TabBar';
 import Alarm from '../Alarm/Alarm';
 import Report from "../Report/Report";
-import Nickname from "../Nickname/Nickname";
 
 const Stack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
@@ -56,7 +55,6 @@ const MainStackScreen = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="MyPage" component={MyPage} />
         <Stack.Screen name="Report" component={Report} />
-        <Stack.Screen name="Nickname" component={Nickname}/>
       </Stack.Navigator>
     )
   };

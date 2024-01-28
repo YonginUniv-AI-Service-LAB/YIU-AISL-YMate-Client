@@ -20,7 +20,7 @@ const MyPage = ({navigation}) => {
     if(myData === null){
       fetchData();
     }
-  }, [myData]);
+  }, [myData,isModalVisible]);
 	
 	  const fetchData = async () => {
         const accessTokenInfo = await getAccessTokenInfo();
@@ -125,10 +125,11 @@ const MyPage = ({navigation}) => {
                     <NicknameModal 
                       isVisible={isModalVisible} 
                       onClose={() => setModalVisible(false)} 
-                      onSave={(newNickname) => {
+                      onSave={async () => {
                           // 이 부분에 닉네임을 저장하는 로직을 추가하세요.
-                          console.log(newNickname);
+                          await fetchData();
                           setModalVisible(false);
+                          
                       }} 
                   />
       			</View>
