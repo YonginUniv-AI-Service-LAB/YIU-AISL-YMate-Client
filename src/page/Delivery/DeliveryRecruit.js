@@ -19,12 +19,12 @@ import foodData from "../../constant/FoodData";
 import locationData from '../../constant/LocationData'
 
 const DeliveryRecruit = ({navigation, route}) => {
-  const [selectedFood, setSelectedFood] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedFood, setSelectedFood] = useState(route.params?.foodCode === 0 ? 0 : route.params?.foodCode || null);
+  const [selectedLocation, setSelectedLocation] = useState(route.params?.locationCode === 0 ? 0 : route.params?.locationCode || null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [title, setTitle] = useState('');
-  const [contents, setContents] = useState('');
-  const [link, setLink] = useState('');
+  const [title, setTitle] = useState(route.params?.title || '');
+  const [contents, setContents] = useState(route.params?.contents || '');
+  const [link, setLink] = useState(route.params?.link || '');
   const [error, setError] = useState('');
   // const foodDropdownRef = useRef();
   const timeDropDownRef = useRef();
@@ -33,8 +33,8 @@ const DeliveryRecruit = ({navigation, route}) => {
   const buttonTitle = did ? "모집 글 수정" : "모집 글 작성";
   const [isModalVisible1, setModalVisible1] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
-  const [locationText, setLocationText] = useState('');
-  const [foodText, setFoodText] = useState('');
+  const [locationText, setLocationText] = useState(route.params?.location || '');
+  const [foodText, setFoodText] = useState(route.params?.food || '');
 
   const loadLocation = async () => {
     if(selectedLocation === null){
@@ -123,7 +123,7 @@ const DeliveryRecruit = ({navigation, route}) => {
   const getDueDate = () =>{
     const currentDate = new Date();
     // 승목햄은 밑에꺼 주석
-    currentDate.setHours(currentDate.getHours() + 9);
+    // currentDate.setHours(currentDate.getHours() + 9);
     const nHoursLater = new Date(currentDate.getTime() + selectedTime * 60 * 1000);
 
     const formattedDate = nHoursLater.toISOString().slice(0, 19).replace("T", " ");

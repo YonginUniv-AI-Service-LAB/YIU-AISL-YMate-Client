@@ -8,7 +8,6 @@ import ModalDropdown from "react-native-modal-dropdown";
 import locationTypeToNumber from '../../components/TypeToNumber/LocationTypeToNumber';
 import timeTypeToNumber from '../../components/TypeToNumber/TimeTypeToNumber';
 import maxPersonTypeToNumber from '../../components/TypeToNumber/MaxPersonTypeToNumber';
-// import locations from '../../constant/LocationDatas'
 import locationData from '../../constant/LocationData'
 import maxPersons from '../../constant/MaxPersonDatas'
 import times from '../../constant/TimeDatas'
@@ -17,12 +16,12 @@ import LocationModal from "../Modal/LocationModal";
 import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
 
 const TaxiRecruit = ({navigation, route}) => {
-  const [startLocation, setStartLocation] = useState(null);
-  const [endLocation, setEndLocation] = useState(null);
+  const [startLocation, setStartLocation] = useState(route.params?.startCode === 0 ? 0 : route.params?.startCode || null);
+  const [endLocation, setEndLocation] = useState(route.params?.endCode === 0 ? 0 : route.params?.endCode || null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [maxPerson, setMaxPerson] = useState('');
-  const [title, setTitle] = useState('');
-  const [contents, setContents] = useState('');
+  const [maxPerson, setMaxPerson] = useState(route.params?.max || '');
+  const [title, setTitle] = useState(route.params?.title || '');
+  const [contents, setContents] = useState(route.params?.contents || '');
   const [error, setError] = useState('');
   const [tid, setDid] = useState(route.params?.tid || null);
   const headerTitle = tid ? "택시 모집 글 수정" : "택시 모집 글 작성";
@@ -33,8 +32,8 @@ const TaxiRecruit = ({navigation, route}) => {
   const timeDropDownRef = useRef();
   const [isModalVisible1, setModalVisible1] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
-  const [startLocationText, setStartLocationText] = useState('');
-  const [endLocationText, setEndLocationText] = useState('');
+  const [startLocationText, setStartLocationText] = useState(route.params?.start || '');
+  const [endLocationText, setEndLocationText] = useState(route.params?.end || '');
 
   // const toggleEndLocationDropdown = () => {
   //   endLocationDropdownRef.current.show();
@@ -44,6 +43,9 @@ const TaxiRecruit = ({navigation, route}) => {
   //   startLocationDropdownRef.current.show();
   //   handleChange();
   // };
+
+  // console.log("maxPerson :",maxPerson)
+  // console.log("current :",route.params?.startCode === 0 ? 0 : route.params?.startCode || 999)
 
   const loadLocation = async () => {
     if(startLocation === null){
@@ -156,7 +158,7 @@ const TaxiRecruit = ({navigation, route}) => {
             startCode: startLocation,
             end: endLocationText,
             endCode: endLocation,
-            current: 0,
+            current: route.params?.tid || 0,
             max: maxPerson,
           }, {
             headers: {"Content-Type": "application/x-www-form-urlencoded",
@@ -219,6 +221,7 @@ const TaxiRecruit = ({navigation, route}) => {
                       options={maxPersons}
                       onSelect={(index, value) => setMaxPerson(maxPersonTypeToNumber(value))}
                       defaultValue={"모집인원을 선택하세요"}
+                      defaultIndex={maxPerson !== null ? maxPerson-1 : -1}
                       style={[styles.textAlignLeft, styles.marginLeft6, styles.defaultText11, {width: 140}]}
                       renderButtonText={(rowData) => (
                         <Text style={[styles.text11]}>{rowData}</Text>

@@ -38,7 +38,16 @@ const DeliveryDetail = ({navigation, route}) => {
 			alert('이미 마감된 글입니다.');
 		}
 		else if(type === 1){
-			navigation.navigate('DeliveryRecruit', {did: deliveryData.did});
+			navigation.navigate('DeliveryRecruit', {
+				did: deliveryData.did,
+				location: deliveryData.location,
+				locationCode: deliveryData.locationCode,
+				food: deliveryData.food,
+				foodCode: deliveryData.foodCode,
+				title: deliveryData.title,
+				contents: deliveryData.contents,
+				link: deliveryData.link,
+			});
 		}
 		else{
 			navigation.navigate('DeliveryRequest', {did: deliveryData.did});

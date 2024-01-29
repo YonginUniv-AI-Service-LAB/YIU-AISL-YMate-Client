@@ -77,7 +77,17 @@ const TaxiDetail = ({navigation, route}) => {
 			alert('이미 마감된 글입니다.');
 		}
 		else if(type === 1){
-			navigation.navigate('TaxiRecruit', {tid: taxiData.tid});
+			navigation.navigate('TaxiRecruit', {
+				tid: taxiData.tid,
+				end: taxiData.end,
+				endCode: taxiData.endCode,
+				max: taxiData.max,
+				start: taxiData.start,
+				startCode: taxiData.startCode,
+				title: taxiData.title,
+				contents: taxiData.contents,
+				current: taxiData.contents
+			});
 		}
 		else{
 			navigation.navigate('TaxiRequest', {tid: taxiData.tid, max: taxiData.max});
