@@ -44,7 +44,23 @@ const TaxiRecruit = ({navigation, route}) => {
   //   startLocationDropdownRef.current.show();
   //   handleChange();
   // };
+
+  const loadLocation = async () => {
+    if(startLocation === null){
+      try {
+        // AsyncStorage에서 location 값을 불러와서 state에 설정합니다.
+        const savedLocation = await AsyncStorage.getItem('location')
+        if (savedLocation !== null) {
+          setStartLocation(parseInt(savedLocation, 10))
+        }
+      } catch (error) {
+          console.error('AsyncStorage에서 location을 불러오는 중 오류 발생:', error)
+      }
+    }
+  }
+
   useEffect(() => {
+    loadLocation()
     startLocationToText()
     endLocationToText()
   }, [startLocationText, startLocation, endLocationText, endLocation])
