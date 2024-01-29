@@ -342,7 +342,17 @@ export const styles = StyleSheet.create({
     },
     cardImage: {
         borderRadius: 11,
+        backgroundColor: "#fff",
+        // backgroundColor: "#F9E583",
+        width: 170,
+        height: 96,
+        alignSelf: "stretch"
+    },
+    randomCardImage: {
+        borderRadius: 11,
         backgroundColor: "#F9E583",
+        // borderColor: "#F9E583",
+        // borderWidth: 5,
         width: 170,
         height: 96,
         alignSelf: "stretch"

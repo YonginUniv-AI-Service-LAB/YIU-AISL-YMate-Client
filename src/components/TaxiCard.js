@@ -6,6 +6,7 @@ import { useNavigation, useFocusEffect} from '@react-navigation/native'
 import { getUserInfo} from './utils'
 import LocationTag from './LocationTag'
 import moment from 'moment-timezone'
+import LocationImage from './LocationImage'
 
 //size: 0 -> smallCard 1 -> bigCard
 const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current, max, studentId}) => {
@@ -45,7 +46,7 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
     return (
         size?
             <Pressable style={styles.bigCard} onPress={handleTaxiCard}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${startCode}`}}/>
+                <LocationImage location={startCode}/>
                 <View style={styles.flexView}>
                     <View style={styles.smallCardContent}>
                         <View name="taxi location" flexDirection="row">
@@ -68,7 +69,7 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
             </Pressable>
             :
             <Pressable style={styles.smallCard} onPress={handleTaxiCard}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${startCode}`}}/>
+                <LocationImage location={startCode}/>
                 <View style={styles.smallCardContent}>
                     <View name="taxi location" flexDirection="row">
                         <LocationTag location={startCode}/>

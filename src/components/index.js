@@ -9,6 +9,8 @@ import TaxiCard from './TaxiCard'
 import MyPostCard from './MyPostCard'
 import NoticeCard from './NoticeCard'
 import ToggleButton from './ToggleButton'
+import FoodImage from './FoodImage'
+import LocationImage from './LocationImage'
 
 
 export {
@@ -23,4 +25,6 @@ export {
     MyPostCard,
     NoticeCard,
     ToggleButton,
+    FoodImage,
+    LocationImage,
 }

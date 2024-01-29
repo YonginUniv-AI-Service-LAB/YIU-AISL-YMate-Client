@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import LocationTag from '../../components/LocationTag'
 import moment from 'moment-timezone';
-import {Header} from "../../components"
+import {Header, LocationImage} from "../../components"
 
 
 const TaxiDetail = ({navigation, route}) => {
@@ -361,7 +361,7 @@ const TaxiDetail = ({navigation, route}) => {
 						</View>
 				</View>
 				<View style={[styles.bigCard, styles.padding10]}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${startCode}`}}/>
+                <LocationImage location={startCode}/>
 				<View style={styles.flexView}>
 					<View style={styles.smallCardContent}>
         

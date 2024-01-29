@@ -7,6 +7,7 @@ import { getUserInfo, getAccessTokenInfo } from './utils'
 import LocationTag from './LocationTag'
 import moment from 'moment-timezone'
 import axios from 'axios';
+import FoodImage from './FoodImage'
 // import foodImage from '../assets/images/food/foodImage'
 
 
@@ -48,7 +49,7 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
     return (
         size?
             <Pressable style={styles.bigCard} onPress={handleDeliveryCard}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
+                <FoodImage food={food}/>
                 <View style={styles.flexView}>
                     <View style={styles.smallCardContent}>
                         <LocationTag location={location}/>
@@ -61,10 +62,7 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
             </Pressable>
             :
             <Pressable style={styles.smallCard} onPress={handleDeliveryCard}>
-                { food
-                    ? <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
-                    : <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
-                }
+                <FoodImage food={food}/>
                 <View style={styles.smallCardContent}>
                     <LocationTag location={location}/>
                     <Text style={[styles.centerText10, styles.textAlignRight,  dueStatusStyle]}>{dueStatusText}</Text>

@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../../assets/GlobalStyles";
 import {styles} from "../Style"
 import moment from 'moment-timezone';
-import {Header} from "../../components"
+import {FoodImage, Header} from "../../components"
 import axios from 'axios';
 import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
 import LocationTag from '../../components/LocationTag';
@@ -321,7 +321,7 @@ const DeliveryDetail = ({navigation, route}) => {
 						)}
 				</View>
 				<View style={[styles.bigCard, styles.padding10]}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
+                <FoodImage food={food} />
 				<View style={styles.flexView}>
 					<View style={styles.smallCardContent}>
 						<LocationTag location={location}/>
