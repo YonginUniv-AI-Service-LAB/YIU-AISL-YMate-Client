@@ -50,7 +50,12 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
                     <View style={styles.smallCardContent}>
                         <View name="taxi location" flexDirection="row">
                             <LocationTag location={startCode}/>
-                            <Image style={styles.icon17} resizeMode="cover" source={require("../assets/images/arrowRight.png")}/>
+                            {
+                                startCode === 0 && endCode === 0 ?
+                                    null
+                                    :
+                                    <Image style={styles.icon17} resizeMode="cover" source={require("../assets/images/arrowRight.png")}/>
+                            }
                             <LocationTag location={endCode}/>
                         </View>
                         <Text style={[styles.centerText10, styles.textAlignRight, dueStatusStyle]}>{dueStatusText}</Text>
@@ -67,7 +72,12 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
                 <View style={styles.smallCardContent}>
                     <View name="taxi location" flexDirection="row">
                         <LocationTag location={startCode}/>
-                        <Image style={styles.icon17} resizeMode="cover" source={require("../assets/images/arrowRight.png")}/>
+                        {
+                            startCode === 0 && endCode === 0 ?
+                                null
+                                :
+                                <Image style={styles.icon17} resizeMode="cover" source={require("../assets/images/arrowRight.png")}/>
+                        }
                         <LocationTag location={endCode}/>
                     </View>
                     <Text style={[styles.centerText10, styles.textAlignRight,  dueStatusStyle]}>{dueStatusText}</Text>

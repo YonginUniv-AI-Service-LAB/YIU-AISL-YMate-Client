@@ -81,6 +81,7 @@ const TaxiRequest = ({navigation, route}) => {
                     <ModalDropdown
                       ref={applicantsPersonDropdownRef}
                       options={maxPersons}
+                      isFullWidth={true}
                       onSelect={(index, value) => setApplicantsPerson(maxPersonTypeToNumber(value))}
                       defaultValue={"신청할 인원을 선택해주세요"}
                       style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11, { width: 50}]}

@@ -67,7 +67,7 @@ const Alarm = ({navigation}) => {
       {/* <Image style={[styles.icon21, styles.iconLayout]} resizeMode="cover" source={require("../../assets/images/restaurant.png")}/> */}
       <View style={styles.alarmContentBox}>
         <Text style={[styles.text14, styles.alarmContent]} numberOfLines={1}>
-          가치 택시 : 응답을 기다리는 신청이 4건 있습니다.
+          서비스 개발 중입니다.
         </Text>
         <Text style={[styles.text10, styles.alarmCreateAt]}>
           2023-11-05 23:32

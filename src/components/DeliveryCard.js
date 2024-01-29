@@ -7,6 +7,7 @@ import { getUserInfo, getAccessTokenInfo } from './utils'
 import LocationTag from './LocationTag'
 import moment from 'moment-timezone'
 import axios from 'axios';
+// import foodImage from '../assets/images/food/foodImage'
 
 
 //size: 0 -> smallCard 1 -> bigCard
@@ -14,6 +15,7 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
     if (state === 'DELETED') {
         return null;
     }
+
 	const navigation = useNavigation()
     const [now, setNow] = useState(moment.tz('Asia/Seoul'));
     useEffect(() => {
@@ -59,7 +61,10 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
             </Pressable>
             :
             <Pressable style={styles.smallCard} onPress={handleDeliveryCard}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
+                { food
+                    ? <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
+                    : <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
+                }
                 <View style={styles.smallCardContent}>
                     <LocationTag location={location}/>
                     <Text style={[styles.centerText10, styles.textAlignRight,  dueStatusStyle]}>{dueStatusText}</Text>
