@@ -18,10 +18,10 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
     }
 
 	const navigation = useNavigation()
-    const [now, setNow] = useState(moment.tz('Asia/Seoul').add(9, 'hours'));
+    const [now, setNow] = useState(moment.tz('Asia/Seoul'));
     useEffect(() => {
         const interval = setInterval(() => {
-            setNow(prevNow => moment.tz('Asia/Seoul').add(9, 'hours'))
+            setNow(prevNow => moment.tz('Asia/Seoul'))
         }, 60000)
         return () => clearInterval(interval)
     }, [])

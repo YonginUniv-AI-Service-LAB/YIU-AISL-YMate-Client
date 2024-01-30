@@ -132,7 +132,7 @@ const TaxiRecruit = ({navigation, route}) => {
   const getDueDate = () =>{
     const currentDate = new Date();
     // 승목햄은 밑에꺼 주석
-    // currentDate.setHours(currentDate.getHours() + 9);
+    currentDate.setHours(currentDate.getHours() + 9);
     const nHoursLater = new Date(currentDate.getTime() + selectedTime * 60 * 1000);
 
     const formattedDate = nHoursLater.toISOString().slice(0, 19).replace("T", " ");

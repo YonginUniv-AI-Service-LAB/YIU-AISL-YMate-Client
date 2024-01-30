@@ -39,19 +39,19 @@ const MyPost = ({navigation}) => {
 		switch (selectedOption) {
 		  case '활성화 글':
 			setFilteredData(myPostData.filter(item => {
-			  if (item.did) return item.state === 'ACTIVE';
-			  if (item.dcId) return item.delivery.state === 'ACTIVE';
-			  if (item.tid) return item.state === 'ACTIVE';
-			  if (item.tcId) return item.taxi.state === 'ACTIVE';
+			  if (item.did) return item.state === 'ACTIVE' && !isPastDue(item.due);
+			  if (item.dcId) return item.delivery.state === 'ACTIVE'&& !isPastDue(item.delivery.due);
+			  if (item.tid) return item.state === 'ACTIVE' && !isPastDue(item.due);
+			  if (item.tcId) return item.taxi.state === 'ACTIVE'&& !isPastDue(item.taxi.due);
 			  return false; // 예외 처리
 			}));
 			break;
 		  case '마감된 글':
 			setFilteredData(myPostData.filter(item => {
-			  if (item.did) return item.state === 'FINISHED';
-			  if (item.dcId) return item.delivery.state === 'FINISHED';
-			  if (item.tid) return item.state === 'FINISHED';
-			  if (item.tcId) return item.taxi.state === 'FINISHED';
+			  if (item.did) return item.state === 'FINISHED' && isPastDue(item.due);
+			  if (item.dcId) return item.delivery.state === 'FINISHED' && isPastDue(item.delivery.due);
+			  if (item.tid) return item.state === 'FINISHED' && isPastDue(item.due);
+			  if (item.tcId) return item.taxi.state === 'FINISHED' && isPastDue(item.taxi.due);
 			  return false; // 예외 처리
 			}));
 			break;
@@ -67,29 +67,7 @@ const MyPost = ({navigation}) => {
 		  const data = response.data;
 		  setMyPostData(data);
 	  
-		  switch (selectedOption) {
-			case '활성화 글':
-			  setFilteredData(data.filter(item => {
-				if (item.did) return item.state === 'ACTIVE'
-				if (item.dcId) return item.delivery?.state === 'ACTIVE' 
-				if (item.tid) return item.state === 'ACTIVE'
-				if (item.tcId) return item.taxi?.state === 'ACTIVE'
-				return false; // 예외 처리
-			  }));
-			  break;
-			case '마감된 글':
-			  setFilteredData(data.filter(item => {
-				if (item.did) return item.state === 'FINISHED';
-				if (item.dcId) return item.delivery?.state === 'FINISHED';
-				if (item.tid) return item.state === 'FINISHED';
-				if (item.tcId) return item.taxi?.state === 'FINISHED';
-				return false; // 예외 처리
-			  }));
-			  break;
-			default: // '전체 글'
-			  setFilteredData(data);
-			  break;
-		  }
+		  setFilteredData(data);
 		} catch (error) {
 		  if (error.message === 'Session expired. Please login again.') {
 			Alert.alert('세션에 만료되었습니다.')
