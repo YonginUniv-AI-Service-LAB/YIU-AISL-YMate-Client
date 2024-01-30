@@ -1,26 +1,37 @@
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback,useContext } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import {TopMenu, WriteButton, MyPostCard} from '../../components'
 import axios from 'axios';
-import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import { getUserInfo, getAccessTokenInfo , callApi} from '../../components/utils'
 import { useFocusEffect } from '@react-navigation/native';
 import ModalDropdown from 'react-native-modal-dropdown';
+import {AuthContext} from '../../../App';
+import moment from "moment-timezone";
 
 const MyPost = ({navigation}) => {
+	const { logout } = useContext(AuthContext);
 	const [refreshing, setRefreshing] = React.useState(false)
 	const [myPostData, setMyPostData] = useState([]);
 	const options = ['전체 글', '활성화 글', '마감된 글'];
  	const [selectedOption, setSelectedOption] = useState(options[0]);  // 초기값 설정
 	 const [filteredData, setFilteredData] = useState([]);
 
+	 const isPastDue = (due) => {
+		let now = moment.tz('Asia/Seoul');
+		let dueDate = moment(due);
+		let minutesDiff = moment.utc(dueDate).diff(moment.utc(now), 'minutes');
+		console.log(minutesDiff);
+		return minutesDiff < 0;
+	  };
+
 	useFocusEffect(
 		React.useCallback(() => {
 		  fetchData(); // 화면이 focus되면 fetchData 함수 호출
-		  console.log(filteredData);
+		  setSelectedOption(options[0]);
 		}, [])
 	  );
 
@@ -52,25 +63,17 @@ const MyPost = ({navigation}) => {
 	
 	  const fetchData = async () => {
 		try {
-		  const accessTokenInfo = await getAccessTokenInfo();
-		  const response = await axios.get(`${API_URL}/user/post`, {
-			headers: {
-			  "Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			withCredentials: true,
-		  });
-	  
+		  const response = await callApi(`${API_URL}/user/post`, 'get');
 		  const data = response.data;
 		  setMyPostData(data);
 	  
 		  switch (selectedOption) {
 			case '활성화 글':
 			  setFilteredData(data.filter(item => {
-				if (item.did) return item.state === 'ACTIVE';
-				if (item.dcId) return item.delivery?.state === 'ACTIVE';
-				if (item.tid) return item.state === 'ACTIVE';
-				if (item.tcId) return item.taxi?.state === 'ACTIVE';
+				if (item.did) return item.state === 'ACTIVE'
+				if (item.dcId) return item.delivery?.state === 'ACTIVE' 
+				if (item.tid) return item.state === 'ACTIVE'
+				if (item.tcId) return item.taxi?.state === 'ACTIVE'
 				return false; // 예외 처리
 			  }));
 			  break;
@@ -88,7 +91,12 @@ const MyPost = ({navigation}) => {
 			  break;
 		  }
 		} catch (error) {
-		  console.error("데이터 가져오기 실패:", error);
+		  if (error.message === 'Session expired. Please login again.') {
+			Alert.alert('세션에 만료되었습니다.')
+			logout();
+		  } else {
+			console.error("데이터 가져오기 실패:", error);
+		  }
 		}
 	  };
 	  

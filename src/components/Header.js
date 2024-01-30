@@ -1,51 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import { Text, Image, Pressable, View, Alert } from "react-native";
 import {styles} from "../page/Style"
 import { useNavigation } from "@react-navigation/native";
-import { getAccessTokenInfo } from "./utils";
+import { callApi } from "./utils";
 import axios from 'axios';
 import ReportModal from "../page/Modal/ReportModal"; 
+import { AuthContext } from "../../App";
 
 const Header = ({ title = "default", isReport = false, toId,postId, postType, onPressBack, onPressReport }) => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const { logout } = useContext(AuthContext);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
-  const handleReport = async (reportContent)=> {
-    console.log(toId);
-    console.log(reportContent);
-    console.log(postType);
-    console.log(postId);
+  const handleReport = async (reportContent) => {
     try {
-        const accessTokenInfo = await getAccessTokenInfo();
-        const response = await axios.post(`${API_URL}/report/create`,
-        {
-          toId: toId,
-          contents: reportContent,
-          type: postType,
-          id: postId,
-        }, {
-          headers: {"Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": `Bearer ${accessTokenInfo}`,
-        },
-          withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-        });
-        if (response.status === 200) {
-            Alert.alert("신고 완료");
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 409) {
-            Alert.alert('이미 신고한 유저입니다.');
-          }
-        
-        else{ 
-            Alert.alert('삭제 되었거나 없는 유저입니다.');
-        }
-       console.log(error);
+      const postData = {
+        toId: toId,
+        contents: reportContent,
+        type: postType,
+        id: postId,
+      };
+      const response = await callApi(`${API_URL}/report/create`, 'post', postData);
+      if (response.status === 200) {
+        Alert.alert("신고 완료");
+      }
+    } catch (error) {
+      if (error.message === 'Session expired. Please login again.') {
+        Alert.alert('세션에 만료되었습니다.')
+        logout();
+      } else if (error.response && error.response.status === 409) {
+        Alert.alert('이미 신고한 유저입니다.');
+      } else { 
+        Alert.alert('삭제 되었거나 없는 유저입니다.');
+      }
+      console.log(error);
     }
   };
+  
 
   return (
     <View style={styles.uppermenu}>

@@ -1,4 +1,4 @@
-import React, { useState, useRef  } from "react";
+import React, { useState, useRef ,useContext } from "react";
 import { Text, StyleSheet, Image,TextInput, Pressable, View, Alert, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/GlobalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,8 +9,10 @@ import maxPersonTypeToNumber from '../../components/TypeToNumber/MaxPersonTypeTo
 import ModalDropdown from "react-native-modal-dropdown";
 import maxPersons from '../../constant/MaxPersonDatas'
 import axios from 'axios';
+import {AuthContext} from '../../../App';
 
 const TaxiRequest = ({navigation, route}) => {
+  const { logout } = useContext(AuthContext);
   const [contents, setContents] = useState('');
   const [details, setDetails] = useState('');
   const [error, setError] = useState('');
@@ -50,7 +52,8 @@ const TaxiRequest = ({navigation, route}) => {
         }
       } catch (error) {
         if (error.message === 'Session expired. Please login again.') {
-          navigation.navigate('Login');
+          Alert.alert('세션에 만료되었습니다.')
+				  logout();
         }
         else if (error.response && error.response.status === 409) {
           // 이미 신청글이 있을 경우

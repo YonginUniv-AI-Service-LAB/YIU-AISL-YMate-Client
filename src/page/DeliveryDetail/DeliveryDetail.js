@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, ActivityIndicator} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../../assets/GlobalStyles";
@@ -6,11 +6,12 @@ import {styles} from "../Style"
 import moment from 'moment-timezone';
 import {FoodImage, Header} from "../../components"
 import axios from 'axios';
-import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import { getUserInfo} from '../../components/utils'
+import { callApi } from "../../components/utils";
 import LocationTag from '../../components/LocationTag';
 import { useFocusEffect } from '@react-navigation/native';
 import DeliveryRecruit from "../Delivery/DeliveryRecruit";
-
+import {AuthContext} from '../../../App';
 
 const DeliveryDetail = ({navigation, route}) => {
 	const { dId } = route.params;
@@ -21,6 +22,7 @@ const DeliveryDetail = ({navigation, route}) => {
 	const [isPastDue, setIsPastDue] = useState('');
 	const [userInfo, setUserInfo] = useState('');
     const [expanded, setExpanded] = React.useState([]);
+	const { logout } = useContext(AuthContext);
     const toggleExpand = (noticeId) => {
         setExpanded((prevExpanded) => {
           if (prevExpanded.includes(noticeId)) {
@@ -76,7 +78,7 @@ const DeliveryDetail = ({navigation, route}) => {
             if (res.status === 200) {
                 
                 setDeliveryData(res.data);
-				setType(userInfo === res.data.studentId ? 1 : 2); // 1: 작성자, 2: 작성자 아님
+				setType(userInfo === res.data.studentId ? 1 : 2);
 				setCommentData(res.data.comment);
 				setUserInfo(userInfo);
                 console.log(deliveryData)
@@ -99,27 +101,22 @@ const DeliveryDetail = ({navigation, route}) => {
 	const handleAcceptRequest = async (dcId) => {
 		if(isPastDue|| deliveryData.state === 'FINISHED'){
 			alert('이미 마감된 글입니다.');
-		}
-		else{
-		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/delivery/accept`, {
-				dcId: dcId,
-			}, {
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded",
-					"Authorization": `Bearer ${accessTokenInfo}`,
-				},
-				withCredentials: true
-			});
-			
-			setRefreshing(false);
-			if (response.status === 200) {
+		  }
+		  else{
+			try {
+			  const data = { dcId: dcId };
+			  const response = await callApi(`${API_URL}/delivery/accept`, 'post', data);
+			  setRefreshing(false);
+			  if (response.status === 200) {
 				Alert.alert("수락 완료");
 				fetchDeliveryData();
-			}
-		} catch (error) {
-				if (error.response && error.response.status === 409) {
+			  }
+			} catch (error) {
+				if (error.message === 'Session expired. Please login again.') {
+					Alert.alert('세션에 만료되었습니다.')
+					logout();
+				  } 
+				else if (error.response && error.response.status === 409) {
 					Alert.alert('이미 마감된 글입니다.');
 				}
 				else{ 
@@ -133,26 +130,22 @@ const DeliveryDetail = ({navigation, route}) => {
 	const handleRejectRequest = async (dcId) => {
 		if(isPastDue|| deliveryData.state === 'FINISHED'){
 			alert('이미 마감된 글입니다.');
-		}
-		else{
-		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/delivery/reject`,
-			{
-			  dcId: dcId,
-			}, {
-			  headers: {"Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-			});
-			setRefreshing(false);
-			if (response.status === 200) {
+		  }
+		  else{
+			try {
+			  const data = { dcId: dcId };
+			  const response = await callApi(`${API_URL}/delivery/reject`, 'post', data);
+			  setRefreshing(false);
+			  if (response.status === 200) {
 				Alert.alert("거절 완료");
 				fetchDeliveryData();
-			}
-		  } catch (error) {
-				if (error.response && error.response.status === 409) {
+			  }
+			} catch (error) {
+				if (error.message === 'Session expired. Please login again.') {
+					Alert.alert('세션에 만료되었습니다.')
+					logout();
+				  } 
+				else if (error.response && error.response.status === 409) {
 					Alert.alert('이미 마감된 글입니다.');
 				}
 				else{ 
@@ -165,24 +158,22 @@ const DeliveryDetail = ({navigation, route}) => {
 
 	const handleCancelRequest = async (dcId) => {
 		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/delivery/cancel`,
-			{
-			  dcId: dcId,
-			}, {
-			  headers: {"Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-			});
+			const data = { dcId: dcId };
+			const response = await callApi(`${API_URL}/delivery/cancel`, 'post', data);
 			setRefreshing(false);
 			if (response.status === 200) {
-				Alert.alert("취소 완료");
-				fetchDeliveryData();
+			  Alert.alert("취소 완료");
+			  fetchDeliveryData();
 			}
 		  } catch (error) {
-			console.error("데이터 가져오기 실패:", error);
-			Alert.alert('삭제 되었거나 없는 신청글입니다.');
+			if (error.message === 'Session expired. Please login again.') {
+				Alert.alert('세션에 만료되었습니다.')
+				logout();
+			  } 
+			else {
+				console.error("데이터 가져오기 실패:", error);
+				Alert.alert('삭제 되었거나 없는 신청글입니다.');
+			}
 		  }
 		
 	}
@@ -190,26 +181,22 @@ const DeliveryDetail = ({navigation, route}) => {
 	const handleFinishDetail = async() => {
 		if(isPastDue || deliveryData.state === 'FINISHED'){
 			alert('이미 마감된 글입니다.');
-		}
-		else{
-		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/delivery/finish`,
-			{
-			  dId: dId,
-			}, {
-			  headers: {"Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-			});
-			setRefreshing(false);
-			if (response.status === 200) {
+		  }
+		  else{
+			try {
+			  const data = { dId: dId };
+			  const response = await callApi(`${API_URL}/delivery/finish`, 'post', data);
+			  setRefreshing(false);
+			  if (response.status === 200) {
 				Alert.alert("마감 완료");
 				navigation.goBack();
-			}
-		  } catch (error) {
-			if (error.response && error.response.status === 409) {
+			  }
+			} catch (error) {
+				if (error.message === 'Session expired. Please login again.') {
+					Alert.alert('세션에 만료되었습니다.')
+					logout();
+				  } 
+				else if (error.response && error.response.status === 409) {
 				Alert.alert('이미 마감된 글입니다.');
 			  }
 			else{
@@ -221,23 +208,19 @@ const DeliveryDetail = ({navigation, route}) => {
 	}
 	const handleDeleteDetail = async() => {
 		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/delivery/delete`,
-			{
-			  dId: dId,
-			}, {
-			  headers: {"Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-			});
+			const data = { dId: dId };
+			const response = await callApi(`${API_URL}/delivery/delete`, 'post', data);
 			setRefreshing(false);
 			if (response.status === 200) {
-				Alert.alert("삭제 완료");
-				navigation.goBack();
+			  Alert.alert("삭제 완료");
+			  navigation.goBack();
 			}
 		  } catch (error) {
-			if (error.response && error.response.status === 409) {
+			if (error.message === 'Session expired. Please login again.') {
+				Alert.alert('세션에 만료되었습니다.')
+				logout();
+			  } 
+			else if (error.response && error.response.status === 409) {
 				Alert.alert('신청글이 존재합니다.');
 			  }
 			
@@ -364,57 +347,52 @@ const DeliveryDetail = ({navigation, route}) => {
 
 	// 후후 ~@~
     const commentCard = CommentData.map((comment) => 
-		// 취소 상태가 아니라면
-		comment.state !== 'CANCELED' && (
-			<View>
-				<View style={[styles.commentContainer, { borderColor: comment.state === 'REJECTED' ? Color.colorGray_100 : '#22A2F2'}]}>
-					<View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
-						<Text style={styles.text16}>{comment.nickname}</Text>
-						<View style={styles.rowView}>
-							{/* 작성자 + 대기중 */}
-							{comment.state === 'WAITING' && type === 1 &&(
-							<>
-								<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleAcceptRequest(comment.dcId)}>
-								<Text style={styles.buttonText}>수락</Text>
-								</Pressable>
-								<Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={async () => handleRejectRequest(comment.dcId)}>
-								<Text style={[styles.redText,styles.text13]}>거절</Text>
-								</Pressable>
-							</>
-							)}
-							{/* 신청자 + 대기중 */}
-							{comment.state === 'WAITING' && comment.studentId === userInfo &&(
-							<>
-								<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleCancelRequest(comment.dcId)}>
-									<Text style={styles.buttonText}>취소</Text>
-								</Pressable>
-							</>
-							)}
-							{/* 수락됨 */}
-							{comment.state === 'ACCEPTED' && (
-							<View style={[styles.realbluebuttonContainer, styles.shadow]}>
-								<Text style={styles.realblueText}>수락됨</Text>
-							</View>
-							)}
-							{/* 거절됨 */}
-							{comment.state ===  'REJECTED'&& (
-							<View style={[styles.redbuttonContainer,styles.shadow]}>
-								<Text style={[styles.redText,styles.text13]}>거절됨</Text>
-							</View>
-							)}
-						</View>
+	comment.state !== 'CANCELED' && (
+	<View>
+		<View style={[styles.commentContainer, { borderColor: comment.state === 'REJECTED' ? Color.colorGray_100 : '#22A2F2'}]}>
+			<View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
+				<Text style={styles.text16}>{comment.nickname}</Text>
+				<View style={styles.rowView}>
+					{comment.state === 'WAITING' && type === 1 &&(
+					<>
+						<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleAcceptRequest(comment.dcId)}>
+						<Text style={styles.buttonText}>수락</Text>
+						</Pressable>
+						<Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={async () => handleRejectRequest(comment.dcId)}>
+						<Text style={[styles.redText,styles.text13]}>거절</Text>
+						</Pressable>
+					</>
+					)}
+					{comment.state === 'WAITING' && comment.studentId === userInfo &&(
+					<>
+						<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleCancelRequest(comment.dcId)}>
+							<Text style={styles.buttonText}>취소</Text>
+						</Pressable>
+					</>
+					)}
+					{comment.state === 'ACCEPTED' && (
+					<View style={[styles.realbluebuttonContainer, styles.shadow]}>
+						<Text style={styles.realblueText}>수락됨</Text>
 					</View>
-					<View style={styles.commentheader}>
-						<Text style={styles.text12}>{comment.contents}</Text>
+					)}
+					{comment.state ===  'REJECTED'&& (
+					<View style={[styles.redbuttonContainer,styles.shadow]}>
+						<Text style={[styles.redText,styles.text13]}>거절됨</Text>
 					</View>
+					)}
 				</View>
-				{(userInfo === comment.studentId || (comment.state === 'ACCEPTED' && type === 1)) && (
-					<View style={styles.commentDetails}>
-						<Text style={styles.text12} selectable={true}>{comment.details}</Text>
-					</View>
-				)}
 			</View>
-		)
+			<View style={styles.commentheader}>
+				<Text style={styles.text12}>{comment.contents}</Text>
+			</View>
+		</View>
+		{comment.state === 'ACCEPTED'  && (
+				<View style = {styles.commentDetails}>
+					<Text style = {styles.text12}>{comment.details}</Text>
+				</View>
+		)}
+	</View>
+	)
     )
 
   	return (

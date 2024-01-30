@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect  } from "react";
+import React, { useState, useRef, useEffect,useContext  } from "react";
 import { Text, StyleSheet, Image,TextInput, Pressable, View, Alert, TouchableWithoutFeedback, Keyboard, AsyncStorage} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -17,6 +17,7 @@ import LocationModal from "../Modal/LocationModal";
 import FoodModal from "../Modal/FoodModal";
 import foodData from "../../constant/FoodData";
 import locationData from '../../constant/LocationData'
+import {AuthContext} from '../../../App';
 
 const DeliveryRecruit = ({navigation, route}) => {
   const [selectedFood, setSelectedFood] = useState(route.params?.foodCode === 0 ? 0 : route.params?.foodCode || null);
@@ -35,6 +36,7 @@ const DeliveryRecruit = ({navigation, route}) => {
   const [isModalVisible2, setModalVisible2] = useState(false);
   const [locationText, setLocationText] = useState(route.params?.location || '');
   const [foodText, setFoodText] = useState(route.params?.food || '');
+  const { logout } = useContext(AuthContext);
 
   const loadLocation = async () => {
     if(selectedLocation === null){
@@ -131,7 +133,7 @@ const DeliveryRecruit = ({navigation, route}) => {
     return formattedDate;
   }
   
-  const handletDeliveryRecruit = async () => {
+  const handleDeliveryRecruit = async () => {
     if (!title || !contents || !foodText || !locationText || !selectedTime) {
       setError("모든 값을 입력해주세요.");
     } else {
@@ -165,14 +167,14 @@ const DeliveryRecruit = ({navigation, route}) => {
         }
       } catch (error) {
         if (error.message === 'Session expired. Please login again.') {
-          // 로그인 페이지로 이동
-          navigation.navigate('Login');
+          Alert.alert('세션에 만료되었습니다.')
+          logout();
         } else {
           console.log('>>> [deliveryRecruit] 🤬 ERROR', error);
         }
       }
     }
-  }
+  }  
   
 
   return (
@@ -306,7 +308,7 @@ const DeliveryRecruit = ({navigation, route}) => {
             </View>
           </KeyboardAwareScrollView>
           <ErrorText isError={error} errorMessage={error} style={[styles.marginRight20]}/>
-          <BottomButton title={buttonTitle} onPress={handletDeliveryRecruit}/>
+          <BottomButton title={buttonTitle} onPress={handleDeliveryRecruit}/>
       </View>
       </TouchableWithoutFeedback>
       <LocationModal isVisible={isModalVisible1} onClose={closeModal1} />    
