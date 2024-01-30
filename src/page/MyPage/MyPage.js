@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useContext} from "react";
-import { Image, StyleSheet, Text, View, Pressable, ActivityIndicator} from "react-native";
+import { Image, StyleSheet, Text, View, Pressable, ActivityIndicator, Alert} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
@@ -55,11 +55,27 @@ const MyPage = ({navigation}) => {
                 <Text style={styles.text16}>{studentId}</Text>
             </View>
             <View>
-            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={async () => {
-                // 로그아웃 시 AsyncStorage에서 토큰 삭제
-                logout();
-              }}
-            >
+            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={() => {
+          // 로그아웃 시 확인 메시지 표시
+            Alert.alert(
+            "로그아웃", // Alert Title
+            "정말로 로그아웃 하시겠습니까?", // Alert Message
+            [
+              {
+                text: "취소",
+                style: "cancel"
+              },
+              { 
+                text: "확인", 
+                onPress: async () => {
+                  // 로그아웃 시 AsyncStorage에서 토큰 삭제
+                  logout();
+                }
+              }
+            ]
+          );
+        }}
+      >
                 <Text style={styles.buttonText}>로그아웃</Text>
             </Pressable>
             </View>
@@ -84,7 +100,7 @@ const MyPage = ({navigation}) => {
                             <View>
                                 <MyPageCard studentId={myData.studentId} nickname={myData.nickname} />
                             </View>
-                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('MyPost')}>
+                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('내가 쓴 글')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>내가 작성한 글</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
@@ -96,12 +112,12 @@ const MyPage = ({navigation}) => {
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
                             </Pressable> 
-                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('Password')}>
+                            {/* <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('Password')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>비밀번호 변경</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
-                            </Pressable> 
+                            </Pressable>  */}
                             <Pressable style = {styles.myPageOption} onPress={() => alert('서비스 정보')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>서비스 정보</Text>

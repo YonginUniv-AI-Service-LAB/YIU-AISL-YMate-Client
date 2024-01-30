@@ -208,7 +208,7 @@ const Signup = ({ navigation }) => {
     <View style={styles.mainBackground}>
       <Header title = '회원가입' onPressBack={() => navigation.goBack()}/>
         <View style = {[styles.spacebetween, styles.flexView, styles.backgroundWhite]}>
-          <KeyboardAwareScrollView>
+          <KeyboardAwareScrollView keyboardShouldPersistTaps='handled' >
           <View style={[styles.recruitSection]}>
             <View style={[styles.rowView, styles.margintop11]} >
               <View style = {styles.flex025}>

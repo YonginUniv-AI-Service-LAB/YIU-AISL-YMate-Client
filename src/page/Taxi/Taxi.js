@@ -144,10 +144,10 @@ const Taxi = ({navigation}) => {
 										<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/taxi.png")}/>
 										<Text style={[styles.centerText18, styles.marginLeft3]}>같이 택시</Text>
 									</View>
-								<Pressable style={styles.rowView} onPress={()=>Alert.alert("배달더보기")}>
+								{/* <Pressable style={styles.rowView} onPress={()=>Alert.alert("배달더보기")}>
 									<Text style={styles.clickText13}>마감 가가운 순</Text>
 									<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-								</Pressable>
+								</Pressable> */}
 							</View>
 								<FlatList
 									contentContainerStyle={styles.bigCardScroll}

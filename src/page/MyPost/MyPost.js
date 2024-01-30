@@ -24,7 +24,6 @@ const MyPost = ({navigation}) => {
 		let now = moment.tz('Asia/Seoul');
 		let dueDate = moment(due);
 		let minutesDiff = moment.utc(dueDate).diff(moment.utc(now), 'minutes');
-		console.log(minutesDiff);
 		return minutesDiff < 0;
 	  };
 
