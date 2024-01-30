@@ -18,14 +18,13 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
     }
 
 	const navigation = useNavigation()
-    const [now, setNow] = useState(moment.tz('Asia/Seoul'));
+    const [now, setNow] = useState(moment.tz('Asia/Seoul').add(9, 'hours'));
     useEffect(() => {
         const interval = setInterval(() => {
-            setNow(prevNow => moment.tz('Asia/Seoul'))
+            setNow(prevNow => moment.tz('Asia/Seoul').add(9, 'hours'))
         }, 60000)
         return () => clearInterval(interval)
     }, [])
-
     let dueDate = moment(due);
     let minutesDiff = moment.utc(dueDate).diff(moment.utc(now), 'minutes');
     let isPastDue = minutesDiff < 0 ? 1 : 0; 

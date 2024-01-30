@@ -14,11 +14,11 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
         return null;
     }
     const navigation = useNavigation()
-    const [now, setNow] = useState(moment.tz('Asia/Seoul'));
+    const [now, setNow] = useState(moment.tz('Asia/Seoul').add(9, 'hours'));
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setNow(moment.tz('Asia/Seoul'));
+            setNow(moment.tz('Asia/Seoul').add(9, 'hours'));
         }, 60000)
         return () => clearInterval(interval)
     }, [])

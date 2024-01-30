@@ -262,11 +262,11 @@ const TaxiDetail = ({navigation, route}) => {
 
 
 	const TaxiDetailCard = ({title, state, nickname, createdAt, due, current, max, startCode, endCode, contents}) => {
-        const [now, setNow] = React.useState(moment().tz('Asia/Seoul'));
+        const [now, setNow] = React.useState(moment().tz('Asia/Seoul').add(9, 'hours'));
         const [writeType, setWriteType] = React.useState('');
         React.useEffect(() => {
         const interval = setInterval(() => {
-            setNow(moment().tz('Asia/Seoul'));
+            setNow(moment().tz('Asia/Seoul').add(9, 'hours'));
         }, 60000); // 1분마다 갱신 (설정에 따라 조절 가능)
         
             return () => clearInterval(interval);
