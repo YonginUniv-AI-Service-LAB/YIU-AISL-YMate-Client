@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, ActivityIndicator} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../../assets/GlobalStyles";
 import {styles} from "../Style"
-import { getUserInfo, getAccessTokenInfo, callApi } from '../../components/utils'
+import { getUserInfo, getAccessTokenInfo,callApi } from '../../components/utils'
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import LocationTag from '../../components/LocationTag'
 import moment from 'moment-timezone';
 import {Header} from "../../components"
+import {AuthContext} from '../../../App';
 
 
 const TaxiDetail = ({navigation, route}) => {
+	const { logout } = useContext(AuthContext);
 	const { tId } = route.params;
 	const [refreshing, setRefreshing] = React.useState(false)
 	const [CommentData, setCommentData] = useState([]);
@@ -53,7 +55,8 @@ const TaxiDetail = ({navigation, route}) => {
 		  }
 		} catch (error) {
 			if (error.message === 'Session expired. Please login again.') {
-				navigation.navigate('Login');
+				Alert.alert('세션에 만료되었습니다.')
+				logout();
 			  }
 			  else{
 		  		console.log('>>> [taxidetail] 🤬 ERROR', error);
@@ -98,7 +101,8 @@ const TaxiDetail = ({navigation, route}) => {
 			}
 		  } catch (error) {
 			if (error.message === 'Session expired. Please login again.') {
-				navigation.navigate('Login');
+				Alert.alert('세션에 만료되었습니다.')
+				logout();
 			}
 			else if (error.response && error.response.status === 409) {
 			  Alert.alert('이미 마감된 글입니다.');
@@ -124,7 +128,8 @@ const TaxiDetail = ({navigation, route}) => {
 			}
 		  } catch (error) {
 			if (error.message === 'Session expired. Please login again.') {
-				navigation.navigate('Login');
+				Alert.alert('세션에 만료되었습니다.')
+				logout();
 			  }
 			else if (error.response && error.response.status === 409) {
 			  Alert.alert('이미 마감된 글입니다.');
@@ -147,7 +152,8 @@ const TaxiDetail = ({navigation, route}) => {
 		  }
 		} catch (error) {
 			if (error.message === 'Session expired. Please login again.') {
-				navigation.navigate('Login');
+				Alert.alert('세션에 만료되었습니다.')
+				logout();
 			}
 			else{
 		  		console.error("데이터 가져오기 실패:", error);
@@ -171,7 +177,8 @@ const TaxiDetail = ({navigation, route}) => {
 			}
 		  } catch (error) {
 			if (error.message === 'Session expired. Please login again.') {
-			  navigation.navigate('Login');
+				Alert.alert('세션에 만료되었습니다.')
+				logout();
 			} else if (error.response && error.response.status === 409) {
 			  Alert.alert('이미 마감된 글입니다.');
 			} else {
@@ -193,7 +200,8 @@ const TaxiDetail = ({navigation, route}) => {
 		  }
 		} catch (error) {
 		  if (error.message === 'Session expired. Please login again.') {
-			navigation.navigate('Login');
+			Alert.alert('세션에 만료되었습니다.')
+				logout();
 		  } else if (error.response && error.response.status === 409) {
 			Alert.alert('신청글이 존재합니다.');
 		  } else {

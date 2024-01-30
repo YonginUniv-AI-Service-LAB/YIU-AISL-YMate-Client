@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect  } from "react";
+import React, { useState, useRef, useEffect ,useContext } from "react";
 import { Text, StyleSheet, Image,TextInput, Pressable, View, TouchableWithoutFeedback, Keyboard, AsyncStorage } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -15,8 +15,10 @@ import times from '../../constant/TimeDatas'
 import axios from 'axios';
 import LocationModal from "../Modal/LocationModal";
 import { getUserInfo, callApi} from '../../components/utils'
+import {AuthContext} from '../../../App';
 
 const TaxiRecruit = ({navigation, route}) => {
+  const { logout } = useContext(AuthContext);
   const [startLocation, setStartLocation] = useState(null);
   const [endLocation, setEndLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -154,7 +156,8 @@ const TaxiRecruit = ({navigation, route}) => {
         }
       } catch (error) {
         if (error.message === 'Session expired. Please login again.') {
-          navigation.navigate('Login');
+          Alert.alert('세션에 만료되었습니다.')
+				  logout();
         }
         else{
         console.log('>>> [taxiRecruit] 🤬 ERROR', error);

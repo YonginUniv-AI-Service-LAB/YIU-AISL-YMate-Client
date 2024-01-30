@@ -1,17 +1,19 @@
-import React, { useState, useRef  } from "react";
+import React, { useState, useContext  } from "react";
 import { Text, StyleSheet, Image,TextInput, Pressable, View, Alert, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/GlobalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {styles} from "../Style"
 import {Header, BottomButton, ErrorText} from "../../components"
-import { getAccessTokenInfo } from '../../components/utils'
+import { getAccessTokenInfo, callApi } from '../../components/utils'
 import axios from 'axios';
+import {AuthContext} from '../../../App';
 
 const DeliveryRequest = ({navigation,route}) => {
   const [contents, setContents] = useState('');
   const [details, setDetails] = useState('');
   const [error, setError] = useState('');
   const { did } = route.params;
+  const { logout } = useContext(AuthContext);
   const handleChange = () =>{
     setError('');
   }
@@ -24,31 +26,29 @@ const DeliveryRequest = ({navigation,route}) => {
       setError("모든 값을 입력해주세요.");
     }
     else{
-      console.log(did);
-      const accessTokenInfo = await getAccessTokenInfo();
-      const response = await axios.post(`${API_URL}/delivery/apply`,
-          {
-            dId: did,
-            contents: contents,
-            details: details,
-          }, {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [deliveryRequest] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-              alert('신청 글 작성 완료');
-              navigation.goBack();
-            }
-        }).catch((error) => {
-          if (error.response && error.response.status === 409) {
-            // 이미 신청글이 있을 경우
-            setError('이미 신청글이 존재합니다.');
-          } 
+      const data = {
+        dId: did,
+        contents: contents,
+        details: details,
+      };
+      try {
+        const response = await callApi(`${API_URL}/delivery/apply`, 'post', data);
+        console.log('>>> [deliveryRequest] ✅ SUCCESS', response.data);
+        if (response.status === 200) {
+          alert('신청 글 작성 완료');
+          navigation.goBack();
+        }
+      } catch(error) {
+        if (error.message === 'Session expired. Please login again.') {
+          Alert.alert('세션에 만료되었습니다.')
+          logout();
+        }
+        else if (error.response && error.response.status === 409) {
+          // 이미 신청글이 있을 경우
+          setError('이미 신청글이 존재합니다.');
+        }
           console.log('>>> [deliveryRequest] 🤬 ERROR', error);
-        });
+        };
       }
   }
   return (

@@ -1,13 +1,15 @@
-import React, { useState, useRef  } from "react";
+import React, { useState, useRef, useContext  } from "react";
 import { Text, StyleSheet, Image,TextInput, Pressable, View, Alert, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/GlobalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {styles} from "../Style"
 import {Header, BottomButton, ErrorText} from "../../components"
-import { getAccessTokenInfo } from '../../components/utils'
+import { getAccessTokenInfo,callApi} from '../../components/utils'
 import axios from 'axios';
+import {AuthContext} from '../../../App';
 
 const NoticeCreate = ({navigation, route}) => {
+  const { logout } = useContext(AuthContext);
   const [contents, setContents] = useState('');
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
@@ -24,31 +26,31 @@ const NoticeCreate = ({navigation, route}) => {
   const handleNoticeCreate = async() => {
     if (!contents || !title) {
       setError("모든 값을 입력해주세요.");
-    }
-    else{
-      const accessTokenInfo = await getAccessTokenInfo();
+    } else {
+      const data = {
+        noticeId: noticeId,
+        contents: contents,
+        title: title,
+      };
       const apiEndpoint = noticeId ? `${API_URL}/notice/update` : `${API_URL}/notice/create`;
-      const response = await axios.post(apiEndpoint,
-          {
-            noticeId: noticeId,
-            contents: contents,
-            title: title,
-          }, {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [NoticeCreate] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-              Alert.alert(correctMessage);
-              navigation.goBack();
-            }
-        }).catch((error) => {
+      try {
+        const response = await callApi(apiEndpoint, 'post', data);
+        console.log('>>> [NoticeCreate] ✅ SUCCESS', response.data);
+        if (response.status === 200) {
+          Alert.alert(correctMessage);
+          navigation.goBack();
+        }
+      } catch (error) {
+        if (error.message === 'Session expired. Please login again.') {
+          Alert.alert('세션에 만료되었습니다.')
+			    logout();
+        } else {
           console.log('>>> [NoticeCreate] 🤬 ERROR', error);
-        });
+        }
       }
-  }
+    }
+  };
+  
   return (
     <SafeAreaView style={styles.mainScreen}>
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
