@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, createContext, useCallback } from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { enableScreens } from 'react-native-screens';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
+import { getAccessTokenInfo, callApi } from './src/components/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Login from './src/page/Login/Login';
 import Signup from './src/page/Signup/Signup';
 import DeliveryRecruit from './src/page/Delivery/DeliveryRecruit';
@@ -22,28 +23,70 @@ import Location from './src/page/Location/Location';
 import NoticeCreate from './src/page/Notification/NoticeCreate';
 const Stack = createStackNavigator();
 
-
+export const AuthContext = createContext();
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+  
+      if (isLoggedIn === 'true') {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+    
+    checkLoginStatus();
+  }, []);
+
+  const logout = useCallback(async () => {
+    await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem('accessToken');
+    await AsyncStorage.removeItem('refreshToken');
+    await AsyncStorage.setItem('isLoggedIn', 'false');
+    setIsLoggedIn(false);
+  }, []);
+
+  const onLogin = async () => {
+    await AsyncStorage.setItem('isLoggedIn', 'true');
+    setIsLoggedIn(true);
+  };
+  
 
   return (
+    <AuthContext.Provider value={{ logout }}>
     <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={Login}/>
-          <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="Password" component={Password} />
-          <Stack.Screen name="Main" component={TabStackScreen }/>
-          <Stack.Screen name="DeliveryDetail" component={DeliveryDetail} />
-          <Stack.Screen name="DeliveryRecruit" component={DeliveryRecruit} />
-          <Stack.Screen name="DeliveryRequest" component={DeliveryRequest} />
-          <Stack.Screen name="TaxiDetail" component={TaxiDetail} />
-          <Stack.Screen name="TaxiRecruit" component={TaxiRecruit} />
-          <Stack.Screen name="TaxiRequest" component={TaxiRequest} />
-          <Stack.Screen name="Location" component={Location} />
-          <Stack.Screen name="NoticeCreate" component={NoticeCreate} />
-          <Stack.Screen name="Alarm" component={Alarm} />
-        </Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {isLoggedIn ? (
+          <>
+            <Stack.Screen name="Main">
+              {props => <TabStackScreen {...props} logout={logout} />}
+            </Stack.Screen>
+            <Stack.Screen name="DeliveryDetail" component={DeliveryDetail} />
+            <Stack.Screen name="DeliveryRecruit" component={DeliveryRecruit} />
+            <Stack.Screen name="DeliveryRequest" component={DeliveryRequest} />
+            <Stack.Screen name="TaxiDetail" component={TaxiDetail} />
+            <Stack.Screen name="TaxiRecruit" component={TaxiRecruit} />
+            <Stack.Screen name="TaxiRequest" component={TaxiRequest} />
+            <Stack.Screen name="Location" component={Location} />
+            <Stack.Screen name="NoticeCreate" component={NoticeCreate} />
+            <Stack.Screen name="Alarm" component={Alarm} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Login">
+              {props => <Login {...props} onLogin={onLogin} />}
+            </Stack.Screen>
+            <Stack.Screen name="Signup" component={Signup} />
+            <Stack.Screen name="Password" component={Password} />
+          </>
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
+    </AuthContext.Provider>
   );
 };
 

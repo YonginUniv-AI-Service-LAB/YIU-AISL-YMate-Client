@@ -7,8 +7,7 @@ import axios from 'axios';
 import {styles} from "../Style"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ({ navigation, route }) => {
-  const { onLogin } = route.params || {};
+const Login = ({ navigation, route, onLogin }) => {
   const [studentId, setStudentId] = useState('');
   const [pwd, setpwd] = useState('');
   const dismissKeyboard = () => {
@@ -16,6 +15,7 @@ const Login = ({ navigation, route }) => {
   };
 
   const handleLogin = async () => {
+
     if (!studentId || !pwd) {
       alert('아이디나 비밀번호를 입력해주세요');
     } else {
@@ -39,7 +39,7 @@ const Login = ({ navigation, route }) => {
           await AsyncStorage.setItem('user', studentId);
           await AsyncStorage.setItem('accessToken', response.data.token.accessToken);
           await AsyncStorage.setItem('refreshToken', response.data.token.refreshToken);
-          navigation.navigate('Main');
+          onLogin();
         }
       } catch (error) {
         if (error.response && error.response.status === 401) {

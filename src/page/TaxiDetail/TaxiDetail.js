@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Ale
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../../assets/GlobalStyles";
 import {styles} from "../Style"
-import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import { getUserInfo, getAccessTokenInfo, callApi } from '../../components/utils'
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import LocationTag from '../../components/LocationTag'
@@ -39,31 +39,31 @@ const TaxiDetail = ({navigation, route}) => {
 	);
 
 	const fetchTaxiData = async () => {
-        const userInfo = await getUserInfo(); // 예시: getUserInfo가 Promise를 반환하는 경우
-        const accessTokenInfo = await getAccessTokenInfo();
-        const response = await axios.post(`${API_URL}/taxi/detail`,
-          {
-            tId : tId,
-          }, {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [taxidetail] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-                setTaxiData(res.data);
-				setType(userInfo === res.data.studentId ? 1 : 2);
-				setCommentData(res.data.comment);
-				setUserInfo(userInfo);
-                console.log(taxiData)
-              }
-        }).catch((error) => {
-          console.log('>>> [taxidetail] 🤬 ERROR', error);
-          alert('삭제됐거나 존재하지 않는 글입니다.');
-		  navigation.goBack();
-        });
-    }
+		const userInfo = await getUserInfo();
+		const data = { tId : tId };
+		try {
+		  const response = await callApi(`${API_URL}/taxi/detail`, 'post', data);
+		  console.log('>>> [taxidetail] ✅ SUCCESS', response.data);
+		  if (response.status === 200) {
+			setTaxiData(response.data);
+			setType(userInfo === response.data.studentId ? 1 : 2);
+			setCommentData(response.data.comment);
+			setUserInfo(userInfo);
+			console.log(taxiData)
+		  }
+		} catch (error) {
+			if (error.message === 'Session expired. Please login again.') {
+				navigation.navigate('Login');
+			  }
+			  else{
+		  		console.log('>>> [taxidetail] 🤬 ERROR', error);
+		  		alert('삭제됐거나 존재하지 않는 글입니다.');
+		  		navigation.goBack();
+			  }
+		}
+	  };
+	  
+	  
 	if (taxiData === null) {
         return (
 			<View style={styles.loadingContainer}>
@@ -85,156 +85,123 @@ const TaxiDetail = ({navigation, route}) => {
 	}
 
 	const handleAcceptRequest = async (tcId) => {
-		if(isPastDue|| taxiData.state === 'FINISHED'){
-			alert('이미 마감된 글입니다.');
-		}
-		else{
-		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/taxi/accept`, {
-				tcId: tcId,
-			}, {
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded",
-					"Authorization": `Bearer ${accessTokenInfo}`,
-				},
-				withCredentials: true
-			});
-			
+		if(isPastDue || taxiData.state === 'FINISHED'){
+		  alert('이미 마감된 글입니다.');
+		} else {
+		  try {
+			const data = { tcId: tcId };
+			const response = await callApi(`${API_URL}/taxi/accept`, 'post', data);
 			setRefreshing(false);
 			if (response.status === 200) {
-				Alert.alert("수락 완료");
-				fetchTaxiData();
-			}
-		} catch (error) {
-				if (error.response && error.response.status === 409) {
-					Alert.alert('이미 마감된 글입니다.');
-				}
-				else{ 
-					Alert.alert('삭제 되었거나 없는 신청글입니다.');
-			
-				}
-		}
-	}
-	};
-
-	const handleRejectRequest = async (tcId) => {
-		if(isPastDue|| taxiData.state === 'FINISHED'){
-			alert('이미 마감된 글입니다.');
-		}
-		else{
-		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/taxi/reject`,
-			{
-				tcId: tcId,
-			}, {
-			  headers: {"Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-			});
-			setRefreshing(false);
-			if (response.status === 200) {
-				Alert.alert("거절 완료");
-				fetchTaxiData();
+			  Alert.alert("수락 완료");
+			  fetchTaxiData();
 			}
 		  } catch (error) {
-				if (error.response && error.response.status === 409) {
-					Alert.alert('이미 마감된 글입니다.');
-				}
-				else{ 
-					Alert.alert('삭제 되었거나 없는 신청글입니다.');
-			
-				}
+			if (error.message === 'Session expired. Please login again.') {
+				navigation.navigate('Login');
+			}
+			else if (error.response && error.response.status === 409) {
+			  Alert.alert('이미 마감된 글입니다.');
+			} else { 
+			  Alert.alert('삭제 되었거나 없는 신청글입니다.');
+			}
 		  }
 		}
-	};
+	  };
+	  
 
-	const handleCancelRequest = async (tcId) => {
-		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/taxi/cancel`,
-			{
-			  tcId: tcId,
-			}, {
-			  headers: {"Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-			});
+	  const handleRejectRequest = async (tcId) => {
+		if(isPastDue || taxiData.state === 'FINISHED'){
+		  alert('이미 마감된 글입니다.');
+		} else {
+		  try {
+			const data = { tcId: tcId };
+			const response = await callApi(`${API_URL}/taxi/reject`, 'post', data);
 			setRefreshing(false);
 			if (response.status === 200) {
-				Alert.alert("취소 완료");
-				fetchTaxiData();
+			  Alert.alert("거절 완료");
+			  fetchTaxiData();
 			}
 		  } catch (error) {
-			console.error("데이터 가져오기 실패:", error);
+			if (error.message === 'Session expired. Please login again.') {
+				navigation.navigate('Login');
+			  }
+			else if (error.response && error.response.status === 409) {
+			  Alert.alert('이미 마감된 글입니다.');
+			} else { 
+			  Alert.alert('삭제 되었거나 없는 신청글입니다.');
+			}
+		  }
+		}
+	  };
+	  
+
+	  const handleCancelRequest = async (tcId) => {
+		try {
+		  const data = { tcId: tcId };
+		  const response = await callApi(`${API_URL}/taxi/cancel`, 'post', data);
+		  setRefreshing(false);
+		  if (response.status === 200) {
+			Alert.alert("취소 완료");
+			fetchTaxiData();
+		  }
+		} catch (error) {
+			if (error.message === 'Session expired. Please login again.') {
+				navigation.navigate('Login');
+			}
+			else{
+		  		console.error("데이터 가져오기 실패:", error);
+		  		Alert.alert('삭제 되었거나 없는 신청글입니다.');
+			}
+		}
+	  };
+	  
+
+	  const handleFinishDetail = async() => {
+		if(isPastDue || taxiData.state === 'FINISHED'){
+		  alert('이미 마감된 글입니다.');
+		} else {
+		  try {
+			const data = { tId: tId };
+			const response = await callApi(`${API_URL}/taxi/finish`, 'post', data);
+			setRefreshing(false);
+			if (response.status === 200) {
+			  Alert.alert("마감 완료");
+			  navigation.goBack();
+			}
+		  } catch (error) {
+			if (error.message === 'Session expired. Please login again.') {
+			  navigation.navigate('Login');
+			} else if (error.response && error.response.status === 409) {
+			  Alert.alert('이미 마감된 글입니다.');
+			} else {
+			  console.error("데이터 가져오기 실패:", error);
+			  Alert.alert('삭제 되었거나 없는 신청글입니다.');
+			}
+		  }
+		}
+	  };
+	  
+	  const handleDeleteDetail = async() => {
+		try {
+		  const data = { tId: tId };
+		  const response = await callApi(`${API_URL}/taxi/delete`, 'post', data);
+		  setRefreshing(false);
+		  if (response.status === 200) {
+			Alert.alert("삭제 완료");
+			navigation.goBack();
+		  }
+		} catch (error) {
+		  if (error.message === 'Session expired. Please login again.') {
+			navigation.navigate('Login');
+		  } else if (error.response && error.response.status === 409) {
+			Alert.alert('신청글이 존재합니다.');
+		  } else {
 			Alert.alert('삭제 되었거나 없는 신청글입니다.');
 		  }
-		
-	}
-
-	const handleFinishDetail = async() => {
-		if(isPastDue || taxiData.state === 'FINISHED'){
-			alert('이미 마감된 글입니다.');
 		}
-		else{
-		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/taxi/finish`,
-			{
-			  tId: tId,
-			}, {
-			  headers: {"Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-			});
-			setRefreshing(false);
-			if (response.status === 200) {
-				Alert.alert("마감 완료");
-				navigation.goBack();
-			}
-		  } catch (error) {
-			if (error.response && error.response.status === 409) {
-				Alert.alert('이미 마감된 글입니다.');
-			  }
-			else{
-				console.error("데이터 가져오기 실패:", error);
-				Alert.alert('삭제 되었거나 없는 신청글입니다.');
-			}
-		  }
-		}
-	}
-	const handleDeleteDetail = async() => {
-		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/taxi/delete`,
-			{
-			  tId: tId,
-			}, {
-			  headers: {"Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-			});
-			setRefreshing(false);
-			if (response.status === 200) {
-				Alert.alert("삭제 완료");
-				navigation.goBack();
-			}
-		  } catch (error) {
-			if (error.response && error.response.status === 409) {
-				Alert.alert('신청글이 존재합니다.');
-			  }
-			
-			else{ 
-				Alert.alert('삭제 되었거나 없는 신청글입니다.');
-			}
-		  
-		}
-	}
+	  };
+	  
 
     //   const TaxiData = [
 	// 	{
@@ -408,7 +375,7 @@ const TaxiDetail = ({navigation, route}) => {
 
     const commentCard = CommentData.map((comment) => 
 	comment.state !== 'CANCELED' && (
-	<View>
+	<View key={comment.tcId}>
     <View style={[styles.commentContainer, { borderColor: comment.state === 'REJECTED' ? Color.colorGray_100 : '#22A2F2'}]}>
         <View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
 			<Text style={styles.text16}>{comment.nickname}</Text>
