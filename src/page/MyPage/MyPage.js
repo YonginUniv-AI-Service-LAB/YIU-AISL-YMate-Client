@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext} from "react";
 import { Image, StyleSheet, Text, View, Pressable, ActivityIndicator} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
@@ -6,15 +6,17 @@ import {styles} from "../Style"
 import { symbol } from "prop-types";
 import { TopMenu } from "../../components";
 import { useIsFocused } from '@react-navigation/native';
-import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import { getUserInfo, getAccessTokenInfo, callApi } from '../../components/utils'
 import axios from 'axios';
 import NicknameModal from "../Modal/NicknameModal";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AuthContext} from '../../../App';
 
 
 const MyPage = ({navigation}) => {
   const [myData, setMyData] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
-
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     if(myData === null){
@@ -23,30 +25,28 @@ const MyPage = ({navigation}) => {
   }, [myData,isModalVisible]);
 	
 	  const fetchData = async () => {
-        const accessTokenInfo = await getAccessTokenInfo();
-		const response = await axios.get(`${API_URL}/user/mypage`,
-        
-          {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [mypage] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-                setMyData(res.data);
-            }
-        }).catch((error) => {
-          console.log('>>> [mypage] 🤬 ERROR', error);
-        });
+      try {
+        const response = await callApi(`${API_URL}/user/mypage`, 'get');
+        console.log('>>> [mypage] ✅ SUCCESS', response.data);
+    
+        if (response.status === 200) {
+          setMyData(response.data);
+        }
+      } catch (error) {
+        if (error.message === 'Session expired. Please login again.') {
+          navigation.navigate('Login');
+        }
+        console.log('>>> [mypage] 🤬 ERROR', error);
+      }
 	  };
-      if (myData === null) {
+
+    if (myData === null) {
         return (
 			<View style={styles.loadingContainer}>
 			  <ActivityIndicator size="large" color="#0000ff" />
 			</View>
 		  );
-      }
+    }
 
     const MyPageCard = ({studentId, nickname}) => (
 		<View style= {styles.myPageCard}>
@@ -55,7 +55,11 @@ const MyPage = ({navigation}) => {
                 <Text style={styles.text16}>{studentId}</Text>
             </View>
             <View>
-            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={()=>navigation.navigate('Login')}>
+            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={async () => {
+                // 로그아웃 시 AsyncStorage에서 토큰 삭제
+                logout();
+              }}
+            >
                 <Text style={styles.buttonText}>로그아웃</Text>
             </Pressable>
             </View>

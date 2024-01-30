@@ -13,7 +13,7 @@ import maxPersons from '../../constant/MaxPersonDatas'
 import times from '../../constant/TimeDatas'
 import axios from 'axios';
 import LocationModal from "../Modal/LocationModal";
-import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import { getUserInfo, callApi} from '../../components/utils'
 
 const TaxiRecruit = ({navigation, route}) => {
   const [startLocation, setStartLocation] = useState(route.params?.startCode === 0 ? 0 : route.params?.startCode || null);
@@ -129,7 +129,7 @@ const TaxiRecruit = ({navigation, route}) => {
 
   const getDueDate = () =>{
     const currentDate = new Date();
-    // selectedTime 뒤에 인수는 + 9, 나는 그냥 사용
+    // 승목햄은 밑에꺼 주석
     currentDate.setHours(currentDate.getHours() + 9);
     const nHoursLater = new Date(currentDate.getTime() + selectedTime * 60 * 1000);
 
@@ -138,48 +138,46 @@ const TaxiRecruit = ({navigation, route}) => {
     return formattedDate;
   }
 
-  const handletTaxiRecruit = async () => {
+  const handleTaxiRecruit = async () => {
     if (!title || !contents || !maxPerson || !startLocationText || !endLocationText || !selectedTime) {
       setError("모든 값을 입력해주세요.");
     }
-    else{
-      const userInfo = await getUserInfo(); 
-      const accessTokenInfo = await getAccessTokenInfo();
+    else {
+      const userInfo = await getUserInfo();
       const dueDate = getDueDate();
       const apiEndpoint = tid ? `${API_URL}/taxi/update` : `${API_URL}/taxi/create`;
-      const response = await axios.post(apiEndpoint,
-          {
-            tId : tid,
-            student_id: userInfo,
-            title: title,
-            contents: contents,
-            due: dueDate,
-            start: startLocationText,
-            startCode: startLocation,
-            end: endLocationText,
-            endCode: endLocation,
-            current: route.params?.tid || 0,
-            max: maxPerson,
-          }, {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [taxiRecruit] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-              if (tid) {
-                alert('택시 글 수정 완료');
-              } else {
-                alert('택시 글 작성 완료');
-              }
-              navigation.goBack();
-            }
-        }).catch((error) => {
-          console.log('>>> [taxiRecruit] 🤬 ERROR', error);
-          setError("AccessToken만료");
-        });
-       
+      const data = {
+        tId: tid,
+        student_id: userInfo,
+        title: title,
+        contents: contents,
+        due: dueDate,
+        start: startLocationText,
+        startCode: startLocation,
+        end: endLocationText,
+        endCode: endLocation,
+        current: route.params?.tid || 0,
+        max: maxPerson,
+      };
+      try {
+        const response = await callApi(apiEndpoint, 'post', data);
+        console.log('>>> [taxiRecruit] ✅ SUCCESS', response.data);
+        if (response.status === 200) {
+          if (tid) {
+            alert('택시 글 수정 완료');
+          } else {
+            alert('택시 글 작성 완료');
+          }
+          navigation.goBack();
+        }
+      } catch (error) {
+        if (error.message === 'Session expired. Please login again.') {
+          navigation.navigate('Login');
+        }
+        else{
+        console.log('>>> [taxiRecruit] 🤬 ERROR', error);
+        }
+      }
     }
   }
 
@@ -321,7 +319,7 @@ const TaxiRecruit = ({navigation, route}) => {
           </View>
           </KeyboardAwareScrollView>
           <ErrorText isError={error} errorMessage={error} style={[styles.marginRight20]}/>
-          <BottomButton title={buttonTitle} onPress={handletTaxiRecruit}/>
+          <BottomButton title={buttonTitle} onPress={handleTaxiRecruit}/>
       </View>
       </TouchableWithoutFeedback>
       <LocationModal isVisible={isModalVisible1} onClose={closeModal1} />  

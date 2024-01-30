@@ -199,6 +199,13 @@ const MyPost = ({navigation}) => {
 											item.tcId ? item.createdAt :
 											undefined
 										}
+										state = {
+											item.did ? item.state :
+											item.dcId ? item.delivery.state :
+											item.tid ? item.state :
+											item.tcId ? item.taxi.state :
+											undefined
+										}
 									/>
 								)}
 								keyExtractor={

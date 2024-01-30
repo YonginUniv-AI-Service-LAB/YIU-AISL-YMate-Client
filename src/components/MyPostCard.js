@@ -10,7 +10,7 @@ import DeliveryCard from './DeliveryCard'
 
 //type: 0 -> delivery 1 -> taxi
 //isComment: 0 -> 모집자 1 -> 신청자
-const MyPostCard = ({type = 0, isComment = 0, Id, title, due, food, locationCode, startCode, endCode, current, max, createdAt}) => {
+const MyPostCard = ({type = 0, isComment = 0, Id, title, due, food, locationCode, startCode, endCode, current, max, createdAt, state}) => {
 	const navigation = useNavigation()
     return (
         <Pressable style={styles.myPostContainer} onPress={() => Alert.alert(`${Id}`)}>
@@ -29,9 +29,9 @@ const MyPostCard = ({type = 0, isComment = 0, Id, title, due, food, locationCode
                 }
             </View>
             {type === 3 || type === 4 ?
-                <TaxiCard size={1} tId={Id} title={title} due={due} startCode={startCode} endCode={endCode} current={current} max={max}/>
+                <TaxiCard size={1} tId={Id} state={state} title={title} due={due} startCode={startCode} endCode={endCode} current={current} max={max}/>
                 :
-                <DeliveryCard size={1} dId={Id} title={title} due={due} food={food} location={locationCode}/>
+                <DeliveryCard size={1} dId={Id} state={state} title={title} due={due} food={food} location={locationCode}/>
             }
         </Pressable>
 	)

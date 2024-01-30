@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {styles} from "../Style"
 import {BottomButton, Header, ErrorText} from "../../components"
-import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import { getUserInfo, getAccessTokenInfo, callApi } from '../../components/utils'
 import ModalDropdown from "react-native-modal-dropdown";
 // import foodTypeToNumber from '../../components/TypeToNumber/FoodTypeToNumber';
 // import locationTypeToNumber from '../../components/TypeToNumber/LocationTypeToNumber';
@@ -134,50 +134,46 @@ const DeliveryRecruit = ({navigation, route}) => {
   const handletDeliveryRecruit = async () => {
     if (!title || !contents || !foodText || !locationText || !selectedTime) {
       setError("모든 값을 입력해주세요.");
-    }
-    else{
-      const userInfo = await getUserInfo(); 
-      const accessTokenInfo = await getAccessTokenInfo();
+    } else {
+      const userInfo = await getUserInfo();
       const dueDate = getDueDate();
       const apiEndpoint = did ? `${API_URL}/delivery/update` : `${API_URL}/delivery/create`;
-      const response = await axios.post(apiEndpoint,
-          {
-            dId: did,
-            student_id: userInfo,
-            title: title,
-            contents: contents,
-            due: dueDate,
-            food: foodText,
-            foodCode: selectedFood,
-            location: locationText,
-            locationCode: selectedLocation,
-            link: link,
-          }, {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [deliveryRecruit] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-              if (did) {
-                // did가 존재하는 경우 (수정 완료)
-                alert('배달 글 수정 완료');
-              } else {
-                // did가 존재하지 않는 경우 (작성 완료)
-                alert('배달 글 작성 완료');
-              }
-              navigation.goBack();
-            }
-        }).catch((error) => {
+      const postData = {
+        dId: did,
+        student_id: userInfo,
+        title: title,
+        contents: contents,
+        due: dueDate,
+        food: foodText,
+        foodCode: selectedFood,
+        location: locationText,
+        locationCode: selectedLocation,
+        link: link,
+      };
+      try {
+        const response = await callApi(apiEndpoint, 'post', postData);
+        console.log('>>> [deliveryRecruit] ✅ SUCCESS', response.data);
+        if (response.status === 200) {
+          if (did) {
+            // did가 존재하는 경우 (수정 완료)
+            alert('배달 글 수정 완료');
+          } else {
+            // did가 존재하지 않는 경우 (작성 완료)
+            alert('배달 글 작성 완료');
+          }
+          navigation.goBack();
+        }
+      } catch (error) {
+        if (error.message === 'Session expired. Please login again.') {
+          // 로그인 페이지로 이동
+          navigation.navigate('Login');
+        } else {
           console.log('>>> [deliveryRecruit] 🤬 ERROR', error);
-          setError("AccessToken만료");
-        });
-        
-      console.log('selectedFood :', selectedFood);
-      console.log('selectedLocation:', selectedLocation);
+        }
+      }
     }
   }
+  
 
   return (
     <SafeAreaView style={styles.mainScreen}>
