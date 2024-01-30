@@ -70,11 +70,15 @@ const DeliveryDetail = ({navigation, route}) => {
 		  console.log('>>> [deliverydetail] ✅ SUCCESS', response.data);
 		  if (response.status === 200) {
 			setDeliveryData(response.data);
-			setType(userInfo === response.data.studentId ? 1 : 2);
+			setType(userInfo === response.data.studentId ? 1 : 2); // 1: 작성자, 2: 일반유저
 			setCommentData(response.data.comment);
 			setUserInfo(userInfo);
 			console.log(deliveryData)
 			// deliverydetail로 데이터를 전달하며 이동
+			const iscommentAccepted = response.data.comment.some(comment => comment.studentId === userInfo && comment.state === 'ACCEPTED');
+			if (iscommentAccepted) {
+				setType(3); // 
+			}
 		  }
 		} catch (error) {
 		  if (error.message === 'Session expired. Please login again.') {
@@ -228,7 +232,7 @@ const DeliveryDetail = ({navigation, route}) => {
 		}
 	}
 
-	const DeliveryDetailCard = ({title, state, location, food, nickname, createAt, due, contents}) => {
+	const DeliveryDetailCard = ({title, state, location, food, nickname, createAt, due, contents, link}) => {
         const [now, setNow] = React.useState(moment().tz('Asia/Seoul'));
 		const [writeType, setWriteType] = React.useState('');
         React.useEffect(() => {
@@ -337,6 +341,12 @@ const DeliveryDetail = ({navigation, route}) => {
 							<Text style={styles.deliveryContentsText}>{contents}</Text>
 						</View>
 					</ScrollView>
+					{(type === 1 || type === 3) && (
+						<View style={[styles.deliverytitleContainer, styles.rowView]}>
+							<Text style={styles.deliveryTitleText}>{'URL : '}</Text>
+							<Text style={styles.deliveryTitleText} numberOfLines={1} selectable={true} dataDetectorType={'link'}>{link}</Text>
+						</View>
+					)}
 				</View>
 			</View>
 		);
@@ -383,9 +393,9 @@ const DeliveryDetail = ({navigation, route}) => {
 				<Text style={styles.text12}>{comment.contents}</Text>
 			</View>
 		</View>
-		{comment.state === 'ACCEPTED'  && (
+		{(userInfo === comment.studentId || (comment.state === 'ACCEPTED' && type === 1)) && (
 				<View style = {styles.commentDetails}>
-					<Text style = {styles.text12}>{comment.details}</Text>
+					<Text style = {styles.text12} selectable={true}>{comment.details}</Text>
 				</View>
 		)}
 	</View>
@@ -397,7 +407,7 @@ const DeliveryDetail = ({navigation, route}) => {
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
 					<Header title="모집 글 상세" isReport={type !== 1} toId={deliveryData.studentId} postId={dId} postType={1} onPressBack={() => navigation.pop()}/>
-					<DeliveryDetailCard title={deliveryData.title} nickname={deliveryData.nickname} state={deliveryData.state} food={deliveryData.foodCode} location={deliveryData.locationCode} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents}/>
+					<DeliveryDetailCard title={deliveryData.title} nickname={deliveryData.nickname} state={deliveryData.state} food={deliveryData.foodCode} location={deliveryData.locationCode} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents} link={deliveryData.link}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
 								<View style={styles.recruiterSectionList}>

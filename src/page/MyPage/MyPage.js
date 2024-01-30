@@ -11,18 +11,20 @@ import axios from 'axios';
 import NicknameModal from "../Modal/NicknameModal";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AuthContext} from '../../../App';
+import ServiceModal from "../Modal/ServiceModal";
 
 
 const MyPage = ({navigation}) => {
   const [myData, setMyData] = useState(null);
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isNicknameModalVisible, setNicknameModalVisible] = useState(false);
+  const [isServiceModalVisible, setServiceModalVisible] = useState(false);
   const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     if(myData === null){
       fetchData();
     }
-  }, [myData,isModalVisible]);
+  }, [myData,isNicknameModalVisible, isServiceModalVisible]);
 	
 	  const fetchData = async () => {
       try {
@@ -106,7 +108,7 @@ const MyPage = ({navigation}) => {
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
                             </Pressable> 
-                            <Pressable style = {styles.myPageOption} onPress={()=> setModalVisible(true)}>
+                            <Pressable style = {styles.myPageOption} onPress={()=> setNicknameModalVisible(true)}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>닉네임 변경</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
@@ -118,7 +120,7 @@ const MyPage = ({navigation}) => {
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
                             </Pressable>  */}
-                            <Pressable style = {styles.myPageOption} onPress={() => alert('서비스 정보')}>
+                            <Pressable style = {styles.myPageOption} onPress={()=> setServiceModalVisible(true)}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>서비스 정보</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
@@ -143,15 +145,19 @@ const MyPage = ({navigation}) => {
                         </View>
                     </View>
                     <NicknameModal 
-                      isVisible={isModalVisible} 
-                      onClose={() => setModalVisible(false)} 
+                      isVisible={isNicknameModalVisible} 
+                      onClose={() => setNicknameModalVisible(false)} 
                       onSave={async () => {
                           // 이 부분에 닉네임을 저장하는 로직을 추가하세요.
                           await fetchData();
-                          setModalVisible(false);
+                          setNicknameModalVisible(false);
                           
                       }} 
-                  />
+                    />
+                    <ServiceModal 
+                      isVisible={isServiceModalVisible} 
+                      onClose={() => setServiceModalVisible(false)}
+                    />
       			</View>
     		</View>
 		</>);

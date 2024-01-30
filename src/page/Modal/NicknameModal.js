@@ -117,7 +117,7 @@ const NicknameModal = ({ isVisible, onClose, onSave }) => {
                     <Pressable style={[styles.redbuttonContainer]} onPress={onClose}>
                         <Text style={[styles.redText, styles.text13]}>취소</Text>
                     </Pressable>
-                    <Pressable style={[styles.bluebuttonContainer, styles.marginLeft3]} onPress={handleNickNameChange}>
+                    <Pressable style={[styles.bluebuttonContainer, styles.marginLeft12]} onPress={handleNickNameChange}>
                         <Text style={styles.buttonText}>변경</Text>
                     </Pressable>
                     </View>
