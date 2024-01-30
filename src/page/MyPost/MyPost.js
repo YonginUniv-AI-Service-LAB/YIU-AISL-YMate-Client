@@ -100,6 +100,7 @@ const MyPost = ({navigation}) => {
 		}
 	  };
 	  
+
 	const onRefresh = useCallback(() => {
 		setRefreshing(true)
 		setRefreshing(false)

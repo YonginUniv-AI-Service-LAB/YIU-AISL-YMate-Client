@@ -62,34 +62,31 @@ const DeliveryDetail = ({navigation, route}) => {
 		}, [refreshing])
 	  );
 
-	const fetchDeliveryData = async () => {
-        const userInfo = await getUserInfo(); // 예시: getUserInfo가 Promise를 반환하는 경우
-        const accessTokenInfo = await getAccessTokenInfo();
-        const response = await axios.post(`${API_URL}/delivery/detail`,
-          {
-            dId : dId,
-          }, {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [deliverydetail] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-                
-                setDeliveryData(res.data);
-				setType(userInfo === res.data.studentId ? 1 : 2);
-				setCommentData(res.data.comment);
-				setUserInfo(userInfo);
-                console.log(deliveryData)
-                // deliverydetail로 데이터를 전달하며 이동
-              }
-        }).catch((error) => {
-          console.log('>>> [deliverydetail] 🤬 ERROR', error);
-          alert('삭제됐거나 존재하지 않는 글입니다.');
-		  navigation.goBack();
-        });
-    }
+	  const fetchDeliveryData = async () => {
+		const userInfo = await getUserInfo(); // 예시: getUserInfo가 Promise를 반환하는 경우
+		const data = { dId: dId };
+		try {
+		  const response = await callApi(`${API_URL}/delivery/detail`, 'post', data);
+		  console.log('>>> [deliverydetail] ✅ SUCCESS', response.data);
+		  if (response.status === 200) {
+			setDeliveryData(response.data);
+			setType(userInfo === response.data.studentId ? 1 : 2);
+			setCommentData(response.data.comment);
+			setUserInfo(userInfo);
+			console.log(deliveryData)
+			// deliverydetail로 데이터를 전달하며 이동
+		  }
+		} catch (error) {
+		  if (error.message === 'Session expired. Please login again.') {
+			Alert.alert('세션에 만료되었습니다.')
+			logout();
+		  } else {
+			console.log('>>> [deliverydetail] 🤬 ERROR', error);
+			alert('삭제됐거나 존재하지 않는 글입니다.');
+			navigation.goBack();
+		  }
+		}
+	  };
 	if (deliveryData === null) {
         return (
 			<View style={styles.loadingContainer}>
@@ -348,7 +345,7 @@ const DeliveryDetail = ({navigation, route}) => {
 	// 후후 ~@~
     const commentCard = CommentData.map((comment) => 
 	comment.state !== 'CANCELED' && (
-	<View>
+	<View key={comment.dcId}>
 		<View style={[styles.commentContainer, { borderColor: comment.state === 'REJECTED' ? Color.colorGray_100 : '#22A2F2'}]}>
 			<View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
 				<Text style={styles.text16}>{comment.nickname}</Text>
