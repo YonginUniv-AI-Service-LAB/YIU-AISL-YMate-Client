@@ -391,6 +391,7 @@ const TaxiDetail = ({navigation, route}) => {
 			<Text style={styles.text16}>{comment.nickname}</Text>
 			<View style={styles.rowView}>
 				<Text style={styles.text16}>인원 : {comment.number} </Text>
+				{/* 작성자 + 대기중 */}
 				{comment.state === 'WAITING' && type === 1 &&(
 				<>
 					<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleAcceptRequest(comment.tcId)}>
@@ -401,6 +402,7 @@ const TaxiDetail = ({navigation, route}) => {
 					</Pressable>
 				</>
 				)}
+				{/* 신청자 + 대기중 */}
 				{comment.state === 'WAITING' && comment.studentId === userInfo &&(
 				<>
 					<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleCancelRequest(comment.tcId)}>
@@ -408,11 +410,13 @@ const TaxiDetail = ({navigation, route}) => {
 					</Pressable>
 				</>
 				)}
+				{/* 수락됨 */}
 				{comment.state === 'ACCEPTED' && (
 				<View style={[styles.realbluebuttonContainer, styles.shadow]}>
 					<Text style={styles.realblueText}>수락됨</Text>
 				</View>
 				)}
+				{/* 거절됨 */}
 				{comment.state ===  'REJECTED'&& (
 				<View style={[styles.redbuttonContainer,styles.shadow]}>
 					<Text style={[styles.redText,styles.text13]}>거절됨</Text>
@@ -424,10 +428,10 @@ const TaxiDetail = ({navigation, route}) => {
 			<Text style={styles.text12}>{comment.contents}</Text>
 		</View>
 	</View>
-		{comment.state === 'ACCEPTED'  && (
-				<View style = {styles.commentDetails}>
-					<Text style = {styles.text12}>{comment.details}</Text>
-				</View>
+		{(userInfo === comment.studentId || (comment.state === 'ACCEPTED' && type === 1)) && (
+			<View style={styles.commentDetails}>
+				<Text style={styles.text12} selectable={true}>{comment.details}</Text>
+			</View>
 		)}
 	</View>
 	)

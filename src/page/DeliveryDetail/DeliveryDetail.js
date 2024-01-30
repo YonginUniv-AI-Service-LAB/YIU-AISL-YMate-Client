@@ -76,7 +76,7 @@ const DeliveryDetail = ({navigation, route}) => {
             if (res.status === 200) {
                 
                 setDeliveryData(res.data);
-				setType(userInfo === res.data.studentId ? 1 : 2);
+				setType(userInfo === res.data.studentId ? 1 : 2); // 1: 작성자, 2: 작성자 아님
 				setCommentData(res.data.comment);
 				setUserInfo(userInfo);
                 console.log(deliveryData)
@@ -285,49 +285,47 @@ const DeliveryDetail = ({navigation, route}) => {
 						<Text style={[styles.centerText18, styles.marginLeft3]}>같이 배달</Text>
 					</View>
 					{type === 1 && ( //type이 1일 때만 마감하기 버튼 렌더링 type 1은 자기글
-					<View style={styles.rowView}>
+						<View style={styles.rowView}>
 							<Pressable style={[styles.redContainer,styles.marginRight6]} onPress={() => {
-									Alert.alert(
-										"마감하기",
-										"마감하시겠습니까?",
-										[
-										{
-											text: "취소",
-											style: "cancel",
-										},
-										{
-											text: "확인",
-											onPress: async () => handleFinishDetail(),
-										},
-										],
-										{ cancelable: false }
-									);
-									}}
-								>
+								Alert.alert(
+									"마감하기",
+									"마감하시겠습니까?",
+									[
+									{
+										text: "취소",
+										style: "cancel",
+									},
+									{
+										text: "확인",
+										onPress: async () => handleFinishDetail(),
+									},
+									],
+									{ cancelable: false }
+								);
+								}}>
 								<Text style={styles.redText}>마감하기</Text>
 							</Pressable>
 							<Pressable style={styles.redContainer} onPress={() => {
-									Alert.alert(
-										"삭제하기",
-										"삭제하시겠습니까?",
-										[
-										{
-											text: "취소",
-											style: "cancel",
-										},
-										{
-											text: "확인",
-											onPress: async () => handleDeleteDetail(),
-										},
-										],
-										{ cancelable: false }
-									);
-									}}
-								>
+								Alert.alert(
+									"삭제하기",
+									"삭제하시겠습니까?",
+									[
+									{
+										text: "취소",
+										style: "cancel",
+									},
+									{
+										text: "확인",
+										onPress: async () => handleDeleteDetail(),
+									},
+									],
+									{ cancelable: false }
+								);
+								}}>
 								<Text style={styles.redText}>삭제하기</Text>
 							</Pressable>
-					</View>
-						)}
+						</View>
+					)}
 				</View>
 				<View style={[styles.bigCard, styles.padding10]}>
                 <FoodImage food={food} />
@@ -366,52 +364,57 @@ const DeliveryDetail = ({navigation, route}) => {
 
 	// 후후 ~@~
     const commentCard = CommentData.map((comment) => 
-	comment.state !== 'CANCELED' && (
-	<View>
-		<View style={[styles.commentContainer, { borderColor: comment.state === 'REJECTED' ? Color.colorGray_100 : '#22A2F2'}]}>
-			<View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
-				<Text style={styles.text16}>{comment.nickname}</Text>
-				<View style={styles.rowView}>
-					{comment.state === 'WAITING' && type === 1 &&(
-					<>
-						<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleAcceptRequest(comment.dcId)}>
-						<Text style={styles.buttonText}>수락</Text>
-						</Pressable>
-						<Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={async () => handleRejectRequest(comment.dcId)}>
-						<Text style={[styles.redText,styles.text13]}>거절</Text>
-						</Pressable>
-					</>
-					)}
-					{comment.state === 'WAITING' && comment.studentId === userInfo &&(
-					<>
-						<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleCancelRequest(comment.dcId)}>
-							<Text style={styles.buttonText}>취소</Text>
-						</Pressable>
-					</>
-					)}
-					{comment.state === 'ACCEPTED' && (
-					<View style={[styles.realbluebuttonContainer, styles.shadow]}>
-						<Text style={styles.realblueText}>수락됨</Text>
+		// 취소 상태가 아니라면
+		comment.state !== 'CANCELED' && (
+			<View>
+				<View style={[styles.commentContainer, { borderColor: comment.state === 'REJECTED' ? Color.colorGray_100 : '#22A2F2'}]}>
+					<View style={[styles.commentheader, styles.spacebetween, styles.rowView, styles.margintop3]}>
+						<Text style={styles.text16}>{comment.nickname}</Text>
+						<View style={styles.rowView}>
+							{/* 작성자 + 대기중 */}
+							{comment.state === 'WAITING' && type === 1 &&(
+							<>
+								<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleAcceptRequest(comment.dcId)}>
+								<Text style={styles.buttonText}>수락</Text>
+								</Pressable>
+								<Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={async () => handleRejectRequest(comment.dcId)}>
+								<Text style={[styles.redText,styles.text13]}>거절</Text>
+								</Pressable>
+							</>
+							)}
+							{/* 신청자 + 대기중 */}
+							{comment.state === 'WAITING' && comment.studentId === userInfo &&(
+							<>
+								<Pressable style={[styles.bluebuttonContainer]} onPress={async () => handleCancelRequest(comment.dcId)}>
+									<Text style={styles.buttonText}>취소</Text>
+								</Pressable>
+							</>
+							)}
+							{/* 수락됨 */}
+							{comment.state === 'ACCEPTED' && (
+							<View style={[styles.realbluebuttonContainer, styles.shadow]}>
+								<Text style={styles.realblueText}>수락됨</Text>
+							</View>
+							)}
+							{/* 거절됨 */}
+							{comment.state ===  'REJECTED'&& (
+							<View style={[styles.redbuttonContainer,styles.shadow]}>
+								<Text style={[styles.redText,styles.text13]}>거절됨</Text>
+							</View>
+							)}
+						</View>
 					</View>
-					)}
-					{comment.state ===  'REJECTED'&& (
-					<View style={[styles.redbuttonContainer,styles.shadow]}>
-						<Text style={[styles.redText,styles.text13]}>거절됨</Text>
+					<View style={styles.commentheader}>
+						<Text style={styles.text12}>{comment.contents}</Text>
 					</View>
-					)}
 				</View>
+				{(userInfo === comment.studentId || (comment.state === 'ACCEPTED' && type === 1)) && (
+					<View style={styles.commentDetails}>
+						<Text style={styles.text12} selectable={true}>{comment.details}</Text>
+					</View>
+				)}
 			</View>
-			<View style={styles.commentheader}>
-				<Text style={styles.text12}>{comment.contents}</Text>
-			</View>
-		</View>
-		{comment.state === 'ACCEPTED'  && (
-				<View style = {styles.commentDetails}>
-					<Text style = {styles.text12}>{comment.details}</Text>
-				</View>
-		)}
-	</View>
-	)
+		)
     )
 
   	return (
@@ -419,7 +422,7 @@ const DeliveryDetail = ({navigation, route}) => {
     		<SafeAreaView style={styles.mainScreen}>
       			<View style={styles.mainBackground}>
 					<Header title="모집 글 상세" isReport={type !== 1} toId={deliveryData.studentId} postId={dId} postType={1} onPressBack={() => navigation.pop()}/>
-                    	<DeliveryDetailCard title={deliveryData.title} nickname={deliveryData.nickname} state={deliveryData.state} food={deliveryData.foodCode} location={deliveryData.locationCode} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents}/>
+					<DeliveryDetailCard title={deliveryData.title} nickname={deliveryData.nickname} state={deliveryData.state} food={deliveryData.foodCode} location={deliveryData.locationCode} createAt={deliveryData.createdAt} due={deliveryData.due} contents={deliveryData.contents}/>
 					<View style={styles.mainBody}>                        
 						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
 								<View style={styles.recruiterSectionList}>
