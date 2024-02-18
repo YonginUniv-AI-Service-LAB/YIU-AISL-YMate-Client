@@ -64,8 +64,7 @@ const MyPost = ({navigation}) => {
 		try {
 		  const response = await callApi(`${API_URL}/user/post`, 'get');
 		  const data = response.data;
-		  setMyPostData(data);
-	  
+		  setMyPostData(data);		  
 		  setFilteredData(data);
 		} catch (error) {
 		  if (error.message === 'Session expired. Please login again.') {

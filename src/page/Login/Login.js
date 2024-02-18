@@ -68,7 +68,7 @@ const Login = ({ navigation, route, onLogin }) => {
             <View style={[styles.rowView, styles.margintop11]} >
               <Text style={[styles.text15, styles.flex03]}>학번</Text>
               <TextInput
-                style={[styles.loginInput]}
+                style={[styles.loginInput, styles.text15]}
                 value={studentId}
                 onChangeText={(text) => {
                   setStudentId(text);
@@ -78,7 +78,7 @@ const Login = ({ navigation, route, onLogin }) => {
             <View style={[styles.rowView, styles.margintop11]} >
               <Text style={[styles.text15, styles.flex03]}>비밀번호</Text>
               <TextInput
-                style={[styles.loginInput]}
+                style={[styles.loginInput,styles.text15]}
                 value={pwd}
                 onChangeText={(text) => {
                   setpwd(text);

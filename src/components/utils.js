@@ -46,46 +46,46 @@ export const getRefreshTokenInfo = async () => {
   }
 };
 
-export const callApi = async (url, method, data) => {
-  try {
-    const accessToken = await getAccessTokenInfo();
-    const response = await axios({
-      url,
-      method,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      data,
-    });
-    return response;
-  } catch (error) {
-    if (error.response.status === 401) {
-      // 토큰이 만료되었을 때의 처리
+export const callApi = (url, method, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
       const accessToken = await getAccessTokenInfo();
-      const refreshToken = await getRefreshTokenInfo();
-      const response = await axios.post(`${API_URL}/refresh`, {
-        accessToken: accessToken,
-        refreshToken: refreshToken 
-      },{
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        withCredentials: true,
+      const response = await axios({
+        url,
+        method,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data,
       });
-      if (response.status === 401 || response.status === 500) { // 리프레시 토큰이 만료된 경우
-        // 리프레시 토큰도 삭제
-        await AsyncStorage.removeItem('user');
-        await AsyncStorage.removeItem('accessToken');
-        await AsyncStorage.removeItem('refreshToken');
-        // 에러를 던져 상위에서 처리
-        throw new Error('Session expired. Please login again.');
+      resolve(response);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        const accessToken = await getAccessTokenInfo();
+        const refreshToken = await getRefreshTokenInfo();
+        const refreshResponse = await axios.post(`${API_URL}/refresh`, {
+          accessToken: accessToken,
+          refreshToken: refreshToken 
+        },{
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          withCredentials: true,
+        });
+
+        if (refreshResponse.status !== 200) {
+          await AsyncStorage.removeItem('user');
+          await AsyncStorage.removeItem('accessToken');
+          await AsyncStorage.removeItem('refreshToken');
+
+          reject('Session expired. Please login again.');
+        }
+        console.log("재발급");
+        const newAccessToken = refreshResponse.data.accessToken;
+        await AsyncStorage.setItem('accessToken', newAccessToken);
+        resolve(callApi(url, method, data));
+      } else {
+        reject(error);
       }
-      const newAccessToken = response.data.accessToken;
-      await AsyncStorage.setItem('accessToken', newAccessToken);
-      console.log('재발급 ㅇㅋ')
-      console.log(newAccessToken);
-      return callApi(url, method, data);
-    } else {
-      throw error;
     }
-  }
+  });
 };
