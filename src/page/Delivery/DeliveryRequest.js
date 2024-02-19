@@ -26,6 +26,7 @@ const DeliveryRequest = ({navigation,route}) => {
       setError("모든 값을 입력해주세요.");
     }
     else{
+      console.log(did);
       const data = {
         dId: did,
         contents: contents,
@@ -39,11 +40,12 @@ const DeliveryRequest = ({navigation,route}) => {
           navigation.goBack();
         }
       } catch(error) {
+        console.log(error);
         if (error.message === 'Session expired. Please login again.') {
           Alert.alert('세션에 만료되었습니다.')
-          logout();
+          await logout();
         }
-        else if (error.response && error.response.status === 409) {
+        else if (error.response && (error.response.status === 409)) {
           // 이미 신청글이 있을 경우
           setError('이미 신청글이 존재합니다.');
         }

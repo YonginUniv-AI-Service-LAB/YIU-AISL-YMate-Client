@@ -6,6 +6,7 @@ import Password from '../Password/Password';
 import axios from 'axios';
 import {styles} from "../Style"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
 
 const Login = ({ navigation, route, onLogin }) => {
   const [studentId, setStudentId] = useState('');
@@ -19,12 +20,17 @@ const Login = ({ navigation, route, onLogin }) => {
     if (!studentId || !pwd) {
       alert('아이디나 비밀번호를 입력해주세요');
     } else {
+      const fcmToken = await messaging().getToken();
+      console.log('[FCM Token] ', fcmToken);
+      console.log(`${process.env.API_URL}/login`);
+
       try {
         const response = await axios.post(
           `${API_URL}/login`,
           {
             studentId: studentId,
             pwd: pwd,
+            fcm: fcmToken
           },
           {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -68,7 +74,7 @@ const Login = ({ navigation, route, onLogin }) => {
             <View style={[styles.rowView, styles.margintop11]} >
               <Text style={[styles.text14, styles.flex03]}>학번</Text>
               <TextInput
-                style={[styles.loginInput, styles.text14]}
+                style={[styles.loginInput,styles.text14]}
                 value={studentId}
                 onChangeText={(text) => {
                   setStudentId(text);
@@ -89,7 +95,7 @@ const Login = ({ navigation, route, onLogin }) => {
             <View style={[styles.flexView,styles.margintop3]}>
               <View style = {[styles.spacebetween,styles.rowView]}>
                 <View></View>
-              <Pressable onPress={() => {navigation.navigate('Password')}}>
+              <Pressable onPress={() => {navigation.navigate(Password)}}>
                 <Text style={[styles.text11,styles.errorText]}>비밀번호를 잊으셨나요?</Text>
               </Pressable>
               </View>
@@ -99,7 +105,7 @@ const Login = ({ navigation, route, onLogin }) => {
               </Pressable>
               <View style={[styles.rowView, styles.margintop6]}>
                 <Text style={styles.text11}>아직 회원이 아니신가요? </Text>
-                <Pressable onPress={() => {navigation.navigate('Signup')}}>
+                <Pressable onPress={() => {navigation.navigate(Signup)}}>
                   <Text style={[styles.text11, styles.blueText]}>회원가입</Text>
                 </Pressable>
               </View>

@@ -61,7 +61,7 @@ export const callApi = (url, method, data) => {
       });
       resolve(response);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
+      if (error.response && error.response.status === 401 || error.response.status === 500) {
         const accessToken = await getAccessTokenInfo();
         const refreshToken = await getRefreshTokenInfo();
         const refreshResponse = await axios.post(`${API_URL}/refresh`, {
@@ -71,6 +71,8 @@ export const callApi = (url, method, data) => {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           withCredentials: true,
         });
+        console.log(refreshResponse.data.accessToken);
+        console.log("맆레쉬");
 
         if (refreshResponse.status !== 200) {
           await AsyncStorage.removeItem('user');

@@ -8,7 +8,7 @@ import { getAccessTokenInfo, callApi } from './src/components/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-
+import PushNotification from 'react-native-push-notification';
 import Login from './src/page/Login/Login';
 import Signup from './src/page/Signup/Signup';
 import DeliveryRecruit from './src/page/Delivery/DeliveryRecruit';
@@ -39,6 +39,14 @@ function App () {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log("Foreground Push: ", remoteMessage);
+      PushNotification.localNotification({
+        title: remoteMessage.notification.title,  // 알림의 제목
+        message: remoteMessage.notification.body,  // 알림의 내용
+        smallIcon: 'ic_notification',  // 알림의 아이콘
+        largeIcon: 'ic_launcher',  // 알림의 큰 아이콘
+        color: 'blue',  // 알림의 색상
+        soundName: 'default',  // 알림의 사운드
+      });
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
     return unsubscribe;

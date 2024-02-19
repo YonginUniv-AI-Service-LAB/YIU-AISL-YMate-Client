@@ -15,6 +15,11 @@ public class MainActivity extends ReactActivity {
     return "LikeYong";
   }
 
+  @Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+  }
+
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. There the RootView is created and
    * you can specify the rendered you wish to use (Fabric or the older renderer).

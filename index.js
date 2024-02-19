@@ -11,7 +11,6 @@ import PushNotification from "react-native-push-notification";
 
 // import {API_URL} from '@env'
 // API_URL = API_URL;
-API_URL = "http://172.30.1.32:8080"
 axios.defaults.withCredentials = true;
 
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
