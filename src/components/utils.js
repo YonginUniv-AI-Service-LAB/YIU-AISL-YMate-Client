@@ -76,7 +76,6 @@ export const callApi = (url, method, data) => {
           await AsyncStorage.removeItem('user');
           await AsyncStorage.removeItem('accessToken');
           await AsyncStorage.removeItem('refreshToken');
-
           reject('Session expired. Please login again.');
         }
         console.log("재발급");

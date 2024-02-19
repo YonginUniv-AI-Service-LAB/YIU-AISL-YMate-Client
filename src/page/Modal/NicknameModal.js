@@ -3,7 +3,7 @@ import { Modal, View, Text, TextInput, Pressable, Alert, Keyboard, TouchableWith
 import { styles } from '../Style';
 import { ErrorText } from '../../components';
 import axios from 'axios';
-import { getAccessTokenInfo } from '../../components/utils';
+import { getAccessTokenInfo ,callApi} from '../../components/utils';
 import {AuthContext} from '../../../App';
 
 const NicknameModal = ({ isVisible, onClose, onSave }) => {

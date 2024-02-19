@@ -6,6 +6,9 @@ import { enableScreens } from 'react-native-screens';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { getAccessTokenInfo, callApi } from './src/components/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+
 import Login from './src/page/Login/Login';
 import Signup from './src/page/Signup/Signup';
 import DeliveryRecruit from './src/page/Delivery/DeliveryRecruit';
@@ -21,11 +24,27 @@ import TaxiDetail from './src/page/TaxiDetail/TaxiDetail';
 import TabStackScreen from './src/page/BottomTab/TabStackScreen';
 import Location from './src/page/Location/Location';
 import NoticeCreate from './src/page/Notification/NoticeCreate';
+
 const Stack = createStackNavigator();
 
 export const AuthContext = createContext();
 
-const App = () => {
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('[Background Remote Message]', remoteMessage);
+});
+
+
+function App () {
+ 
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log("Foreground Push: ", remoteMessage);
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+    return unsubscribe;
+  }, []);
+
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -35,6 +54,10 @@ const App = () => {
       if (isLoggedIn === 'true') {
         setIsLoggedIn(true);
       } else {
+        await AsyncStorage.removeItem('user');
+        await AsyncStorage.removeItem('accessToken');
+        await AsyncStorage.removeItem('refreshToken');
+        await AsyncStorage.setItem('isLoggedIn', 'false');
         setIsLoggedIn(false);
       }
     };

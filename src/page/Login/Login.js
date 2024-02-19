@@ -66,9 +66,9 @@ const Login = ({ navigation, route, onLogin }) => {
           </View>
           <View style={styles.loginSection}>
             <View style={[styles.rowView, styles.margintop11]} >
-              <Text style={[styles.text15, styles.flex03]}>학번</Text>
+              <Text style={[styles.text14, styles.flex03]}>학번</Text>
               <TextInput
-                style={[styles.loginInput, styles.text15]}
+                style={[styles.loginInput, styles.text14]}
                 value={studentId}
                 onChangeText={(text) => {
                   setStudentId(text);
@@ -76,9 +76,9 @@ const Login = ({ navigation, route, onLogin }) => {
               />
             </View>
             <View style={[styles.rowView, styles.margintop11]} >
-              <Text style={[styles.text15, styles.flex03]}>비밀번호</Text>
+              <Text style={[styles.text14, styles.flex03]}>비밀번호</Text>
               <TextInput
-                style={[styles.loginInput,styles.text15]}
+                style={[styles.loginInput,styles.text14]}
                 value={pwd}
                 onChangeText={(text) => {
                   setpwd(text);
@@ -89,7 +89,7 @@ const Login = ({ navigation, route, onLogin }) => {
             <View style={[styles.flexView,styles.margintop3]}>
               <View style = {[styles.spacebetween,styles.rowView]}>
                 <View></View>
-              <Pressable onPress={() => {navigation.navigate(Password)}}>
+              <Pressable onPress={() => {navigation.navigate('Password')}}>
                 <Text style={[styles.text11,styles.errorText]}>비밀번호를 잊으셨나요?</Text>
               </Pressable>
               </View>
@@ -99,7 +99,7 @@ const Login = ({ navigation, route, onLogin }) => {
               </Pressable>
               <View style={[styles.rowView, styles.margintop6]}>
                 <Text style={styles.text11}>아직 회원이 아니신가요? </Text>
-                <Pressable onPress={() => {navigation.navigate(Signup)}}>
+                <Pressable onPress={() => {navigation.navigate('Signup')}}>
                   <Text style={[styles.text11, styles.blueText]}>회원가입</Text>
                 </Pressable>
               </View>
