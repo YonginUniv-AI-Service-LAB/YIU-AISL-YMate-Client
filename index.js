@@ -8,7 +8,7 @@ import {name as appName} from './app.json';
 import axios from 'axios';
 // import messaging from '@react-native-firebase/messaging';
 import PushNotification from "react-native-push-notification";
-
+API_URL="http://172.30.1.32:8080"
 // import {API_URL} from '@env'
 // API_URL = API_URL;
 axios.defaults.withCredentials = true;
@@ -62,6 +62,7 @@ PushNotification.configure({
      *     requestPermissions: Platform.OS === 'ios'
      */
     requestPermissions: true,
+    smallIcon: "src_assets_images_ymate_logo",
   });
 
 // Register background handler

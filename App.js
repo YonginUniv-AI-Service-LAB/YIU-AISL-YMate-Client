@@ -24,6 +24,7 @@ import TaxiDetail from './src/page/TaxiDetail/TaxiDetail';
 import TabStackScreen from './src/page/BottomTab/TabStackScreen';
 import Location from './src/page/Location/Location';
 import NoticeCreate from './src/page/Notification/NoticeCreate';
+import {requestNotifications} from 'react-native-permissions';
 
 const Stack = createStackNavigator();
 
@@ -35,18 +36,18 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
 
 
 function App () {
- 
+  
+  useEffect(()=>{
+    //최초 시작 시 푸시알림 권한 얻기
+    requestNotifications(['alert', 'sound']).then(({status, settings}) => {
+      console.log(status, settings);
+  });
+},[])
+
+
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log("Foreground Push: ", remoteMessage);
-      PushNotification.localNotification({
-        title: remoteMessage.notification.title,  // 알림의 제목
-        message: remoteMessage.notification.body,  // 알림의 내용
-        smallIcon: 'ic_notification',  // 알림의 아이콘
-        largeIcon: 'ic_launcher',  // 알림의 큰 아이콘
-        color: 'blue',  // 알림의 색상
-        soundName: 'default',  // 알림의 사운드
-      });
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
     return unsubscribe;
