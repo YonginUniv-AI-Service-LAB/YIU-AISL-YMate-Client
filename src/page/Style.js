@@ -885,7 +885,8 @@ export const styles = StyleSheet.create({
         overflow: "hidden",
     },
     alarmViewed: {
-        height: 38,
+        // height: 38,
+        alignSelf:'stretch',
         width: 6,
     },
     alarmContentBox: {
