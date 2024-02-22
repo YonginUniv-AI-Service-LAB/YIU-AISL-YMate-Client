@@ -167,9 +167,9 @@ const TaxiRecruit = ({navigation, route}) => {
         console.log('>>> [taxiRecruit] ✅ SUCCESS', response.data);
         if (response.status === 200) {
           if (tid) {
-            alert('택시 글 수정 완료');
+            Alert.alert('택시 글 수정 완료');
           } else {
-            alert('택시 글 작성 완료');
+            Alert.alert('택시 글 작성 완료');
           }
           navigation.goBack();
         }

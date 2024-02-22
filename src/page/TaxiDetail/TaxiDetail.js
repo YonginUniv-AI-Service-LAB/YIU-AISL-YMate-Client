@@ -54,13 +54,13 @@ const TaxiDetail = ({navigation, route}) => {
 			console.log(taxiData)
 		  }
 		} catch (error) {
-			if (error.message === 'Session expired. Please login again.') {
+			if (error === 'Session expired. Please login again.') {
 				Alert.alert('세션에 만료되었습니다.')
 				logout();
 			  }
 			  else{
 		  		console.log('>>> [taxidetail] 🤬 ERROR', error);
-		  		alert('삭제됐거나 존재하지 않는 글입니다.');
+		  		Alert.alert('삭제됐거나 존재하지 않는 글입니다.');
 		  		navigation.goBack();
 			  }
 		}
@@ -77,7 +77,7 @@ const TaxiDetail = ({navigation, route}) => {
 
 	const handleButtonPress  = async () => { 
 		if(isPastDue || taxiData.state ==='FINISHED'){
-			alert('이미 마감된 글입니다.');
+			Alert.alert('이미 마감된 글입니다.');
 		}
 		else if(type === 1){
 			navigation.navigate('TaxiRecruit', {
@@ -99,7 +99,7 @@ const TaxiDetail = ({navigation, route}) => {
 
 	const handleAcceptRequest = async (tcId) => {
 		if(isPastDue || taxiData.state === 'FINISHED'){
-		  alert('이미 마감된 글입니다.');
+		  Alert.alert('이미 마감된 글입니다.');
 		} else {
 		  try {
 			const data = { tcId: tcId };
@@ -110,7 +110,7 @@ const TaxiDetail = ({navigation, route}) => {
 			  fetchTaxiData();
 			}
 		  } catch (error) {
-			if (error.message === 'Session expired. Please login again.') {
+			if (error=== 'Session expired. Please login again.') {
 				Alert.alert('세션에 만료되었습니다.')
 				logout();
 			}
@@ -126,7 +126,7 @@ const TaxiDetail = ({navigation, route}) => {
 
 	  const handleRejectRequest = async (tcId) => {
 		if(isPastDue || taxiData.state === 'FINISHED'){
-		  alert('이미 마감된 글입니다.');
+		  Alert.alert('이미 마감된 글입니다.');
 		} else {
 		  try {
 			const data = { tcId: tcId };
@@ -137,7 +137,7 @@ const TaxiDetail = ({navigation, route}) => {
 			  fetchTaxiData();
 			}
 		  } catch (error) {
-			if (error.message === 'Session expired. Please login again.') {
+			if (error=== 'Session expired. Please login again.') {
 				Alert.alert('세션에 만료되었습니다.')
 				logout();
 			  }
@@ -161,7 +161,7 @@ const TaxiDetail = ({navigation, route}) => {
 			fetchTaxiData();
 		  }
 		} catch (error) {
-			if (error.message === 'Session expired. Please login again.') {
+			if (error === 'Session expired. Please login again.') {
 				Alert.alert('세션에 만료되었습니다.')
 				logout();
 			}
@@ -175,7 +175,7 @@ const TaxiDetail = ({navigation, route}) => {
 
 	  const handleFinishDetail = async() => {
 		if(isPastDue || taxiData.state === 'FINISHED'){
-		  alert('이미 마감된 글입니다.');
+		  Alert.alert('이미 마감된 글입니다.');
 		} else {
 		  try {
 			const data = { tId: tId };
@@ -186,7 +186,7 @@ const TaxiDetail = ({navigation, route}) => {
 			  navigation.goBack();
 			}
 		  } catch (error) {
-			if (error.message === 'Session expired. Please login again.') {
+			if (error === 'Session expired. Please login again.') {
 				Alert.alert('세션에 만료되었습니다.')
 				logout();
 			} else if (error.response && error.response.status === 409) {
@@ -209,7 +209,7 @@ const TaxiDetail = ({navigation, route}) => {
 			navigation.goBack();
 		  }
 		} catch (error) {
-		  if (error.message === 'Session expired. Please login again.') {
+		  if (error === 'Session expired. Please login again.') {
 			Alert.alert('세션에 만료되었습니다.')
 				logout();
 		  } else if (error.response && error.response.status === 409) {

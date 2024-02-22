@@ -158,10 +158,10 @@ const DeliveryRecruit = ({navigation, route}) => {
         if (response.status === 200) {
           if (did) {
             // did가 존재하는 경우 (수정 완료)
-            alert('배달 글 수정 완료');
+            Alert.alert('배달 글 수정 완료');
           } else {
             // did가 존재하지 않는 경우 (작성 완료)
-            alert('배달 글 작성 완료');
+            Alert.alert('배달 글 작성 완료');
           }
           navigation.goBack();
         }

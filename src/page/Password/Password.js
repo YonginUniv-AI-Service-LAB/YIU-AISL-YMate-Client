@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Pressable, SafeAreaView, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image,Alert, Pressable, SafeAreaView, TouchableOpacity} from 'react-native';
 import { Dimensions } from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -145,7 +145,7 @@ const Password = ({ navigation }) => {
           }).then((res) => {
             console.log('>>> [changepwd] ✅ SUCCESS', res.data);
             if (res.status === 200) {
-              alert('비밀번호 재설정 완료.');
+              Alert.alert('비밀번호 재설정 완료.');
               navigation.goBack();
             }
         }).catch((error) => {

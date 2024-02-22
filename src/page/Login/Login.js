@@ -18,7 +18,7 @@ const Login = ({ navigation, route, onLogin }) => {
   const handleLogin = async () => {
 
     if (!studentId || !pwd) {
-      alert('아이디나 비밀번호를 입력해주세요');
+      Alert.alert('아이디나 비밀번호를 입력해주세요');
     } else {
       const fcmToken = await messaging().getToken();
       console.log('[FCM Token] ', fcmToken)

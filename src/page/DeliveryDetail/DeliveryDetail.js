@@ -37,7 +37,7 @@ const DeliveryDetail = ({navigation, route}) => {
 
 	const handleButtonPress  = async () => { 
 		if(isPastDue || deliveryData.state ==='FINISHED'){
-			alert('이미 마감된 글입니다.');
+			Alert.alert('이미 마감된 글입니다.');
 		}
 		else if(type === 1){
 			navigation.navigate('DeliveryRecruit', {
@@ -81,12 +81,12 @@ const DeliveryDetail = ({navigation, route}) => {
 			}
 		  }
 		} catch (error) {
-		  if (error.message === 'Session expired. Please login again.') {
+		  if (error === 'Session expired. Please login again.') {
 			Alert.alert('세션에 만료되었습니다.')
 			logout();
 		  } else {
 			console.log('>>> [deliverydetail] 🤬 ERROR', error);
-			alert('삭제됐거나 존재하지 않는 글입니다.');
+			Alert.alert('삭제됐거나 존재하지 않는 글입니다.');
 			navigation.goBack();
 		  }
 		}
@@ -101,7 +101,7 @@ const DeliveryDetail = ({navigation, route}) => {
 
 	const handleAcceptRequest = async (dcId) => {
 		if(isPastDue|| deliveryData.state === 'FINISHED'){
-			alert('이미 마감된 글입니다.');
+			Alert.alert('이미 마감된 글입니다.');
 		  }
 		  else{
 			try {
@@ -113,7 +113,7 @@ const DeliveryDetail = ({navigation, route}) => {
 				fetchDeliveryData();
 			  }
 			} catch (error) {
-				if (error.message === 'Session expired. Please login again.') {
+				if (error === 'Session expired. Please login again.') {
 					Alert.alert('세션에 만료되었습니다.')
 					logout();
 				  } 
@@ -130,7 +130,7 @@ const DeliveryDetail = ({navigation, route}) => {
 
 	const handleRejectRequest = async (dcId) => {
 		if(isPastDue|| deliveryData.state === 'FINISHED'){
-			alert('이미 마감된 글입니다.');
+			Alert.alert('이미 마감된 글입니다.');
 		  }
 		  else{
 			try {
@@ -142,7 +142,7 @@ const DeliveryDetail = ({navigation, route}) => {
 				fetchDeliveryData();
 			  }
 			} catch (error) {
-				if (error.message === 'Session expired. Please login again.') {
+				if (error === 'Session expired. Please login again.') {
 					Alert.alert('세션에 만료되었습니다.')
 					logout();
 				  } 
@@ -167,7 +167,7 @@ const DeliveryDetail = ({navigation, route}) => {
 			  fetchDeliveryData();
 			}
 		  } catch (error) {
-			if (error.message === 'Session expired. Please login again.') {
+			if (error === 'Session expired. Please login again.') {
 				Alert.alert('세션에 만료되었습니다.')
 				logout();
 			  } 
@@ -181,7 +181,7 @@ const DeliveryDetail = ({navigation, route}) => {
 
 	const handleFinishDetail = async() => {
 		if(isPastDue || deliveryData.state === 'FINISHED'){
-			alert('이미 마감된 글입니다.');
+			Alert.alert('이미 마감된 글입니다.');
 		  }
 		  else{
 			try {
@@ -193,7 +193,7 @@ const DeliveryDetail = ({navigation, route}) => {
 				navigation.goBack();
 			  }
 			} catch (error) {
-				if (error.message === 'Session expired. Please login again.') {
+				if (error === 'Session expired. Please login again.') {
 					Alert.alert('세션에 만료되었습니다.')
 					logout();
 				  } 
@@ -217,7 +217,7 @@ const DeliveryDetail = ({navigation, route}) => {
 			  navigation.goBack();
 			}
 		  } catch (error) {
-			if (error.message === 'Session expired. Please login again.') {
+			if (error === 'Session expired. Please login again.') {
 				Alert.alert('세션에 만료되었습니다.')
 				logout();
 			  } 

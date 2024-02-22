@@ -47,11 +47,11 @@ const TaxiRequest = ({navigation, route}) => {
         const response = await callApi(`${process.env.API_URL}/taxi/apply`, 'post', data);
         console.log('>>> [taxiRequest] ✅ SUCCESS', response.data);
         if (response.status === 200) {
-          alert('신청 글 작성 완료');
+          Alert.alert('신청 글 작성 완료');
           navigation.goBack();
         }
       } catch (error) {
-        if (error.message === 'Session expired. Please login again.') {
+        if (error === 'Session expired. Please login again.') {
           Alert.alert('세션에 만료되었습니다.')
 				  logout();
         }

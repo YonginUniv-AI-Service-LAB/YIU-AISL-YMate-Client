@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Pressable, SafeAreaView, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, Alert,Pressable, SafeAreaView, TouchableOpacity} from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
@@ -191,7 +191,7 @@ const Signup = ({ navigation }) => {
           }).then((res) => {
             console.log('>>> [signup] ✅ SUCCESS', res.data);
             if (res.status === 200) {
-              alert('회원가입이 완료되었습니다.');
+              Alert.alert('회원가입이 완료되었습니다.');
               navigation.goBack();
             }
         }).catch((error) => {

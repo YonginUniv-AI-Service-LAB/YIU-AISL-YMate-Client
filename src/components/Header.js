@@ -28,7 +28,7 @@ const Header = ({ title = "default", isReport = false, toId,postId, postType, on
         Alert.alert("신고 완료");
       }
     } catch (error) {
-      if (error.message === 'Session expired. Please login again.') {
+      if (error === 'Session expired. Please login again.') {
         Alert.alert('세션에 만료되었습니다.')
         logout();
       } else if (error.response && error.response.status === 409) {

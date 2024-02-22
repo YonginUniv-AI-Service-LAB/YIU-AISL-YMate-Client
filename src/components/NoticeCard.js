@@ -46,7 +46,7 @@ const NoticeCard = ({noticeId, title, contents, updatedAt}) => {
             Alert.alert("삭제 완료");
           }
         } catch (error) {
-            if (error.message === 'Session expired. Please login again.') {
+            if (error === 'Session expired. Please login again.') {
                 Alert.alert('세션에 만료되었습니다.')
                 logout();
               } else if (error.response && error.response.status === 404) {

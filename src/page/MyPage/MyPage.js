@@ -35,8 +35,8 @@ const MyPage = ({navigation}) => {
           setMyData(response.data);
         }
       } catch (error) {
-        console.log(error.message);
-        if (error.message === 'Session expired. Please login again.') {
+        console.log(error);
+        if (error === 'Session expired. Please login again.') {
           Alert.alert('세션에 만료되었습니다.')
 			    logout();
         }
