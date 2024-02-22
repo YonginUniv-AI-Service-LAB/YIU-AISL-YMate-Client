@@ -23,8 +23,8 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
         return () => clearInterval(interval)
     }, [])
 
-    let dueDate = moment(due);
-    let minutesDiff = moment.utc(dueDate).diff(moment.utc(now), 'minutes');
+    let dueDate = moment.tz(due, 'Asia/Seoul');
+    let minutesDiff =  dueDate.diff(now, 'minutes');
     let isPastDue = minutesDiff < 0 ? 1 : 0; 
     let dueStatusText;
     if (isPastDue || state === 'FINISHED') {
@@ -38,7 +38,7 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
         }
     }
     const dueStatusStyle = isPastDue || state === 'FINISHED' ? { color: 'red' } : {};
-
+    
     const handleTaxiCard = async () => {
         navigation.navigate('TaxiDetail', {tId, state})
     }

@@ -272,9 +272,9 @@ const TaxiDetail = ({navigation, route}) => {
             return () => clearInterval(interval);
         }, []);
 
-        let dueDate = moment(due);
+        let dueDate = moment.tz(due, 'Asia/Seoul');
         setIsPastDue(now.isAfter(dueDate));
-        let minutesDiff = Math.abs(moment.utc(dueDate).diff(moment.utc(now), 'minutes')); 
+        let minutesDiff =  dueDate.diff(now, 'minutes');
         let dueStatusText;
         if (isPastDue || state === 'FINISHED') {
             dueStatusText = "마감";

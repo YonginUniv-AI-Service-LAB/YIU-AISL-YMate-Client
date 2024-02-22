@@ -25,8 +25,8 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
         }, 60000)
         return () => clearInterval(interval)
     }, [])
-    let dueDate = moment(due);
-    let minutesDiff = moment.utc(dueDate).diff(moment.utc(now), 'minutes');
+    let dueDate = moment.tz(due, 'Asia/Seoul');
+    let minutesDiff =  dueDate.diff(now, 'minutes');
     let isPastDue = minutesDiff < 0 ? 1 : 0; 
     let dueStatusText;
     if (isPastDue || state === 'FINISHED') {
