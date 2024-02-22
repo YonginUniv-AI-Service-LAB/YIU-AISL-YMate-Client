@@ -27,7 +27,7 @@ const NicknameModal = ({ isVisible, onClose, onSave }) => {
         } else if(nickNameCheckSuccess){
           try {
             const data = { nickname: nickname };
-            const response = await callApi(`${API_URL}/user/changenick`, 'post', data);
+            const response = await callApi(`${process.env.API_URL}/user/changenick`, 'post', data);
             console.log('>>> [nickchange] ✅ SUCCESS', response.data);
             if (response.status === 200) {
               Alert.alert('닉네임이 변경되었습니다.');
@@ -61,7 +61,7 @@ const NicknameModal = ({ isVisible, onClose, onSave }) => {
             setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
             setNickNameCheckSuccess('');
           } else {
-            const response = await axios.post(`${API_URL}/nickcheck`,
+            const response = await axios.post(`${process.env.API_URL}/nickcheck`,
               { nickname: nickname },
               {
                 headers: {"Content-Type": "application/x-www-form-urlencoded"},

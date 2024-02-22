@@ -42,7 +42,7 @@ const TopMenu = () => {
     
     const fetchData = async () => {
         try {
-            const response = await callApi(`${API_URL}/user/push`, 'get');
+            const response = await callApi(`${process.env.API_URL}/user/push`, 'get');
             const data = response.data;
             setAlarmData(data);
             // console.log('fetchAlarmData:', data)

@@ -41,7 +41,7 @@ const NoticeCard = ({noticeId, title, contents, updatedAt}) => {
           const postData = {
             noticeId: noticeId,
           };
-          const response = await callApi(`${API_URL}/notice/delete`, 'post', postData);
+          const response = await callApi(`${process.env.API_URL}/notice/delete`, 'post', postData);
           if (response.status === 200) {
             Alert.alert("삭제 완료");
           }

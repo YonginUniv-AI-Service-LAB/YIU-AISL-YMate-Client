@@ -66,7 +66,7 @@ const DeliveryDetail = ({navigation, route}) => {
 		const userInfo = await getUserInfo(); // 예시: getUserInfo가 Promise를 반환하는 경우
 		const data = { dId: dId };
 		try {
-		  const response = await callApi(`${API_URL}/delivery/detail`, 'post', data);
+		  const response = await callApi(`${process.env.API_URL}/delivery/detail`, 'post', data);
 		  console.log('>>> [deliverydetail] ✅ SUCCESS', response.data);
 		  if (response.status === 200) {
 			setDeliveryData(response.data);
@@ -106,7 +106,7 @@ const DeliveryDetail = ({navigation, route}) => {
 		  else{
 			try {
 			  const data = { dcId: dcId };
-			  const response = await callApi(`${API_URL}/delivery/accept`, 'post', data);
+			  const response = await callApi(`${process.env.API_URL}/delivery/accept`, 'post', data);
 			  setRefreshing(false);
 			  if (response.status === 200) {
 				Alert.alert("수락 완료");
@@ -135,7 +135,7 @@ const DeliveryDetail = ({navigation, route}) => {
 		  else{
 			try {
 			  const data = { dcId: dcId };
-			  const response = await callApi(`${API_URL}/delivery/reject`, 'post', data);
+			  const response = await callApi(`${process.env.API_URL}/delivery/reject`, 'post', data);
 			  setRefreshing(false);
 			  if (response.status === 200) {
 				Alert.alert("거절 완료");
@@ -160,7 +160,7 @@ const DeliveryDetail = ({navigation, route}) => {
 	const handleCancelRequest = async (dcId) => {
 		try {
 			const data = { dcId: dcId };
-			const response = await callApi(`${API_URL}/delivery/cancel`, 'post', data);
+			const response = await callApi(`${process.env.API_URL}/delivery/cancel`, 'post', data);
 			setRefreshing(false);
 			if (response.status === 200) {
 			  Alert.alert("취소 완료");
@@ -186,7 +186,7 @@ const DeliveryDetail = ({navigation, route}) => {
 		  else{
 			try {
 			  const data = { dId: dId };
-			  const response = await callApi(`${API_URL}/delivery/finish`, 'post', data);
+			  const response = await callApi(`${process.env.API_URL}/delivery/finish`, 'post', data);
 			  setRefreshing(false);
 			  if (response.status === 200) {
 				Alert.alert("마감 완료");
@@ -210,7 +210,7 @@ const DeliveryDetail = ({navigation, route}) => {
 	const handleDeleteDetail = async() => {
 		try {
 			const data = { dId: dId };
-			const response = await callApi(`${API_URL}/delivery/delete`, 'post', data);
+			const response = await callApi(`${process.env.API_URL}/delivery/delete`, 'post', data);
 			setRefreshing(false);
 			if (response.status === 200) {
 			  Alert.alert("삭제 완료");

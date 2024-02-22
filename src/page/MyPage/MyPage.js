@@ -28,7 +28,7 @@ const MyPage = ({navigation}) => {
 	
 	  const fetchData = async () => {
       try {
-        const response = await callApi(`${API_URL}/user/mypage`, 'get');
+        const response = await callApi(`${process.env.API_URL}/user/mypage`, 'get');
         console.log('>>> [mypage] ✅ SUCCESS', response.data);
     
         if (response.status === 200) {

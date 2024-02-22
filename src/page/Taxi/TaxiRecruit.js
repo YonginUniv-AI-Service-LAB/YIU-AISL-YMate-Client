@@ -15,6 +15,7 @@ import axios from 'axios';
 import LocationModal from "../Modal/LocationModal";
 import { getUserInfo, callApi} from '../../components/utils'
 import {AuthContext} from '../../../App';
+import { Alert } from "react-native";
 
 const TaxiRecruit = ({navigation, route}) => {
   const [startLocation, setStartLocation] = useState(route.params?.startCode === 0 ? 0 : route.params?.startCode || null);
@@ -132,7 +133,7 @@ const TaxiRecruit = ({navigation, route}) => {
   const getDueDate = () =>{
     const currentDate = new Date();
     // 승목햄은 밑에꺼 주석
-    currentDate.setHours(currentDate.getHours() + 9);
+    // currentDate.setHours(currentDate.getHours() + 9);
     const nHoursLater = new Date(currentDate.getTime() + selectedTime * 60 * 1000);
 
     const formattedDate = nHoursLater.toISOString().slice(0, 19).replace("T", " ");
@@ -147,7 +148,7 @@ const TaxiRecruit = ({navigation, route}) => {
     else {
       const userInfo = await getUserInfo();
       const dueDate = getDueDate();
-      const apiEndpoint = tid ? `${API_URL}/taxi/update` : `${API_URL}/taxi/create`;
+      const apiEndpoint = tid ? `${process.env.API_URL}/taxi/update` : `${process.env.API_URL}/taxi/create`;
       const data = {
         tId: tid,
         student_id: userInfo,
@@ -173,12 +174,12 @@ const TaxiRecruit = ({navigation, route}) => {
           navigation.goBack();
         }
       } catch (error) {
-        if (error.message === 'Session expired. Please login again.') {
+          if (error === 'Session expired. Please login again.') {
           Alert.alert('세션에 만료되었습니다.')
 				  logout();
         }
-        else{
-        console.log('>>> [taxiRecruit] 🤬 ERROR', error);
+          else{
+          console.log('>>> [taxiRecruit] 🤬 ERROR', error);
         }
       }
     }

@@ -40,7 +40,7 @@ const Password = ({ navigation }) => {
       setEmailCheckError('');
       setStudentIdCheckSuccess('');
     } else {
-      const response = await axios.post(`${API_URL}/changepwd/mail`,
+      const response = await axios.post(`${process.env.API_URL}/changepwd/mail`,
       { email: studentId },
       {
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
@@ -135,7 +135,7 @@ const Password = ({ navigation }) => {
       } 
       else{
         setSignupCheckError('');
-        const response = await axios.post(`${API_URL}/changepwd`,
+        const response = await axios.post(`${process.env.API_URL}/changepwd`,
           {
             studentId: studentId,
             pwd: pwd,

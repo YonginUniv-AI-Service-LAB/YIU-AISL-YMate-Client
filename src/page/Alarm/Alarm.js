@@ -31,7 +31,7 @@ const Alarm = ({navigation}) => {
 
 	const fetchData = async () => {
 		try {
-			const response = await callApi(`${API_URL}/user/push`, 'get');
+			const response = await callApi(`${process.env.API_URL}/user/push`, 'get');
 			const data = response.data;
 			data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 			

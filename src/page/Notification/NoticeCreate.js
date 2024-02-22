@@ -32,7 +32,7 @@ const NoticeCreate = ({navigation, route}) => {
         contents: contents,
         title: title,
       };
-      const apiEndpoint = noticeId ? `${API_URL}/notice/update` : `${API_URL}/notice/create`;
+      const apiEndpoint = noticeId ? `${process.env.API_URL}/notice/update` : `${process.env.API_URL}/notice/create`;
       try {
         const response = await callApi(apiEndpoint, 'post', data);
         console.log('>>> [NoticeCreate] ✅ SUCCESS', response.data);

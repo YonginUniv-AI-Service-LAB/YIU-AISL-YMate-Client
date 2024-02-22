@@ -20,7 +20,7 @@ const Delivery = ({navigation}) => {
 	
 	  const fetchData = async () => {
 		try {
-		  const response = await axios.get(`${API_URL}/delivery`, {
+		  const response = await axios.get(`${process.env.API_URL}/delivery`, {
 			headers: {
 			  "Content-Type": "application/x-www-form-urlencoded",
 			},

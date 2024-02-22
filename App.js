@@ -44,11 +44,37 @@ function App () {
   });
 },[])
 
+useEffect(() => {
+  PushNotification.createChannel(
+    {
+      channelId: "my-channel-id", // 채널 ID
+      channelName: "My Channel", // 채널 이름
+      channelDescription: "A channel to categorise your notifications", // 채널 설명
+      soundName: "default", // 채널에서 사용할 소리의 이름
+      importance: 4, // 채널의 중요도. 0 ~ 4 사이의 값을 가짐
+      vibration: true, // 진동 설정
+      smallIcon: "ic_launcher",
+      largeIcon: "ic_launcher",
+    },
+    created => console.log(`createChannel returned '${created}'`) // 성공적으로 채널이 만들어졌는지 확인
+  );
+}, []);
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log("Foreground Push: ", remoteMessage);
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      PushNotification.localNotification({
+        /* Android Only Properties */
+        channelId: "my-channel-id",
+        // ... 기타 설정들 ...
+        
+        /* iOS and Android properties */
+        title: remoteMessage.notification.title,
+        message: remoteMessage.notification.body,
+        // ... 기타 설정들 ...
+        smallIcon: "ic_launcher",
+        largeIcon: "ic_launcher",
+      });
     });
     return unsubscribe;
   }, []);

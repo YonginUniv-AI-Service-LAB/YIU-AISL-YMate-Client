@@ -23,7 +23,7 @@ const Header = ({ title = "default", isReport = false, toId,postId, postType, on
         type: postType,
         id: postId,
       };
-      const response = await callApi(`${API_URL}/report/create`, 'post', postData);
+      const response = await callApi(`${process.env.API_URL}/report/create`, 'post', postData);
       if (response.status === 200) {
         Alert.alert("신고 완료");
       }

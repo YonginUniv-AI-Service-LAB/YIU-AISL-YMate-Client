@@ -44,7 +44,7 @@ const TaxiRequest = ({navigation, route}) => {
         number: applicantsPerson
       };
       try {
-        const response = await callApi(`${API_URL}/taxi/apply`, 'post', data);
+        const response = await callApi(`${process.env.API_URL}/taxi/apply`, 'post', data);
         console.log('>>> [taxiRequest] ✅ SUCCESS', response.data);
         if (response.status === 200) {
           alert('신청 글 작성 완료');

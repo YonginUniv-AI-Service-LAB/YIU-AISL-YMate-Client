@@ -22,7 +22,7 @@ const Report = ({ navigation }) => {
   const fetchData = async () => {
     try {
       const accessTokenInfo = await getAccessTokenInfo();
-      const response = await axios.get(`${API_URL}/report`, {
+      const response = await axios.get(`${process.env.API_URL}/report`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${accessTokenInfo}`,

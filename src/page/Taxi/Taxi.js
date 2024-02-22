@@ -20,7 +20,7 @@ const Taxi = ({navigation}) => {
 	
 	  const fetchData = async () => {
 		try {
-		  const response = await axios.get(`${API_URL}/taxi`, {
+		  const response = await axios.get(`${process.env.API_URL}/taxi`, {
 			headers: {
 			  "Content-Type": "application/x-www-form-urlencoded",
 			},

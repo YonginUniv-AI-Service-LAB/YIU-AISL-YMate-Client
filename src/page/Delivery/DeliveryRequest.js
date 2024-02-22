@@ -33,7 +33,7 @@ const DeliveryRequest = ({navigation,route}) => {
         details: details,
       };
       try {
-        const response = await callApi(`${API_URL}/delivery/apply`, 'post', data);
+        const response = await callApi(`${process.env.API_URL}/delivery/apply`, 'post', data);
         console.log('>>> [deliveryRequest] ✅ SUCCESS', response.data);
         if (response.status === 200) {
           alert('신청 글 작성 완료');

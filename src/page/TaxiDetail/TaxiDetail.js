@@ -44,7 +44,7 @@ const TaxiDetail = ({navigation, route}) => {
 		const userInfo = await getUserInfo();
 		const data = { tId : tId };
 		try {
-		  const response = await callApi(`${API_URL}/taxi/detail`, 'post', data);
+		  const response = await callApi(`${process.env.API_URL}/taxi/detail`, 'post', data);
 		  console.log('>>> [taxidetail] ✅ SUCCESS', response.data);
 		  if (response.status === 200) {
 			setTaxiData(response.data);
@@ -103,7 +103,7 @@ const TaxiDetail = ({navigation, route}) => {
 		} else {
 		  try {
 			const data = { tcId: tcId };
-			const response = await callApi(`${API_URL}/taxi/accept`, 'post', data);
+			const response = await callApi(`${process.env.API_URL}/taxi/accept`, 'post', data);
 			setRefreshing(false);
 			if (response.status === 200) {
 			  Alert.alert("수락 완료");
@@ -130,7 +130,7 @@ const TaxiDetail = ({navigation, route}) => {
 		} else {
 		  try {
 			const data = { tcId: tcId };
-			const response = await callApi(`${API_URL}/taxi/reject`, 'post', data);
+			const response = await callApi(`${process.env.API_URL}/taxi/reject`, 'post', data);
 			setRefreshing(false);
 			if (response.status === 200) {
 			  Alert.alert("거절 완료");
@@ -154,7 +154,7 @@ const TaxiDetail = ({navigation, route}) => {
 	  const handleCancelRequest = async (tcId) => {
 		try {
 		  const data = { tcId: tcId };
-		  const response = await callApi(`${API_URL}/taxi/cancel`, 'post', data);
+		  const response = await callApi(`${process.env.API_URL}/taxi/cancel`, 'post', data);
 		  setRefreshing(false);
 		  if (response.status === 200) {
 			Alert.alert("취소 완료");
@@ -179,7 +179,7 @@ const TaxiDetail = ({navigation, route}) => {
 		} else {
 		  try {
 			const data = { tId: tId };
-			const response = await callApi(`${API_URL}/taxi/finish`, 'post', data);
+			const response = await callApi(`${process.env.API_URL}/taxi/finish`, 'post', data);
 			setRefreshing(false);
 			if (response.status === 200) {
 			  Alert.alert("마감 완료");
@@ -202,7 +202,7 @@ const TaxiDetail = ({navigation, route}) => {
 	  const handleDeleteDetail = async() => {
 		try {
 		  const data = { tId: tId };
-		  const response = await callApi(`${API_URL}/taxi/delete`, 'post', data);
+		  const response = await callApi(`${process.env.API_URL}/taxi/delete`, 'post', data);
 		  setRefreshing(false);
 		  if (response.status === 200) {
 			Alert.alert("삭제 완료");

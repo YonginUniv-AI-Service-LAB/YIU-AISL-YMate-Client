@@ -61,29 +61,38 @@ export const callApi = (url, method, data) => {
       });
       resolve(response);
     } catch (error) {
-      if (error.response && error.response.status === 401 || error.response.status === 500) {
+      if (error.response && (error.response.status === 401 || error.response.status === 500)) {
         const accessToken = await getAccessTokenInfo();
         const refreshToken = await getRefreshTokenInfo();
-        const refreshResponse = await axios.post(`${API_URL}/refresh`, {
-          accessToken: accessToken,
-          refreshToken: refreshToken 
-        },{
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          withCredentials: true,
-        });
-        console.log(refreshResponse.data.accessToken);
-        console.log("맆레쉬");
-
-        if (refreshResponse.status !== 200) {
-          await AsyncStorage.removeItem('user');
-          await AsyncStorage.removeItem('accessToken');
-          await AsyncStorage.removeItem('refreshToken');
-          reject('Session expired. Please login again.');
+        try {
+          const refreshResponse = await axios.post(`${process.env.API_URL}/refresh`, {
+            accessToken: accessToken,
+            refreshToken: refreshToken 
+          },{
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            withCredentials: true,
+          });
+          console.log(refreshResponse.data.accessToken);
+          console.log("맆레쉬");
+          console.log(refreshResponse.status);
+          if (refreshResponse.status !== 200) {
+            await AsyncStorage.removeItem('user');
+            await AsyncStorage.removeItem('accessToken');
+            await AsyncStorage.removeItem('refreshToken');
+            console.log("ㅇㅇㅇㅇㅇㅇ");
+            reject('Session expired. Please login again.');
+          }
+          console.log("재발급");
+          const newAccessToken = refreshResponse.data.accessToken;
+          await AsyncStorage.setItem('accessToken', newAccessToken);
+          resolve(callApi(url, method, data));
+        } catch(err) {
+          if(err.response && err.response.status === 401) {
+            reject('Session expired. Please login again.');
+          } else {
+            reject(err);
+          }
         }
-        console.log("재발급");
-        const newAccessToken = refreshResponse.data.accessToken;
-        await AsyncStorage.setItem('accessToken', newAccessToken);
-        resolve(callApi(url, method, data));
       } else {
         reject(error);
       }

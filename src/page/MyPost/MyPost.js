@@ -62,7 +62,7 @@ const MyPost = ({navigation}) => {
 	
 	  const fetchData = async () => {
 		try {
-		  const response = await callApi(`${API_URL}/user/post`, 'get');
+		  const response = await callApi(`${process.env.API_URL}/user/post`, 'get');
 		  const data = response.data;
 		  setMyPostData(data);		  
 		  setFilteredData(data);

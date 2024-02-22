@@ -21,12 +21,11 @@ const Login = ({ navigation, route, onLogin }) => {
       alert('아이디나 비밀번호를 입력해주세요');
     } else {
       const fcmToken = await messaging().getToken();
-      console.log('[FCM Token] ', fcmToken);
-      console.log(`${process.env.API_URL}/login`);
+      console.log('[FCM Token] ', fcmToken)
 
       try {
         const response = await axios.post(
-          `${API_URL}/login`,
+          `${process.env.API_URL}/login`,
           {
             studentId: studentId,
             pwd: pwd,
@@ -95,7 +94,7 @@ const Login = ({ navigation, route, onLogin }) => {
             <View style={[styles.flexView,styles.margintop3]}>
               <View style = {[styles.spacebetween,styles.rowView]}>
                 <View></View>
-              <Pressable onPress={() => {navigation.navigate(Password)}}>
+              <Pressable onPress={() => {navigation.navigate('Password')}}>
                 <Text style={[styles.text11,styles.errorText]}>비밀번호를 잊으셨나요?</Text>
               </Pressable>
               </View>
@@ -105,7 +104,7 @@ const Login = ({ navigation, route, onLogin }) => {
               </Pressable>
               <View style={[styles.rowView, styles.margintop6]}>
                 <Text style={styles.text11}>아직 회원이 아니신가요? </Text>
-                <Pressable onPress={() => {navigation.navigate(Signup)}}>
+                <Pressable onPress={() => {navigation.navigate('Signup')}}>
                   <Text style={[styles.text11, styles.blueText]}>회원가입</Text>
                 </Pressable>
               </View>
