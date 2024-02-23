@@ -342,7 +342,17 @@ export const styles = StyleSheet.create({
     },
     cardImage: {
         borderRadius: 11,
+        backgroundColor: "#fff",
+        // backgroundColor: "#F9E583",
+        width: 170,
+        height: 96,
+        alignSelf: "stretch"
+    },
+    randomCardImage: {
+        borderRadius: 11,
         backgroundColor: "#F9E583",
+        // borderColor: "#F9E583",
+        // borderWidth: 5,
         width: 170,
         height: 96,
         alignSelf: "stretch"
@@ -875,7 +885,8 @@ export const styles = StyleSheet.create({
         overflow: "hidden",
     },
     alarmViewed: {
-        height: 38,
+        // height: 38,
+        alignSelf:'stretch',
         width: 6,
     },
     alarmContentBox: {
@@ -937,9 +948,10 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
       },
       modalView: {
-        margin: 20,
+        width:'90%',
+        
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 30,
         padding: 35,
         alignItems: 'center',
         shadowColor: '#000',

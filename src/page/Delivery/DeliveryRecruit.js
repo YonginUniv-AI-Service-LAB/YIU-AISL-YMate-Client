@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect  } from "react";
+import React, { useState, useRef, useEffect,useContext  } from "react";
 import { Text, StyleSheet, Image,TextInput, Pressable, View, Alert, TouchableWithoutFeedback, Keyboard, AsyncStorage} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {styles} from "../Style"
 import {BottomButton, Header, ErrorText} from "../../components"
-import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import { getUserInfo, getAccessTokenInfo, callApi } from '../../components/utils'
 import ModalDropdown from "react-native-modal-dropdown";
 // import foodTypeToNumber from '../../components/TypeToNumber/FoodTypeToNumber';
 // import locationTypeToNumber from '../../components/TypeToNumber/LocationTypeToNumber';
@@ -17,14 +17,15 @@ import LocationModal from "../Modal/LocationModal";
 import FoodModal from "../Modal/FoodModal";
 import foodData from "../../constant/FoodData";
 import locationData from '../../constant/LocationData'
+import {AuthContext} from '../../../App';
 
 const DeliveryRecruit = ({navigation, route}) => {
-  const [selectedFood, setSelectedFood] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedFood, setSelectedFood] = useState(route.params?.foodCode === 0 ? 0 : route.params?.foodCode || null);
+  const [selectedLocation, setSelectedLocation] = useState(route.params?.locationCode === 0 ? 0 : route.params?.locationCode || null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [title, setTitle] = useState('');
-  const [contents, setContents] = useState('');
-  const [link, setLink] = useState('');
+  const [title, setTitle] = useState(route.params?.title || '');
+  const [contents, setContents] = useState(route.params?.contents || '');
+  const [link, setLink] = useState(route.params?.link || '');
   const [error, setError] = useState('');
   // const foodDropdownRef = useRef();
   const timeDropDownRef = useRef();
@@ -33,10 +34,26 @@ const DeliveryRecruit = ({navigation, route}) => {
   const buttonTitle = did ? "모집 글 수정" : "모집 글 작성";
   const [isModalVisible1, setModalVisible1] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
-  const [locationText, setLocationText] = useState('');
-  const [foodText, setFoodText] = useState('');
+  const [locationText, setLocationText] = useState(route.params?.location || '');
+  const [foodText, setFoodText] = useState(route.params?.food || '');
+  const { logout } = useContext(AuthContext);
 
+  const loadLocation = async () => {
+    if(selectedLocation === null){
+      try {
+        // AsyncStorage에서 location 값을 불러와서 state에 설정합니다.
+        const savedLocation = await AsyncStorage.getItem('location')
+        if (savedLocation !== null) {
+          setSelectedLocation(parseInt(savedLocation, 10))
+        }
+      } catch (error) {
+          console.error('AsyncStorage에서 location을 불러오는 중 오류 발생:', error)
+      }
+    }
+  }
+  
   useEffect(() => {
+    loadLocation()
     locationToText()
     foodToText()
   }, [locationText, selectedLocation, foodText, selectedFood])
@@ -107,60 +124,57 @@ const DeliveryRecruit = ({navigation, route}) => {
 
   const getDueDate = () =>{
     const currentDate = new Date();
-    const nHoursLater = new Date(currentDate.getTime() + (selectedTime+9) * 60 * 60 * 1000);
+    // 승목햄은 밑에꺼 주석
+    currentDate.setHours(currentDate.getHours() + 9);
+    const nHoursLater = new Date(currentDate.getTime() + selectedTime * 60 * 1000);
 
     const formattedDate = nHoursLater.toISOString().slice(0, 19).replace("T", " ");
-    console.log(formattedDate);
     return formattedDate;
   }
   
-  const handletDeliveryRecruit = async () => {
+  const handleDeliveryRecruit = async () => {
     if (!title || !contents || !foodText || !locationText || !selectedTime) {
       setError("모든 값을 입력해주세요.");
-    }
-    else{
-      const userInfo = await getUserInfo(); 
-      const accessTokenInfo = await getAccessTokenInfo();
+    } else {
+      const userInfo = await getUserInfo();
       const dueDate = getDueDate();
-      const apiEndpoint = did ? `${API_URL}/delivery/update` : `${API_URL}/delivery/create`;
-      const response = await axios.post(apiEndpoint,
-          {
-            dId: did,
-            student_id: userInfo,
-            title: title,
-            contents: contents,
-            due: dueDate,
-            food: foodText,
-            foodCode: selectedFood,
-            location: locationText,
-            locationCode: selectedLocation,
-            link: link,
-          }, {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [deliveryRecruit] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-              if (did) {
-                // did가 존재하는 경우 (수정 완료)
-                alert('배달 글 수정 완료');
-              } else {
-                // did가 존재하지 않는 경우 (작성 완료)
-                alert('배달 글 작성 완료');
-              }
-              navigation.goBack();
-            }
-        }).catch((error) => {
+      const apiEndpoint = did ? `${process.env.API_URL}/delivery/update` : `${process.env.API_URL}/delivery/create`;
+      const postData = {
+        dId: did,
+        student_id: userInfo,
+        title: title,
+        contents: contents,
+        due: dueDate,
+        food: foodText,
+        foodCode: selectedFood,
+        location: locationText,
+        locationCode: selectedLocation,
+        link: link,
+      };
+      try {
+        const response = await callApi(apiEndpoint, 'post', postData);
+        console.log('>>> [deliveryRecruit] ✅ SUCCESS', response.data);
+        if (response.status === 200) {
+          if (did) {
+            // did가 존재하는 경우 (수정 완료)
+            Alert.alert('배달 글 수정 완료');
+          } else {
+            // did가 존재하지 않는 경우 (작성 완료)
+            Alert.alert('배달 글 작성 완료');
+          }
+          navigation.goBack();
+        }
+      } catch (error) {
+        if (error.status === 'Session expired. Please login again.') {
+          Alert.alert('세션에 만료되었습니다.')
+          logout();
+        } else {
           console.log('>>> [deliveryRecruit] 🤬 ERROR', error);
-          setError("AccessToken만료");
-        });
-        
-      console.log('selectedFood :', selectedFood);
-      console.log('selectedLocation:', selectedLocation);
+        }
+      }
     }
-  }
+  }  
+  
 
   return (
     <SafeAreaView style={styles.mainScreen}>
@@ -179,10 +193,10 @@ const DeliveryRecruit = ({navigation, route}) => {
                         options={times}
                         onSelect={(index, value) => setSelectedTime(timeTypeToNumber(value))}
                         defaultValue={"선택하세요"}
-                        
+                        isFullWidth={true}
                         style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11]}
                         renderButtonText={(rowData) => (
-                          <Text style={styles.text11}>{rowData}</Text>
+                          <Text style={[styles.text11]}>{rowData}</Text>
                         )}
                       />
                     <View style={[styles.recruitInputDropdown]} onTouchEnd={toggleTimeDropdown}>
@@ -293,7 +307,7 @@ const DeliveryRecruit = ({navigation, route}) => {
             </View>
           </KeyboardAwareScrollView>
           <ErrorText isError={error} errorMessage={error} style={[styles.marginRight20]}/>
-          <BottomButton title={buttonTitle} onPress={handletDeliveryRecruit}/>
+          <BottomButton title={buttonTitle} onPress={handleDeliveryRecruit}/>
       </View>
       </TouchableWithoutFeedback>
       <LocationModal isVisible={isModalVisible1} onClose={closeModal1} />    

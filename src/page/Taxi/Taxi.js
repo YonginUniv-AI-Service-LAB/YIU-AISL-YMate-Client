@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
@@ -10,7 +10,6 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const Taxi = ({navigation}) => {
 	const [refreshing, setRefreshing] = React.useState(false)
-
 	const [taxiData, setTaxiData] = useState([]);
 
 	useFocusEffect(
@@ -21,7 +20,7 @@ const Taxi = ({navigation}) => {
 	
 	  const fetchData = async () => {
 		try {
-		  const response = await axios.get(`${API_URL}/taxi`, {
+		  const response = await axios.get(`${process.env.API_URL}/taxi`, {
 			headers: {
 			  "Content-Type": "application/x-www-form-urlencoded",
 			},
@@ -33,6 +32,12 @@ const Taxi = ({navigation}) => {
 		  console.error("데이터 가져오기 실패:", error);
 		}
 	  };
+
+	const onRefresh = useCallback(() => {
+		setRefreshing(true)
+		fetchData()
+		setRefreshing(false)
+	})
 	
 	// const TaxiData = [
 	// 	{
@@ -139,10 +144,10 @@ const Taxi = ({navigation}) => {
 										<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/taxi.png")}/>
 										<Text style={[styles.centerText18, styles.marginLeft3]}>같이 택시</Text>
 									</View>
-								<Pressable style={styles.rowView} onPress={()=>Alert.alert("배달더보기")}>
+								{/* <Pressable style={styles.rowView} onPress={()=>Alert.alert("배달더보기")}>
 									<Text style={styles.clickText13}>마감 가가운 순</Text>
 									<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-								</Pressable>
+								</Pressable> */}
 							</View>
 								<FlatList
 									contentContainerStyle={styles.bigCardScroll}
@@ -150,7 +155,7 @@ const Taxi = ({navigation}) => {
 									data={taxiData}
 									renderItem={({item}) => <TaxiCard size={1} tId={item.tid} state={item.state} title={item.title} due={item.due} startCode={item.startCode} endCode={item.endCode} current={item.current} max={item.max} studentId={item.studentId}/>}
 									keyExtractor={item => item.tid}
-									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}
+									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
 								/>
 						</View>
 					</View>

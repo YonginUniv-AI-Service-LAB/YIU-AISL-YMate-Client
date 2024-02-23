@@ -7,6 +7,8 @@ import { getUserInfo, getAccessTokenInfo } from './utils'
 import LocationTag from './LocationTag'
 import moment from 'moment-timezone'
 import axios from 'axios';
+import FoodImage from './FoodImage'
+// import foodImage from '../assets/images/food/foodImage'
 
 
 //size: 0 -> smallCard 1 -> bigCard
@@ -14,6 +16,7 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
     if (state === 'DELETED') {
         return null;
     }
+
 	const navigation = useNavigation()
     const [now, setNow] = useState(moment.tz('Asia/Seoul'));
     useEffect(() => {
@@ -22,9 +25,8 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
         }, 60000)
         return () => clearInterval(interval)
     }, [])
-
-    let dueDate = moment(due);
-    let minutesDiff = moment.utc(dueDate).diff(moment.utc(now), 'minutes');
+    let dueDate = moment.tz(due, 'Asia/Seoul');
+    let minutesDiff =  dueDate.diff(now, 'minutes');
     let isPastDue = minutesDiff < 0 ? 1 : 0; 
     let dueStatusText;
     if (isPastDue || state === 'FINISHED') {
@@ -46,7 +48,7 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
     return (
         size?
             <Pressable style={styles.bigCard} onPress={handleDeliveryCard}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
+                <FoodImage food={food}/>
                 <View style={styles.flexView}>
                     <View style={styles.smallCardContent}>
                         <LocationTag location={location}/>
@@ -59,7 +61,7 @@ const DeliveryCard = ({size = 0, dId, state, title, due, food, location, student
             </Pressable>
             :
             <Pressable style={styles.smallCard} onPress={handleDeliveryCard}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${food}`}}/>
+                <FoodImage food={food}/>
                 <View style={styles.smallCardContent}>
                     <LocationTag location={location}/>
                     <Text style={[styles.centerText10, styles.textAlignRight,  dueStatusStyle]}>{dueStatusText}</Text>

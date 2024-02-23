@@ -6,9 +6,9 @@ import Password from '../Password/Password';
 import axios from 'axios';
 import {styles} from "../Style"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
 
-const Login = ({ navigation, route }) => {
-  const { onLogin } = route.params || {};
+const Login = ({ navigation, route, onLogin }) => {
   const [studentId, setStudentId] = useState('');
   const [pwd, setpwd] = useState('');
   const dismissKeyboard = () => {
@@ -16,15 +16,20 @@ const Login = ({ navigation, route }) => {
   };
 
   const handleLogin = async () => {
+
     if (!studentId || !pwd) {
-      alert('아이디나 비밀번호를 입력해주세요');
+      Alert.alert('아이디나 비밀번호를 입력해주세요');
     } else {
+      const fcmToken = await messaging().getToken();
+      console.log('[FCM Token] ', fcmToken)
+
       try {
         const response = await axios.post(
-          `${API_URL}/login`,
+          `${process.env.API_URL}/login`,
           {
             studentId: studentId,
             pwd: pwd,
+            fcm: fcmToken
           },
           {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -39,7 +44,7 @@ const Login = ({ navigation, route }) => {
           await AsyncStorage.setItem('user', studentId);
           await AsyncStorage.setItem('accessToken', response.data.token.accessToken);
           await AsyncStorage.setItem('refreshToken', response.data.token.refreshToken);
-          navigation.navigate('Main');
+          onLogin();
         }
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -66,9 +71,9 @@ const Login = ({ navigation, route }) => {
           </View>
           <View style={styles.loginSection}>
             <View style={[styles.rowView, styles.margintop11]} >
-              <Text style={[styles.text15, styles.flex03]}>학번</Text>
+              <Text style={[styles.text14, styles.flex03]}>학번</Text>
               <TextInput
-                style={[styles.loginInput]}
+                style={[styles.loginInput,styles.text14]}
                 value={studentId}
                 onChangeText={(text) => {
                   setStudentId(text);
@@ -76,9 +81,9 @@ const Login = ({ navigation, route }) => {
               />
             </View>
             <View style={[styles.rowView, styles.margintop11]} >
-              <Text style={[styles.text15, styles.flex03]}>비밀번호</Text>
+              <Text style={[styles.text14, styles.flex03]}>비밀번호</Text>
               <TextInput
-                style={[styles.loginInput]}
+                style={[styles.loginInput,styles.text14]}
                 value={pwd}
                 onChangeText={(text) => {
                   setpwd(text);
@@ -89,7 +94,7 @@ const Login = ({ navigation, route }) => {
             <View style={[styles.flexView,styles.margintop3]}>
               <View style = {[styles.spacebetween,styles.rowView]}>
                 <View></View>
-              <Pressable onPress={() => {navigation.navigate(Password)}}>
+              <Pressable onPress={() => {navigation.navigate('Password')}}>
                 <Text style={[styles.text11,styles.errorText]}>비밀번호를 잊으셨나요?</Text>
               </Pressable>
               </View>
@@ -99,7 +104,7 @@ const Login = ({ navigation, route }) => {
               </Pressable>
               <View style={[styles.rowView, styles.margintop6]}>
                 <Text style={styles.text11}>아직 회원이 아니신가요? </Text>
-                <Pressable onPress={() => {navigation.navigate(Signup)}}>
+                <Pressable onPress={() => {navigation.navigate('Signup')}}>
                   <Text style={[styles.text11, styles.blueText]}>회원가입</Text>
                 </Pressable>
               </View>

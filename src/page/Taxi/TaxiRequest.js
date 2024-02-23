@@ -1,16 +1,18 @@
-import React, { useState, useRef  } from "react";
+import React, { useState, useRef ,useContext } from "react";
 import { Text, StyleSheet, Image,TextInput, Pressable, View, Alert, TouchableWithoutFeedback, Keyboard} from "react-native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../../assets/GlobalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {styles} from "../Style"
 import {Header, BottomButton, ErrorText} from "../../components"
-import { getAccessTokenInfo } from '../../components/utils'
+import { callApi } from '../../components/utils'
 import maxPersonTypeToNumber from '../../components/TypeToNumber/MaxPersonTypeToNumber';
 import ModalDropdown from "react-native-modal-dropdown";
 import maxPersons from '../../constant/MaxPersonDatas'
 import axios from 'axios';
+import {AuthContext} from '../../../App';
 
 const TaxiRequest = ({navigation, route}) => {
+  const { logout } = useContext(AuthContext);
   const [contents, setContents] = useState('');
   const [details, setDetails] = useState('');
   const [error, setError] = useState('');
@@ -27,44 +29,42 @@ const TaxiRequest = ({navigation, route}) => {
     applicantsPersonDropdownRef.current.show();
     handleChange();
   };
-  const handleTaxiRequest = async() => {
+  const handleTaxiRequest = async () => {
     if (!contents || !details || !applicantsPerson) {
       setError("모든 값을 입력해주세요.");
     }
     else if (applicantsPerson > max) {
       setError("신청 인원은 모집 인원을 초과할 수 없습니다.");
     }
-    else{
-      console.log(tid);
-      const accessTokenInfo = await getAccessTokenInfo();
-      const response = await axios.post(`${API_URL}/taxi/apply`,
-          {
-            tId: tid,
-            contents: contents,
-            details: details,
-            number: applicantsPerson,
-          }, {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [taxiRequest] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-              alert('신청 글 작성 완료');
-              navigation.goBack();
-            }
-        }).catch((error) => {
-          if (error.response && error.response.status === 409) {
-            // 이미 신청글이 있을 경우
-            setError('이미 신청글이 존재합니다.');
-          }
-          else if(error.response && error.response.status === 404){
-            setError('신청 인원을 확인해주세요.');
-          }
-          console.log('>>> [taxiRequest] 🤬 ERROR', error);
-        });
+    else {
+      const data = {
+        tId: tid,
+        contents: contents,
+        details: details,
+        number: applicantsPerson
+      };
+      try {
+        const response = await callApi(`${process.env.API_URL}/taxi/apply`, 'post', data);
+        console.log('>>> [taxiRequest] ✅ SUCCESS', response.data);
+        if (response.status === 200) {
+          Alert.alert('신청 글 작성 완료');
+          navigation.goBack();
+        }
+      } catch (error) {
+        if (error === 'Session expired. Please login again.') {
+          Alert.alert('세션에 만료되었습니다.')
+				  logout();
+        }
+        else if (error.response && error.response.status === 409) {
+          // 이미 신청글이 있을 경우
+          setError('이미 신청글이 존재합니다.');
+        }
+        else if(error.response && error.response.status === 404){
+          setError('신청 인원을 확인해주세요.');
+        }
+        console.log('>>> [taxiRequest] 🤬 ERROR', error);
       }
+    }
   }
   return (
     <SafeAreaView style={styles.mainScreen}>
@@ -81,6 +81,7 @@ const TaxiRequest = ({navigation, route}) => {
                     <ModalDropdown
                       ref={applicantsPersonDropdownRef}
                       options={maxPersons}
+                      isFullWidth={true}
                       onSelect={(index, value) => setApplicantsPerson(maxPersonTypeToNumber(value))}
                       defaultValue={"신청할 인원을 선택해주세요"}
                       style={[styles.textAlignLeft,styles.marginLeft6,styles.defaultText11, { width: 50}]}

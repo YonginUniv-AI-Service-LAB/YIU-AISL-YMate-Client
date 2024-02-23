@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Pressable, SafeAreaView, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image,Alert, Pressable, SafeAreaView, TouchableOpacity} from 'react-native';
 import { Dimensions } from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -30,7 +30,7 @@ const Password = ({ navigation }) => {
   const [isPasswordValid,setIsPasswordValid] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [signupCheckError, setSignupCheckError] = useState('');
-
+  const [verificationCode, setVerificationCode] = useState('');
   const handleStudentId = async () => {
     const studentIdPattern = /^\d{9}$/;
     if (!studentIdPattern.test(studentId)) {
@@ -40,45 +40,38 @@ const Password = ({ navigation }) => {
       setEmailCheckError('');
       setStudentIdCheckSuccess('');
     } else {
-      setIsEmailVerified(true);
-      setIsStudentIdValid(true);
-      setStudentIdCheckError('');
-      setStudentIdCheckSuccess('인증번호가 전송되었습니다.');
-    //  const apiUrl = 'https://192.168.0.3:8080/mail';
-    //   try {
-    //     // 학번을 백엔드로 전송
-    //     const response = await axios.post(apiUrl, {
-    //       studentId,
-    //     });
-  
-    //     if (response.status===200) {
-    //       // 성공적으로 이메일을 보낸 경우, 이메일 인증이 필요하다는 메시지를 표시할 수 있습니다.
-    //       setIsEmailVerified(true);
-    //       setIsStudentIdValid(true);
-    //       setStudentIdCheckError('');
-    //     } else {
-    //       // 백엔드에서 실패한 경우, 에러 메시지 표시 또는 적절한 조치 수행
-    //       setStudentIdCheckError(response.data.message || '이메일 전송에 실패했습니다.');
-    //       setIsEmailVerified(false);
-    //       setIsStudentIdValid(false);
-    //       setEmailCheckError('');
-    //       setEmailCheckSuccess('학번 인증이 완료되었습니다.');
-    //     }
-    //   } catch (error) {
-    //     console.error('이메일 전송 실패:', error);
-    //     setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
-    //     setIsEmailVerified(true);
-    //       setIsStudentIdValid(true);
-    //       setStudentIdCheckError('');
-    //   }
-    // }
+      const response = await axios.post(`${process.env.API_URL}/changepwd/mail`,
+      { email: studentId },
+      {
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+      }).then((res) => {
+      console.log('>>> [mail] ✅ SUCCESS', res.data);
+      if (res.status === 200) {
+        setIsEmailVerified(true);
+        setIsStudentIdValid(true);
+        setStudentIdCheckError('');
+        setStudentIdCheckSuccess('인증번호가 전송되었습니다.');
+        setVerificationCode(res.data);
+      }
+    }).catch((error) => {
+      console.log('>>> [mail] 🤬 ERROR', error);
+      if (error.response && error.response.status === 404) {
+        // 중복된 닉네임인 경우
+        setStudentIdCheckError('존재하지 않는 회원입니다.');
+      } 
+      else{
+        setStudentIdCheckError('이메일 전송에 실패했습니다. 다시 시도해주세요.');
+      }
+    });
     }
   };
 
   const handleEmailCheck = async () => {
     setEmailCheckSuccess('');
+    setSignupCheckError('');
     if(isEmailVerified){
-      if(emailCheckNumber != 666){
+      if(emailCheckNumber != verificationCode){
         setEmailCheckError('인증번호가 일치하지 않습니다.');
         setIsEmailNumberValid(false);
       }
@@ -95,7 +88,9 @@ const Password = ({ navigation }) => {
   }
 
   const handlePasswordChange = (text) => {
-    const passwordPattern = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-z\d!@#$%^&*()_+]{8,}$/;
+    setPasswordConfirmationError('');
+    setPasswordConfirmationSuccess('');
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,}$/;
     if (!passwordPattern.test(text)) {
       setPasswordError('비밀번호는 영문, 숫자, 기호를 포함하고 8자리 이상이어야 합니다.');
       setPasswordSuccess('');
@@ -122,7 +117,7 @@ const Password = ({ navigation }) => {
     setPasswordConfirmation(text);
   };
 
-  const handleSignup = async () => {
+  const handleChangePwd = async () => {
       if(!isStudentIdValid){
         setSignupCheckError('올바른 학번을 입력해주세요.');
       }
@@ -140,28 +135,29 @@ const Password = ({ navigation }) => {
       } 
       else{
         setSignupCheckError('');
-        navigation.navigate('Login');
-        const apiUrl = `${API_URL}/changepwd`;
-        try {
-          // 백엔드 API에 POST 요청 보내기
-          const response = await axios.post(apiUrl, {
+        const response = await axios.post(`${process.env.API_URL}/changepwd`,
+          {
             studentId: studentId,
             pwd: pwd,
-          });
-    
-          // 서버에서의 응답 처리
-          if (response.status === 200) {
-            // 가입 성공 시, 이전 화면으로 돌아가기
-            navigation.goBack(); // 또는 navigation.navigate('PreviousScreen');
-          } else {
-            // 가입 실패 시, 에러 메시지 표시 또는 적절한 조치 수행
-            setSignupCheckError(response.data.message || '가입 실패했습니다.');
+          }, {
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+          }).then((res) => {
+            console.log('>>> [changepwd] ✅ SUCCESS', res.data);
+            if (res.status === 200) {
+              Alert.alert('비밀번호 재설정 완료.');
+              navigation.goBack();
+            }
+        }).catch((error) => {
+          if (error.response && error.response.status === 404) {
+            // 중복된 닉네임인 경우
+            setStudentIdCheckError('존재하지 않는 회원입니다.');
+          } 
+          else{
+            signupCheckError('재설정 실패.')
           }
-        } catch (error) {
-          // 네트워크 오류 또는 요청 중 발생한 다른 오류 처리
-          console.error('가입 실패:', error);
-          setSignupCheckError('가입에 실패했습니다. 다시 시도해주세요.');
-        }
+          console.log('>>> [changepwd] 🤬 ERROR', error);
+        });
       }
   };
   const handleGuideButtonPress = () => {
@@ -173,7 +169,7 @@ const Password = ({ navigation }) => {
     <View style={styles.mainBackground}>
       <Header title = '비밀번호 변경' onPressBack={() => navigation.goBack()}/>
         <View style = {[styles.spacebetween, styles.flexView, styles.backgroundWhite]}>
-          <KeyboardAwareScrollView>
+          <KeyboardAwareScrollView keyboardShouldPersistTaps='handled'>
           <View style={[styles.recruitSection]}>
             <View style={[styles.rowView, styles.margintop11]} >
               <View style = {styles.flex025}>
@@ -246,7 +242,7 @@ const Password = ({ navigation }) => {
           </View>
             </KeyboardAwareScrollView>
             <ErrorText style={styles.marginRight20} isError={signupCheckError} errorMessage={signupCheckError}/>   
-            <BottomButton title='재설정' onPress={handleSignup}/>
+            <BottomButton title='재설정' onPress={handleChangePwd}/>
       
         </View>
     </View>

@@ -31,7 +31,7 @@ const GuideModal = ({ isVisible, onClose }) => {
           입학과 동시에 이메일이 자동 생성되므로 아래의 페이지에서 비밀번호를 수정하고 사용하면 됩니다.
         </Text>
         <TouchableOpacity
-          onPress={() => Linking.openURL('https://www.yongin.ac.kr/cmn/sym/mnu/mpm/105060500/htmlMenuView.do')}
+          onPress={() => Linking.openURL('https://o365.yongin.ac.kr/Pages/FindPwd.aspx')}
         >
           <Text style={styles.modalLinkText}>비밀번호 수정</Text>
         </TouchableOpacity>
@@ -44,7 +44,7 @@ const GuideModal = ({ isVisible, onClose }) => {
           학교 이메일로 Microsoft에서 로그인하면 Microsoft Outlook에서 이메일 확인이 가능합니다.
         </Text>
         <TouchableOpacity
-          onPress={() => Linking.openURL('https://www.yongin.ac.kr/cmn/sym/mnu/mpm/105060500/htmlMenuView.do')}
+          onPress={() => Linking.openURL('https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=20&ct=1706631053&rver=7.0.6738.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26cobrandid%3dab0455a0-8d03-46b9-b18b-df2f57b9e44c%26culture%3dko-kr%26country%3dkr%26RpsCsrfState%3d578df019-db09-6ed7-5904-5f31c2621869&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=ab0455a0-8d03-46b9-b18b-df2f57b9e44c')}
         >
           <Text style={styles.modalLinkText}>이메일 확인</Text>
         </TouchableOpacity>

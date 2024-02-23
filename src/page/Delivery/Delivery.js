@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
@@ -20,7 +20,7 @@ const Delivery = ({navigation}) => {
 	
 	  const fetchData = async () => {
 		try {
-		  const response = await axios.get(`${API_URL}/delivery`, {
+		  const response = await axios.get(`${process.env.API_URL}/delivery`, {
 			headers: {
 			  "Content-Type": "application/x-www-form-urlencoded",
 			},
@@ -34,6 +34,12 @@ const Delivery = ({navigation}) => {
 		}
 	  };
 
+	const onRefresh = useCallback(() => {
+		setRefreshing(true)
+		fetchData()
+		setRefreshing(false)
+	})
+
   	return (
 		<>
     		<SafeAreaView style={styles.mainScreen}>
@@ -46,10 +52,10 @@ const Delivery = ({navigation}) => {
 									<Image style={styles.icon24} resizeMode="cover" source={require("../../assets/images/restaurant.png")}/>
 									<Text style={[styles.centerText18, styles.marginLeft3]}>같이 배달</Text>
 								</View>
-								<Pressable style={styles.rowView} onPress={()=>Alert.alert("배달더보기")}>
+								{/* <Pressable style={styles.rowView} onPress={()=>Alert.alert("배달더보기")}>
 									<Text style={styles.clickText13}>마감 가가운 순</Text>
 									<Image style={styles.icon11} resizeMode="cover" source={require("../../assets/images/down_blue.png")}/>
-								</Pressable>
+								</Pressable> */}
 							</View>
 								<FlatList
 									contentContainerStyle={styles.bigCardScroll}
@@ -57,7 +63,7 @@ const Delivery = ({navigation}) => {
 									data={deliveryData}
 									renderItem={({item}) => <DeliveryCard size={1} dId={item.did} state={item.state} title={item.title} due={item.due} food={item.foodCode} location={item.locationCode} studentId={item.studentId}/>}
 									keyExtractor={item => item.did}
-									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}
+									refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
 								/>
 						</View>
 					</View>

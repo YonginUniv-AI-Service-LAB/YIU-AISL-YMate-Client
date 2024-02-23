@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Pressable, SafeAreaView, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, Alert,Pressable, SafeAreaView, TouchableOpacity} from 'react-native';
 import GuideModal from '../Modal/GuideModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
@@ -46,7 +46,7 @@ const Signup = ({ navigation }) => {
     if (!studentIdPattern.test(studentId)) {
       setStudentIdCheckError('유효한 학번을 입력해주세요.');
     } else {
-      const response = await axios.post(`${API_URL}/mail`,
+      const response = await axios.post(`${process.env.API_URL}/mail`,
         { email: studentId },
         {
           headers: {"Content-Type": "application/x-www-form-urlencoded"},
@@ -101,7 +101,7 @@ const Signup = ({ navigation }) => {
       setNickNameCheckError('닉네임은 두 글자 이상이어야 합니다.');
       setNickNameCheckSuccess('');
     } else {
-      const response = await axios.post(`${API_URL}/nickcheck`,
+      const response = await axios.post(`${process.env.API_URL}/nickcheck`,
         { nickname: nickname },
         {
           headers: {"Content-Type": "application/x-www-form-urlencoded"},
@@ -180,7 +180,7 @@ const Signup = ({ navigation }) => {
         console.log("닉네임:", nickname);
         console.log("비번:", pwd);
           // 백엔드 API에 POST 요청 보내기
-          const response = await axios.post(`${API_URL}/join`,
+          const response = await axios.post(`${process.env.API_URL}/join`,
           {
             studentId: studentId,
             nickname: nickname,
@@ -191,7 +191,7 @@ const Signup = ({ navigation }) => {
           }).then((res) => {
             console.log('>>> [signup] ✅ SUCCESS', res.data);
             if (res.status === 200) {
-              alert('회원가입이 완료되었습니다.');
+              Alert.alert('회원가입이 완료되었습니다.');
               navigation.goBack();
             }
         }).catch((error) => {
@@ -208,7 +208,7 @@ const Signup = ({ navigation }) => {
     <View style={styles.mainBackground}>
       <Header title = '회원가입' onPressBack={() => navigation.goBack()}/>
         <View style = {[styles.spacebetween, styles.flexView, styles.backgroundWhite]}>
-          <KeyboardAwareScrollView>
+          <KeyboardAwareScrollView keyboardShouldPersistTaps='handled' >
           <View style={[styles.recruitSection]}>
             <View style={[styles.rowView, styles.margintop11]} >
               <View style = {styles.flex025}>

@@ -6,6 +6,7 @@ import { useNavigation, useFocusEffect} from '@react-navigation/native'
 import { getUserInfo} from './utils'
 import LocationTag from './LocationTag'
 import moment from 'moment-timezone'
+import LocationImage from './LocationImage'
 
 //size: 0 -> smallCard 1 -> bigCard
 const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current, max, studentId}) => {
@@ -22,8 +23,8 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
         return () => clearInterval(interval)
     }, [])
 
-    let dueDate = moment(due);
-    let minutesDiff = moment.utc(dueDate).diff(moment.utc(now), 'minutes');
+    let dueDate = moment.tz(due, 'Asia/Seoul');
+    let minutesDiff =  dueDate.diff(now, 'minutes');
     let isPastDue = minutesDiff < 0 ? 1 : 0; 
     let dueStatusText;
     if (isPastDue || state === 'FINISHED') {
@@ -37,7 +38,7 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
         }
     }
     const dueStatusStyle = isPastDue || state === 'FINISHED' ? { color: 'red' } : {};
-
+    
     const handleTaxiCard = async () => {
         navigation.navigate('TaxiDetail', {tId, state})
     }
@@ -45,12 +46,17 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
     return (
         size?
             <Pressable style={styles.bigCard} onPress={handleTaxiCard}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${startCode}`}}/>
+                <LocationImage location={startCode}/>
                 <View style={styles.flexView}>
                     <View style={styles.smallCardContent}>
                         <View name="taxi location" flexDirection="row">
                             <LocationTag location={startCode}/>
-                            <Image style={styles.icon17} resizeMode="cover" source={require("../assets/images/arrowRight.png")}/>
+                            {
+                                startCode === 0 && endCode === 0 ?
+                                    null
+                                    :
+                                    <Image style={styles.icon17} resizeMode="cover" source={require("../assets/images/arrowRight.png")}/>
+                            }
                             <LocationTag location={endCode}/>
                         </View>
                         <Text style={[styles.centerText10, styles.textAlignRight, dueStatusStyle]}>{dueStatusText}</Text>
@@ -63,11 +69,16 @@ const TaxiCard = ({size = 0, tId, state, title, due, startCode, endCode, current
             </Pressable>
             :
             <Pressable style={styles.smallCard} onPress={handleTaxiCard}>
-                <Image style={styles.cardImage} resizeMode="cover" source={{ uri: `https://picsum.photos/300/200?random=${startCode}`}}/>
+                <LocationImage location={startCode}/>
                 <View style={styles.smallCardContent}>
                     <View name="taxi location" flexDirection="row">
                         <LocationTag location={startCode}/>
-                        <Image style={styles.icon17} resizeMode="cover" source={require("../assets/images/arrowRight.png")}/>
+                        {
+                            startCode === 0 && endCode === 0 ?
+                                null
+                                :
+                                <Image style={styles.icon17} resizeMode="cover" source={require("../assets/images/arrowRight.png")}/>
+                        }
                         <LocationTag location={endCode}/>
                     </View>
                     <Text style={[styles.centerText10, styles.textAlignRight,  dueStatusStyle]}>{dueStatusText}</Text>

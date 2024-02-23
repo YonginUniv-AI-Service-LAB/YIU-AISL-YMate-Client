@@ -1,5 +1,5 @@
-import React, { useState} from "react";
-import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList} from "react-native";
+import React, { useState, useCallback} from "react";
+import { Image, StyleSheet, Text, View, Pressable, ScrollView, SafeAreaView, Alert, RefreshControl, FlatList, ActivityIndicator} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
@@ -10,21 +10,20 @@ import { useFocusEffect } from '@react-navigation/native';
 
 
 const Main = ({navigation}) => {
-	const [refreshing, setRefreshing] = React.useState(false)
+	const [refreshing, setRefreshing] = useState(false)
 	const [deliveryData, setDeliveryData] = useState([]);
-
-  const [taxiData, setTaxiData] = useState([]);
-  const[noticeData, setNoticeData] = useState([]);
+	const [taxiData, setTaxiData] = useState([]);
+	const [noticeData, setNoticeData] = useState([]);
 
 	useFocusEffect(
-		React.useCallback(() => {
+		useCallback(() => {
 		  fetchData(); // 화면이 focus되면 fetchData 함수 호출
 		}, [])
 	  );
 	
 	  const fetchData = async () => {
 		try {
-		  const response = await axios.get(`${API_URL}/main`, {
+		  	const response = await axios.get(`${process.env.API_URL}/main`, {
 			headers: {
 			  "Content-Type": "application/x-www-form-urlencoded",
 			},
@@ -37,6 +36,12 @@ const Main = ({navigation}) => {
 		  console.error("데이터 가져오기 실패:", error);
 		}
 	  };
+
+	  const onRefresh = useCallback(() => {
+		setRefreshing(true)
+		fetchData()
+		setRefreshing(false)
+	  })
 
 	// const DeliveryData = [
 	// 	{
@@ -173,7 +178,7 @@ const Main = ({navigation}) => {
       			<View style={styles.mainBackground}>
 					<TopMenu/>
 					<View style={styles.mainBody}>
-						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>Alert.alert("새로고침")}/>}>
+						<ScrollView contentContainerStyle={{paddingBottom:20}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
 							<Image style={styles.advertiseImage} resizeMode="cover" source={require("../../assets/images/advertise.png")}/>
 							<View name="deliverySection" style={styles.mainSection}>
 								<View style={styles.mainSectionTitle}>

@@ -45,11 +45,11 @@ const ReportModal = ({ isVisible, onClose, onReport }) => {
           />
           <View style={[styles.marginTop6, styles.rowView]}>
             <>
+            <Pressable style={[styles.bluebuttonContainer]} onPress={onClose}>
+                <Text style={styles.buttonText}>취소</Text>
+              </Pressable>
             <Pressable style={[styles.redbuttonContainer, styles.marginLeft3]} onPress={handleReport}>
                 <Text style={[styles.redText, styles.text13]}>신고</Text>
-              </Pressable>
-              <Pressable style={[styles.bluebuttonContainer]} onPress={onClose}>
-                <Text style={styles.buttonText}>취소</Text>
               </Pressable>
             </>
           </View>

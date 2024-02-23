@@ -6,7 +6,7 @@ import { useNavigation, useFocusEffect} from '@react-navigation/native'
 import LocationTag from './LocationTag'
 import moment from 'moment-timezone'
 import { exp } from 'react-native/Libraries/Animated/Easing'
-import { getUserInfo, getAccessTokenInfo} from './utils'
+import { getUserInfo, getAccessTokenInfo,callApi} from './utils'
 import axios from 'axios'
 
 //size: 0 -> smallCard 1 -> bigCard
@@ -37,28 +37,25 @@ const NoticeCard = ({noticeId, title, contents, updatedAt}) => {
     }
 
     const handleDeleteNotice = async() => {
-		try {
-			const accessTokenInfo = await getAccessTokenInfo();
-			const response = await axios.post(`${API_URL}/notice/delete`,
-			{
-			  noticeId: noticeId,
-			}, {
-			  headers: {"Content-Type": "application/x-www-form-urlencoded",
-			  "Authorization": `Bearer ${accessTokenInfo}`,
-			},
-			  withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-			});
-			if (response.status === 200) {
-				Alert.alert("삭제 완료");
-			}
-		  } catch (error) {
-			if (error.response && error.response.status === 404) {
-				Alert.alert('없는 신청글.');
-			  }
-              console.log(error);
-		  
-		}
-	}
+        try {
+          const postData = {
+            noticeId: noticeId,
+          };
+          const response = await callApi(`${process.env.API_URL}/notice/delete`, 'post', postData);
+          if (response.status === 200) {
+            Alert.alert("삭제 완료");
+          }
+        } catch (error) {
+            if (error === 'Session expired. Please login again.') {
+                Alert.alert('세션에 만료되었습니다.')
+                logout();
+              } else if (error.response && error.response.status === 404) {
+            Alert.alert('없는 공지글.');
+          }
+          console.log(error);
+        }
+      };
+      
    
 
     return (

@@ -1,49 +1,56 @@
-import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, Text, View, Pressable, ActivityIndicator} from "react-native";
+import React, { useState, useEffect,useContext} from "react";
+import { Image, StyleSheet, Text, View, Pressable, ActivityIndicator, Alert} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, FontSize, FontFamily, Border } from "../GlobalStyles";
 import {styles} from "../Style"
 import { symbol } from "prop-types";
 import { TopMenu } from "../../components";
 import { useIsFocused } from '@react-navigation/native';
-import { getUserInfo, getAccessTokenInfo } from '../../components/utils'
+import { getUserInfo, getAccessTokenInfo, callApi } from '../../components/utils'
 import axios from 'axios';
+import NicknameModal from "../Modal/NicknameModal";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AuthContext} from '../../../App';
+import ServiceModal from "../Modal/ServiceModal";
 
 
 const MyPage = ({navigation}) => {
   const [myData, setMyData] = useState(null);
+  const [isNicknameModalVisible, setNicknameModalVisible] = useState(false);
+  const [isServiceModalVisible, setServiceModalVisible] = useState(false);
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     if(myData === null){
       fetchData();
     }
-  }, [myData]);
+  }, [myData,isNicknameModalVisible, isServiceModalVisible]);
 	
 	  const fetchData = async () => {
-        const accessTokenInfo = await getAccessTokenInfo();
-		const response = await axios.post(`${API_URL}/user/mypage`,
-        {},
-          {
-            headers: {"Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": `Bearer ${accessTokenInfo}`,
-          },
-            withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
-          }).then((res) => {
-            console.log('>>> [mypage] ✅ SUCCESS', res.data);
-            if (res.status === 200) {
-                setMyData(res.data);
-            }
-        }).catch((error) => {
-          console.log('>>> [mypage] 🤬 ERROR', error);
-        });
+      try {
+        const response = await callApi(`${process.env.API_URL}/user/mypage`, 'get');
+        console.log('>>> [mypage] ✅ SUCCESS', response.data);
+    
+        if (response.status === 200) {
+          setMyData(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+        if (error === 'Session expired. Please login again.') {
+          Alert.alert('세션에 만료되었습니다.')
+			    logout();
+        }
+        console.log('>>> [mypage] 🤬 ERROR', error);
+      }
 	  };
-      if (myData === null) {
+
+    if (myData === null) {
         return (
 			<View style={styles.loadingContainer}>
 			  <ActivityIndicator size="large" color="#0000ff" />
 			</View>
 		  );
-      }
+    }
 
     const MyPageCard = ({studentId, nickname}) => (
 		<View style= {styles.myPageCard}>
@@ -52,7 +59,27 @@ const MyPage = ({navigation}) => {
                 <Text style={styles.text16}>{studentId}</Text>
             </View>
             <View>
-            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={()=>navigation.navigate('Login')}>
+            <Pressable style={[styles.buttonContainer,styles.marginRight12]} onPress={() => {
+          // 로그아웃 시 확인 메시지 표시
+            Alert.alert(
+            "로그아웃", // Alert Title
+            "정말로 로그아웃 하시겠습니까?", // Alert Message
+            [
+              {
+                text: "취소",
+                style: "cancel"
+              },
+              { 
+                text: "확인", 
+                onPress: async () => {
+                  // 로그아웃 시 AsyncStorage에서 토큰 삭제
+                  logout();
+                }
+              }
+            ]
+          );
+        }}
+      >
                 <Text style={styles.buttonText}>로그아웃</Text>
             </Pressable>
             </View>
@@ -77,25 +104,25 @@ const MyPage = ({navigation}) => {
                             <View>
                                 <MyPageCard studentId={myData.studentId} nickname={myData.nickname} />
                             </View>
-                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('MyPost')}>
+                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('내가 쓴 글')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>내가 작성한 글</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
                             </Pressable> 
-                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('TaxiDetail')}>
+                            <Pressable style = {styles.myPageOption} onPress={()=> setNicknameModalVisible(true)}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>닉네임 변경</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
                             </Pressable> 
-                            <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('Password')}>
+                            {/* <Pressable style = {styles.myPageOption} onPress={()=>navigation.navigate('Password')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>비밀번호 변경</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
                                 </View>
-                            </Pressable> 
-                            <Pressable style = {styles.myPageOption} onPress={() => alert('서비스 정보')}>
+                            </Pressable>  */}
+                            <Pressable style = {styles.myPageOption} onPress={()=> setServiceModalVisible(true)}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>서비스 정보</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")}/>
@@ -109,7 +136,7 @@ const MyPage = ({navigation}) => {
                                       <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")} />
                                   </View>
                               </Pressable>
-                              <Pressable style={styles.myPageOption} onPress={() => alert('신고 글')}>
+                              <Pressable style={styles.myPageOption} onPress={() => navigation.navigate('Report')}>
                                 <View style={[styles.rowView, styles.spacebetween]}>
                                     <Text style={styles.text16}>신고 글 조회</Text>
                                     <Image style={styles.icon20} resizeMode="cover" source={require("../../assets/images/right.png")} />
@@ -119,6 +146,20 @@ const MyPage = ({navigation}) => {
                             ) : null}
                         </View>
                     </View>
+                    <NicknameModal 
+                      isVisible={isNicknameModalVisible} 
+                      onClose={() => setNicknameModalVisible(false)} 
+                      onSave={async () => {
+                          // 이 부분에 닉네임을 저장하는 로직을 추가하세요.
+                          await fetchData();
+                          setNicknameModalVisible(false);
+                          
+                      }} 
+                    />
+                    <ServiceModal 
+                      isVisible={isServiceModalVisible} 
+                      onClose={() => setServiceModalVisible(false)}
+                    />
       			</View>
     		</View>
 		</>);
