@@ -26,7 +26,6 @@ const Delivery = ({navigation}) => {
 			},
 			withCredentials: true,
 		  });
-	  
 		  // 가져온 데이터를 state에 저장
 		  setDeliveryData(response.data);
 		} catch (error) {
