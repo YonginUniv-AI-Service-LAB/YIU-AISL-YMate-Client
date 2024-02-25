@@ -87,7 +87,7 @@ export const callApi = (url, method, data) => {
           await AsyncStorage.setItem('accessToken', newAccessToken);
           resolve(callApi(url, method, data));
         } catch(err) {
-          if(err.response && err.response.status === 401) {
+          if(err.response && err.response.status === 401 ||err.response.status === 500) {
             reject('Session expired. Please login again.');
           } else {
             reject(err);
