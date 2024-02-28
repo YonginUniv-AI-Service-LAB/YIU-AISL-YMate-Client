@@ -53,8 +53,8 @@ useEffect(() => {
       soundName: "default", // 채널에서 사용할 소리의 이름
       importance: 4, // 채널의 중요도. 0 ~ 4 사이의 값을 가짐
       vibration: true, // 진동 설정
-      smallIcon: "ic_launcher",
-      largeIcon: "ic_launcher",
+      smallIcon: "notification",
+      largeIcon: "ymate_logo",
     },
     created => console.log(`createChannel returned '${created}'`) // 성공적으로 채널이 만들어졌는지 확인
   );
@@ -72,8 +72,8 @@ useEffect(() => {
         title: remoteMessage.notification.title,
         message: remoteMessage.notification.body,
         // ... 기타 설정들 ...
-        smallIcon: "ic_launcher",
-        largeIcon: "ic_launcher",
+        smallIcon: "notification",
+        largeIcon: "ymate_logo"
       });
     });
     return unsubscribe;

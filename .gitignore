@@ -61,3 +61,4 @@ buck-out/
 /vendor/bundle/
 .env
 google-services.json
+my-release-key.keystore
