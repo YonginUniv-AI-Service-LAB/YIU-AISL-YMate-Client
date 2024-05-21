@@ -67,13 +67,11 @@ const DeliveryDetail = ({navigation, route}) => {
 		const data = { dId: dId };
 		try {
 		  const response = await callApi(`${process.env.API_URL}/delivery/detail`, 'post', data);
-		  console.log('>>> [deliverydetail] ✅ SUCCESS', response.data);
 		  if (response.status === 200) {
 			setDeliveryData(response.data);
 			setType(userInfo === response.data.studentId ? 1 : 2); // 1: 작성자, 2: 일반유저
 			setCommentData(response.data.comment);
 			setUserInfo(userInfo);
-			console.log(deliveryData)
 			// deliverydetail로 데이터를 전달하며 이동
 			const iscommentAccepted = response.data.comment.some(comment => comment.studentId === userInfo && comment.state === 'ACCEPTED');
 			if (iscommentAccepted) {
@@ -82,10 +80,9 @@ const DeliveryDetail = ({navigation, route}) => {
 		  }
 		} catch (error) {
 		  if (error === 'Session expired. Please login again.') {
-			Alert.alert('세션에 만료되었습니다.')
+			Alert.alert('세션이 만료되었습니다.')
 			logout();
 		  } else {
-			console.log('>>> [deliverydetail] 🤬 ERROR', error);
 			Alert.alert('삭제됐거나 존재하지 않는 글입니다.');
 			navigation.goBack();
 		  }
@@ -114,7 +111,7 @@ const DeliveryDetail = ({navigation, route}) => {
 			  }
 			} catch (error) {
 				if (error === 'Session expired. Please login again.') {
-					Alert.alert('세션에 만료되었습니다.')
+					Alert.alert('세션이 만료되었습니다.')
 					logout();
 				  } 
 				else if (error.response && error.response.status === 409) {
@@ -143,7 +140,7 @@ const DeliveryDetail = ({navigation, route}) => {
 			  }
 			} catch (error) {
 				if (error === 'Session expired. Please login again.') {
-					Alert.alert('세션에 만료되었습니다.')
+					Alert.alert('세션이 만료되었습니다.')
 					logout();
 				  } 
 				else if (error.response && error.response.status === 409) {
@@ -168,11 +165,10 @@ const DeliveryDetail = ({navigation, route}) => {
 			}
 		  } catch (error) {
 			if (error === 'Session expired. Please login again.') {
-				Alert.alert('세션에 만료되었습니다.')
+				Alert.alert('세션이 만료되었습니다.')
 				logout();
 			  } 
 			else {
-				console.error("데이터 가져오기 실패:", error);
 				Alert.alert('삭제 되었거나 없는 신청글입니다.');
 			}
 		  }
@@ -194,14 +190,13 @@ const DeliveryDetail = ({navigation, route}) => {
 			  }
 			} catch (error) {
 				if (error === 'Session expired. Please login again.') {
-					Alert.alert('세션에 만료되었습니다.')
+					Alert.alert('세션이 만료되었습니다.')
 					logout();
 				  } 
 				else if (error.response && error.response.status === 409) {
 				Alert.alert('이미 마감된 글입니다.');
 			  }
 			else{
-				console.error("데이터 가져오기 실패:", error);
 				Alert.alert('삭제 되었거나 없는 신청글입니다.');
 			}
 		  }
@@ -218,7 +213,7 @@ const DeliveryDetail = ({navigation, route}) => {
 			}
 		  } catch (error) {
 			if (error === 'Session expired. Please login again.') {
-				Alert.alert('세션에 만료되었습니다.')
+				Alert.alert('세션이 만료되었습니다.')
 				logout();
 			  } 
 			else if (error.response && error.response.status === 409) {

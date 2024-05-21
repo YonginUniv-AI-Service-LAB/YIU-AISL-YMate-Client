@@ -14,7 +14,6 @@ const Main = ({navigation}) => {
 	const [deliveryData, setDeliveryData] = useState([]);
 	const [taxiData, setTaxiData] = useState([]);
 	const [noticeData, setNoticeData] = useState([]);
-
 	useFocusEffect(
 		useCallback(() => {
 		  fetchData(); // 화면이 focus되면 fetchData 함수 호출
@@ -33,7 +32,7 @@ const Main = ({navigation}) => {
 		  setTaxiData(response.data.taxi);
 		  setNoticeData(response.data.notice);
 		} catch (error) {
-		  console.error("데이터 가져오기 실패:", error);
+	
 		}
 	  };
 
@@ -42,135 +41,6 @@ const Main = ({navigation}) => {
 		fetchData()
 		setRefreshing(false)
 	  })
-
-	// const DeliveryData = [
-	// 	{
-	// 		dId: 123123123,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-27T17:55:00'),
-	// 		food: 332211,
-	// 		location: 10000001,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 123123124,
-	// 		title: "장충동 왕족발보쌈장충동 왕족발보쌈장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-27T10:55:00'),
-	// 		food: 3321,
-	// 		location: 10000009,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 123123125,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 341211,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 123123126,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 33123412211,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		dId: 123123127,
-	// 		title: "장충동 왕족발보쌈",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		food: 31234211,
-	// 		location: 10000002,
-	// 		createAt: 3322111,
-	// 	}
-	// ]
-
-	// const TaxiData = [
-	// 	{
-	// 		tId: 123123123,
-	// 		title: "집 가고싶다",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		startCode: 10000001,
-	// 		endCode: 10000003,
-	// 		current: 3,
-	// 		max: 4,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		tId: 123123124,
-	// 		title: "집 가고싶다집 가고싶다집 가고싶다",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		startCode: 10000002,
-	// 		endCode: 10000003,
-	// 		current: 3,
-	// 		max: 4,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		tId: 123123125,
-	// 		title: "집 가고싶다",
-	// 		due: new Date('2023-12-04T17:55:00'),
-	// 		startCode: 10000003,
-	// 		endCode: 10000003,
-	// 		current: 3,
-	// 		max: 4,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		tId: 123123126,
-	// 		title: "집 가고싶다",
-	// 		due: new Date('2023-12-05T11:55:00'),
-	// 		startCode: 10000004,
-	// 		endCode: 10000003,
-	// 		current: 3,
-	// 		max: 4,
-	// 		createAt: 3322111,
-	// 	},
-	// 	{
-	// 		tId: 123123127,
-	// 		title: "집 가고싶다",
-	// 		due: new Date('2023-12-04T15:55:00'),
-	// 		startCode: 10000005,
-	// 		endCode: 10000003,
-	// 		current: 2,
-	// 		max: 7,
-	// 		createAt: 3322111,
-	// 	}
-	// ]
-
-	// const NoticeData = [
-	// 	{
-	// 		noticeId: 123123123,
-	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-	// 		updatedAt: new Date('2023-12-04T17:55:00'),
-	// 	},
-	// 	{
-	// 		noticeId: 123123124,
-	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-	// 		updatedAt: new Date('2023-12-14T17:55:00'),
-	// 	},
-	// 	{
-	// 		noticeId: 123123125,
-	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-	// 		updatedAt: new Date('2023-12-04T17:55:00'),
-	// 	},
-	// 	{
-	// 		noticeId: 123123126,
-	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-	// 		updatedAt: new Date('2023-12-04T17:55:00'),
-	// 	},
-	// 	{
-	// 		noticeId: 123123127,
-	// 		title: "1.2.1123 업데이트 내용:이이이잉잉이잉이이이이이잉",
-	// 		contents: "업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용업데이트 상세 내용",
-	// 		updatedAt: new Date('2023-12-04T17:55:00'),
-	// 	}
-	// ]
 
   	return (
 		<>

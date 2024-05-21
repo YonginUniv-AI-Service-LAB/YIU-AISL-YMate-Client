@@ -35,17 +35,14 @@ const NoticeCreate = ({navigation, route}) => {
       const apiEndpoint = noticeId ? `${process.env.API_URL}/notice/update` : `${process.env.API_URL}/notice/create`;
       try {
         const response = await callApi(apiEndpoint, 'post', data);
-        console.log('>>> [NoticeCreate] ✅ SUCCESS', response.data);
         if (response.status === 200) {
           Alert.alert(correctMessage);
           navigation.goBack();
         }
       } catch (error) {
         if (error === 'Session expired. Please login again.') {
-          Alert.alert('세션에 만료되었습니다.')
+          Alert.alert('세션이 만료되었습니다.')
 			    logout();
-        } else {
-          console.log('>>> [NoticeCreate] 🤬 ERROR', error);
         }
       }
     }

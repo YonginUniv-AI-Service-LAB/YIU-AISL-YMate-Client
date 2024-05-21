@@ -53,11 +53,9 @@ const Alarm = ({navigation}) => {
 			setAlarmData(newData);
 		} catch (error) {
 			if (error === 'Session expired. Please login again.') {
-				Alert.alert('세션에 만료되었습니다.')
+				Alert.alert('세션이 만료되었습니다.')
 				logout();
-			} else {
-				console.error("데이터 가져오기 실패:", error);
-			}
+			} 
 		}
 	};
 	  
@@ -77,7 +75,7 @@ const Alarm = ({navigation}) => {
 				// console.log('이미 존재하는 pushId입니다.');
 			}
 		} catch (error) {
-			console.error('AsyncStorage에 AlarmData를 저장하는 중 오류 발생:', error);
+		
 		}
 	};
 

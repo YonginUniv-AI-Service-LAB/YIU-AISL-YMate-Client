@@ -68,10 +68,8 @@ const MyPost = ({navigation}) => {
 		  setFilteredData(data);
 		} catch (error) {
 		  if (error === 'Session expired. Please login again.') {
-			Alert.alert('세션에 만료되었습니다.')
+			Alert.alert('세션이 만료되었습니다.')
 			logout();
-		  } else {
-			console.error("데이터 가져오기 실패:", error);
 		  }
 		}
 	  };

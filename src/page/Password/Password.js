@@ -46,7 +46,6 @@ const Password = ({ navigation }) => {
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
         withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
       }).then((res) => {
-      console.log('>>> [mail] ✅ SUCCESS', res.data);
       if (res.status === 200) {
         setIsEmailVerified(true);
         setIsStudentIdValid(true);
@@ -55,7 +54,6 @@ const Password = ({ navigation }) => {
         setVerificationCode(res.data);
       }
     }).catch((error) => {
-      console.log('>>> [mail] 🤬 ERROR', error);
       if (error.response && error.response.status === 404) {
         // 중복된 닉네임인 경우
         setStudentIdCheckError('존재하지 않는 회원입니다.');
@@ -143,7 +141,6 @@ const Password = ({ navigation }) => {
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
           }).then((res) => {
-            console.log('>>> [changepwd] ✅ SUCCESS', res.data);
             if (res.status === 200) {
               Alert.alert('비밀번호 재설정 완료.');
               navigation.goBack();
@@ -156,7 +153,6 @@ const Password = ({ navigation }) => {
           else{
             signupCheckError('재설정 실패.')
           }
-          console.log('>>> [changepwd] 🤬 ERROR', error);
         });
       }
   };

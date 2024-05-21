@@ -21,7 +21,6 @@ const Login = ({ navigation, route, onLogin }) => {
       Alert.alert('아이디나 비밀번호를 입력해주세요');
     } else {
       const fcmToken = await messaging().getToken();
-      console.log('[FCM Token] ', fcmToken)
 
       try {
         const response = await axios.post(
@@ -37,8 +36,6 @@ const Login = ({ navigation, route, onLogin }) => {
           }
         );
 
-        console.log('>>> [LOGIN] ✅ SUCCESS', response.data);
-
         if (response.status === 200) {
           // 로그인 성공 시 studentId와 accessToken을 AsyncStorage에 저장
           await AsyncStorage.setItem('user', studentId);
@@ -50,7 +47,6 @@ const Login = ({ navigation, route, onLogin }) => {
         if (error.response && error.response.status === 401) {
           Alert.alert('존재하지 않는 아이디거나 틀린 비밀번호입니다.');
         } 
-        console.log('>>> [LOGIN] 🤬 ERROR', error);
       }
     }
   };

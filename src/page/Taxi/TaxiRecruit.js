@@ -59,7 +59,7 @@ const TaxiRecruit = ({navigation, route}) => {
           setStartLocation(parseInt(savedLocation, 10))
         }
       } catch (error) {
-          console.error('AsyncStorage에서 location을 불러오는 중 오류 발생:', error)
+          
       }
     }
   }
@@ -96,8 +96,7 @@ const TaxiRecruit = ({navigation, route}) => {
       // 모달에서 전달받은 두 값 처리
       setStartLocation(modalValue1);
       setStartLocationText(modalValue2);
-       console.log('Location Modal Value 1:', modalValue1);
-       console.log('Location Modal Value 2:', modalValue2);
+
     }
   };
 
@@ -163,7 +162,6 @@ const TaxiRecruit = ({navigation, route}) => {
       };
       try {
         const response = await callApi(apiEndpoint, 'post', data);
-        console.log('>>> [taxiRecruit] ✅ SUCCESS', response.data);
         if (response.status === 200) {
           if (tid) {
             Alert.alert('택시 글 수정 완료');
@@ -174,11 +172,8 @@ const TaxiRecruit = ({navigation, route}) => {
         }
       } catch (error) {
           if (error === 'Session expired. Please login again.') {
-          Alert.alert('세션에 만료되었습니다.')
+          Alert.alert('세션이 만료되었습니다.')
 				  logout();
-        }
-          else{
-          console.log('>>> [taxiRecruit] 🤬 ERROR', error);
         }
       }
     }

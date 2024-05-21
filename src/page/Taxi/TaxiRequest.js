@@ -45,14 +45,13 @@ const TaxiRequest = ({navigation, route}) => {
       };
       try {
         const response = await callApi(`${process.env.API_URL}/taxi/apply`, 'post', data);
-        console.log('>>> [taxiRequest] ✅ SUCCESS', response.data);
         if (response.status === 200) {
           Alert.alert('신청 글 작성 완료');
           navigation.goBack();
         }
       } catch (error) {
         if (error === 'Session expired. Please login again.') {
-          Alert.alert('세션에 만료되었습니다.')
+          Alert.alert('세션이 만료되었습니다.')
 				  logout();
         }
         else if (error.response && error.response.status === 409) {
@@ -62,7 +61,6 @@ const TaxiRequest = ({navigation, route}) => {
         else if(error.response && error.response.status === 404){
           setError('신청 인원을 확인해주세요.');
         }
-        console.log('>>> [taxiRequest] 🤬 ERROR', error);
       }
     }
   }

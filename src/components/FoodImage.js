@@ -23,7 +23,6 @@ const FoodImage = ({food}) => {
     
       // foodCategory에 맞는 이미지를 가져옴
     const selectedImage = imagePaths[foodCategory];
-    // console.log('selectedImage :', selectedImage)
 
     return (
         food

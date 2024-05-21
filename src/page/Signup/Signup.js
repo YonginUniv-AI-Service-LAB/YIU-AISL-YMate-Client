@@ -52,7 +52,6 @@ const Signup = ({ navigation }) => {
           headers: {"Content-Type": "application/x-www-form-urlencoded"},
           withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
         }).then((res) => {
-        console.log('>>> [mail] ✅ SUCCESS', res.data);
         if (res.status === 200) {
           setIsEmailVerified(true);
           setIsStudentIdValid(true);
@@ -61,7 +60,6 @@ const Signup = ({ navigation }) => {
           setVerificationCode(res.data);
         }
       }).catch((error) => {
-        console.log('>>> [mail] 🤬 ERROR', error);
         if (error.response && error.response.status === 409) {
           // 중복된 닉네임인 경우
           setStudentIdCheckError('이미 존재하는 회원입니다.');
@@ -107,7 +105,6 @@ const Signup = ({ navigation }) => {
           headers: {"Content-Type": "application/x-www-form-urlencoded"},
           withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
         }).then((res) => {
-        console.log('>>> [nickcheck] ✅ SUCCESS', res.data);
         if (res.status===200) {
           setNickNameCheckError('');
           setIsNickNameValid(true);
@@ -119,7 +116,6 @@ const Signup = ({ navigation }) => {
           setNickNameCheckError('중복된 닉네임입니다.');
         } 
         else{
-          console.error('닉네임 전송 실패:', error);
           setNickNameCheckError('닉네임 전송에 실패했습니다. 다시 시도해주세요.');
         }
       });
@@ -130,7 +126,7 @@ const Signup = ({ navigation }) => {
   const handlePasswordChange = (text) => {
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,}$/;
     if (!passwordPattern.test(text)) {
-      setPasswordError('비밀번호는 영문, 숫자, 기호를 포함하고 8자리 이상이어야 합니다.');
+      setPasswordError('비밀번호는 대문자, 영문, 숫자, 기호를 포함하고 8자리 이상이어야 합니다.');
       setPasswordSuccess('');
     }
     else {
@@ -176,9 +172,6 @@ const Signup = ({ navigation }) => {
       } 
       else{
         setSignupCheckError('');
-        console.log("학번:", studentId);
-        console.log("닉네임:", nickname);
-        console.log("비번:", pwd);
           // 백엔드 API에 POST 요청 보내기
           const response = await axios.post(`${process.env.API_URL}/join`,
           {
@@ -189,13 +182,12 @@ const Signup = ({ navigation }) => {
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
           }).then((res) => {
-            console.log('>>> [signup] ✅ SUCCESS', res.data);
             if (res.status === 200) {
               Alert.alert('회원가입이 완료되었습니다.');
               navigation.goBack();
             }
         }).catch((error) => {
-          console.log('>>> [signup] 🤬 ERROR', error);
+  
         });
       }   
     };

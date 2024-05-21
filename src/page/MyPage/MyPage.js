@@ -29,18 +29,15 @@ const MyPage = ({navigation}) => {
 	  const fetchData = async () => {
       try {
         const response = await callApi(`${process.env.API_URL}/user/mypage`, 'get');
-        console.log('>>> [mypage] ✅ SUCCESS', response.data);
     
         if (response.status === 200) {
           setMyData(response.data);
         }
       } catch (error) {
-        console.log(error);
         if (error === 'Session expired. Please login again.') {
-          Alert.alert('세션에 만료되었습니다.')
+          Alert.alert('세션이 만료되었습니다.')
 			    logout();
         }
-        console.log('>>> [mypage] 🤬 ERROR', error);
       }
 	  };
 

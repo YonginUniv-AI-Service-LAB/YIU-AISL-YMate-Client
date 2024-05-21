@@ -48,10 +48,8 @@ const TopMenu = () => {
             // console.log('fetchAlarmData:', data)
         } catch (error) {
             if (error === 'Session expired. Please login again.') {
-                Alert.alert('세션에 만료되었습니다.')
+                Alert.alert('세션이 만료되었습니다.')
                 logout();
-            } else {
-                console.error("데이터 가져오기 실패:", error);
             }
         }
     };
@@ -64,7 +62,7 @@ const TopMenu = () => {
                 setLocation(parseInt(savedLocation, 10))
             }
         } catch (error) {
-            console.error('AsyncStorage에서 location을 불러오는 중 오류 발생:', error)
+            
         }
     }
     
@@ -112,8 +110,7 @@ const TopMenu = () => {
                 }
             }
         } catch (error) {
-            console.error('AsyncStorage에서 AlarmData를 불러오는 중 오류 발생:', error);
-            console.log(error)
+    
         }
     };
 

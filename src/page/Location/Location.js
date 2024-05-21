@@ -130,7 +130,7 @@ const Location = ({navigation}) => {
       // console.log(location)
       navigation.pop()
     } catch (error) {
-      console.error('AsyncStorage에 location을 저장하는 중 오류 발생:', error)
+      
     }
   }
 

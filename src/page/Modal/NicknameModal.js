@@ -28,17 +28,14 @@ const NicknameModal = ({ isVisible, onClose, onSave }) => {
           try {
             const data = { nickname: nickname };
             const response = await callApi(`${process.env.API_URL}/user/changenick`, 'post', data);
-            console.log('>>> [nickchange] ✅ SUCCESS', response.data);
             if (response.status === 200) {
               Alert.alert('닉네임이 변경되었습니다.');
               onSave();
             }
           } catch (error) {
             if (error === 'Session expired. Please login again.') {
-                Alert.alert('세션에 만료되었습니다.')
-				logout();
-            } else {
-              console.log('>>> [nickchange] 🤬 ERROR', error);
+                Alert.alert('세션이 만료되었습니다.')
+				        logout();
             }
           }
         } else {
@@ -67,7 +64,6 @@ const NicknameModal = ({ isVisible, onClose, onSave }) => {
                 headers: {"Content-Type": "application/x-www-form-urlencoded"},
                 withCredentials: true // 클라이언트와 서버가 통신할 때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
               }).then((res) => {
-              console.log('>>> [nickcheck] ✅ SUCCESS', res.data);
               if (res.status===200) {
                 setNickNameCheckError('');
                 setNickNameCheckSuccess('사용 가능한 닉네임입니다.');
@@ -78,7 +74,6 @@ const NicknameModal = ({ isVisible, onClose, onSave }) => {
                 setNickNameCheckError('중복된 닉네임입니다.');
               } 
               else{
-                console.error('닉네임 전송 실패:', error);
                 setNickNameCheckError('닉네임 전송에 실패했습니다. 다시 시도해주세요.');
               }
             });

@@ -29,14 +29,13 @@ const Header = ({ title = "default", isReport = false, toId,postId, postType, on
       }
     } catch (error) {
       if (error === 'Session expired. Please login again.') {
-        Alert.alert('세션에 만료되었습니다.')
+        Alert.alert('세션이 만료되었습니다.')
         logout();
       } else if (error.response && error.response.status === 409) {
         Alert.alert('이미 신고한 유저입니다.');
       } else { 
         Alert.alert('삭제 되었거나 없는 유저입니다.');
       }
-      console.log(error);
     }
   };
   

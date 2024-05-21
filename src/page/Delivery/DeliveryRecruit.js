@@ -47,7 +47,7 @@ const DeliveryRecruit = ({navigation, route}) => {
           setSelectedLocation(parseInt(savedLocation, 10))
         }
       } catch (error) {
-          console.error('AsyncStorage에서 location을 불러오는 중 오류 발생:', error)
+          
       }
     }
   }
@@ -153,7 +153,6 @@ const DeliveryRecruit = ({navigation, route}) => {
       };
       try {
         const response = await callApi(apiEndpoint, 'post', postData);
-        console.log('>>> [deliveryRecruit] ✅ SUCCESS', response.data);
         if (response.status === 200) {
           if (did) {
             // did가 존재하는 경우 (수정 완료)
@@ -166,11 +165,9 @@ const DeliveryRecruit = ({navigation, route}) => {
         }
       } catch (error) {
         if (error.status === 'Session expired. Please login again.') {
-          Alert.alert('세션에 만료되었습니다.')
+          Alert.alert('세션이 만료되었습니다.')
           logout();
-        } else {
-          console.log('>>> [deliveryRecruit] 🤬 ERROR', error);
-        }
+        } 
       }
     }
   }  

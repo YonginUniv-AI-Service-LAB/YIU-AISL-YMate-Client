@@ -45,21 +45,18 @@ const TaxiDetail = ({navigation, route}) => {
 		const data = { tId : tId };
 		try {
 		  const response = await callApi(`${process.env.API_URL}/taxi/detail`, 'post', data);
-		  console.log('>>> [taxidetail] ✅ SUCCESS', response.data);
 		  if (response.status === 200) {
 			setTaxiData(response.data);
 			setType(userInfo === response.data.studentId ? 1 : 2);
 			setCommentData(response.data.comment);
 			setUserInfo(userInfo);
-			console.log(taxiData)
 		  }
 		} catch (error) {
 			if (error === 'Session expired. Please login again.') {
-				Alert.alert('세션에 만료되었습니다.')
+				Alert.alert('세션이 만료되었습니다.')
 				logout();
 			  }
 			  else{
-		  		console.log('>>> [taxidetail] 🤬 ERROR', error);
 		  		Alert.alert('삭제됐거나 존재하지 않는 글입니다.');
 		  		navigation.goBack();
 			  }
@@ -111,7 +108,7 @@ const TaxiDetail = ({navigation, route}) => {
 			}
 		  } catch (error) {
 			if (error=== 'Session expired. Please login again.') {
-				Alert.alert('세션에 만료되었습니다.')
+				Alert.alert('세션이 만료되었습니다.')
 				logout();
 			}
 			else if (error.response && error.response.status === 409) {
@@ -138,7 +135,7 @@ const TaxiDetail = ({navigation, route}) => {
 			}
 		  } catch (error) {
 			if (error=== 'Session expired. Please login again.') {
-				Alert.alert('세션에 만료되었습니다.')
+				Alert.alert('세션이 만료되었습니다.')
 				logout();
 			  }
 			else if (error.response && error.response.status === 409) {
@@ -162,11 +159,10 @@ const TaxiDetail = ({navigation, route}) => {
 		  }
 		} catch (error) {
 			if (error === 'Session expired. Please login again.') {
-				Alert.alert('세션에 만료되었습니다.')
+				Alert.alert('세션이 만료되었습니다.')
 				logout();
 			}
 			else{
-		  		console.error("데이터 가져오기 실패:", error);
 		  		Alert.alert('삭제 되었거나 없는 신청글입니다.');
 			}
 		}
@@ -187,12 +183,11 @@ const TaxiDetail = ({navigation, route}) => {
 			}
 		  } catch (error) {
 			if (error === 'Session expired. Please login again.') {
-				Alert.alert('세션에 만료되었습니다.')
+				Alert.alert('세션이 만료되었습니다.')
 				logout();
 			} else if (error.response && error.response.status === 409) {
 			  Alert.alert('이미 마감된 글입니다.');
 			} else {
-			  console.error("데이터 가져오기 실패:", error);
 			  Alert.alert('삭제 되었거나 없는 신청글입니다.');
 			}
 		  }
@@ -210,7 +205,7 @@ const TaxiDetail = ({navigation, route}) => {
 		  }
 		} catch (error) {
 		  if (error === 'Session expired. Please login again.') {
-			Alert.alert('세션에 만료되었습니다.')
+			Alert.alert('세션이 만료되었습니다.')
 				logout();
 		  } else if (error.response && error.response.status === 409) {
 			Alert.alert('신청글이 존재합니다.');

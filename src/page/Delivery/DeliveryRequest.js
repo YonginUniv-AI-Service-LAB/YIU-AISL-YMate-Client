@@ -26,7 +26,6 @@ const DeliveryRequest = ({navigation,route}) => {
       setError("모든 값을 입력해주세요.");
     }
     else{
-      console.log(did);
       const data = {
         dId: did,
         contents: contents,
@@ -34,22 +33,20 @@ const DeliveryRequest = ({navigation,route}) => {
       };
       try {
         const response = await callApi(`${process.env.API_URL}/delivery/apply`, 'post', data);
-        console.log('>>> [deliveryRequest] ✅ SUCCESS', response.data);
         if (response.status === 200) {
           Alert.alert('신청 글 작성 완료');
           navigation.goBack();
         }
       } catch(error) {
-        console.log(error);
         if (error === 'Session expired. Please login again.') {
-          Alert.alert('세션에 만료되었습니다.')
+          Alert.alert('세션이 만료되었습니다.')
           await logout();
         }
         else if (error.response && (error.response.status === 409)) {
           // 이미 신청글이 있을 경우
           setError('이미 신청글이 존재합니다.');
         }
-          console.log('>>> [deliveryRequest] 🤬 ERROR', error);
+        
         };
       }
   }

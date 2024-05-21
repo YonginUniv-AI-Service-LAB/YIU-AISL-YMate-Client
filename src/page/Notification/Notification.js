@@ -116,7 +116,7 @@ const Notification = ({navigation}) => {
 			// 가져온 데이터를 state에 저장
 			setNoticeData(response.data);
 		} catch (error) {
-			console.error("데이터 가져오기 실패:", error);
+	
 		}
 	};
 
